@@ -1,0 +1,16 @@
+{
+  "task_id": "bird_financial_06",
+  "system": "SchemaGroundedLLM",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "query_result",
+  "sql": "WITH target_district AS (SELECT district_id FROM district WHERE \"A3\" = 'south Bohemia' ORDER BY CAST(\"A4\" AS INTEGER) DESC LIMIT 1) SELECT CAST(SUM(CASE WHEN c.gender = 'M' THEN 1 ELSE 0 END) AS DOUBLE PRECISION) * 100.0 / NULLIF(COUNT(c.client_id), 0) AS male_client_pct FROM client AS c INNER JOIN target_district AS d ON c.district_id = d.district_id;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

@@ -1,0 +1,25 @@
+{
+  "task_id": "self_financial_rca_10",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "The top status-D districts are Hl.m. Praha with 4 status-D loans, Brno - mesto with 3, and Karvina with 3. They do not share a single socioeconomic signature: Praha has very low unemployment A13=0.43 but very high crime count A16=99,107 and salary A11=12,541; Karvina has high unemployment A13=7.75; Brno - mesto is closer to moderate unemployment A13=1.96. Compared with zero-D districts, the strongest common pattern is urban/high-volume and high crime count, not uniformly high unemployment.",
+  "sql": {
+    "top_bottom_status_d_districts": "WITH district_counts AS (SELECT d.district_id, d.\"A2\" AS district, d.\"A3\" AS region, d.\"A11\" AS avg_salary, d.\"A13\" AS unemployment_1996, d.\"A16\" AS crime_count, COUNT(l.loan_id) AS loan_count, COUNT(l.loan_id) FILTER (WHERE l.status = 'D') AS status_d_count FROM district d LEFT JOIN account a ON a.district_id = d.district_id LEFT JOIN loan l ON l.account_id = a.account_id GROUP BY d.district_id, d.\"A2\", d.\"A3\", d.\"A11\", d.\"A13\", d.\"A16\"), ranked AS (SELECT *, ROW_NUMBER() OVER (ORDER BY status_d_count DESC, loan_count DESC) AS top_rank, ROW_NUMBER() OVER (ORDER BY status_d_count ASC, loan_count DESC) AS bottom_rank FROM district_counts) SELECT CASE WHEN top_rank <= 3 THEN 'top3_status_d' ELSE 'bottom3_status_d' END AS comparison_group, district, region, loan_count, status_d_count, avg_salary, unemployment_1996, crime_count FROM ranked WHERE top_rank <= 3 OR bottom_rank <= 3 ORDER BY comparison_group DESC, status_d_count DESC, loan_count DESC;",
+    "district_status_d_scatter": "SELECT d.\"A2\" AS district, d.\"A3\" AS region, d.\"A11\" AS avg_salary, d.\"A13\" AS unemployment_1996, d.\"A16\" AS crime_count, COUNT(l.loan_id) AS loan_count, COUNT(l.loan_id) FILTER (WHERE l.status = 'D') AS status_d_count FROM district d LEFT JOIN account a ON a.district_id = d.district_id LEFT JOIN loan l ON l.account_id = a.account_id GROUP BY d.district_id, d.\"A2\", d.\"A3\", d.\"A11\", d.\"A13\", d.\"A16\" ORDER BY status_d_count DESC, loan_count DESC;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "bar chart of status-D count by district",
+      "top-three versus bottom-three feature table",
+      "scatter views for A11, A13, and A16 against status-D count"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

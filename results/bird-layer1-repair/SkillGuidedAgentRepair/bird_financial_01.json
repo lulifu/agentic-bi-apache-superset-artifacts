@@ -1,0 +1,43 @@
+{
+  "task_id": "bird_financial_01",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": null,
+  "sql": "SELECT COUNT(T1.account_id) FROM account AS T1 INNER JOIN loan AS T2 ON T1.account_id = T2.account_id INNER JOIN district AS T3 ON T1.district_id = T3.district_id WHERE T3.\"A3\" = 'Prague';",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:self_test"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_financial_01",
+    "sql": "SELECT COUNT(T1.account_id) FROM account AS T1 INNER JOIN loan AS T2 ON T1.account_id = T2.account_id INNER JOIN district AS T3 ON T1.district_id = T3.district_id WHERE T3.\"A3\" = 'Prague';",
+    "tool_calls": [
+      "sql_lab.mjs:self_test"
+    ],
+    "repair_decision": "kept_first_pass",
+    "self_test": {
+      "executed": true,
+      "rowcount": 1,
+      "headers": [
+        "count"
+      ],
+      "sample_rows": [
+        {
+          "count": 84
+        }
+      ]
+    },
+    "notes": "First pass executed successfully and matches the NL: count loan-linked accounts in Prague region."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec79b-8eea-7e33-abe8-95eaeb40a70c",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:30:57.370Z"
+}

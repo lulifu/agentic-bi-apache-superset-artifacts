@@ -1,0 +1,154 @@
+{
+  "task_id": "nvbench_customers_and_invoices_05",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "customers_and_invoices",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 444,
+    "virtual_dataset_id": 146,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_05",
+    "superset_create_response": {
+      "id": 444,
+      "result": {
+        "datasource_id": 146,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_05. Expected visualization: Stacked Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"account_open_weekday_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"groupby\":[\"other_account_details\"],\"stack\":\"Stack\",\"datasource\":\"146__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"account_open_weekday_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"account_open_weekday_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":146,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"account_open_weekday_name\",\"label\":\"account_open_weekday_name\",\"expressionType\":\"SQL\"},\"other_account_details\"],\"series_columns\":[\"other_account_details\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"filters\":[{\"col\":\"account_open_weekday_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"account_open_weekday_name\"],\"columns\":[\"other_account_details\"],\"aggregates\":{\"SUM(account_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_05",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 444,
+      "ok": true,
+      "row_count": 6,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_05.png",
+      "screenshot_bytes": 14591,
+      "chart_url": "/superset/explore/?slice_id=444",
+      "issues": [
+        "warning: screenshot only 14.2 KB despite 6 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT other_account_details,\n       EXTRACT(ISODOW FROM date_account_opened)::int AS account_open_weekday,\n       TO_CHAR(date_account_opened, 'Dy') AS account_open_weekday_name,\n       COUNT(date_account_opened) AS account_count\nFROM bench_nvbench_customers_and_invoices.accounts\nGROUP BY other_account_details, EXTRACT(ISODOW FROM date_account_opened)::int, TO_CHAR(date_account_opened, 'Dy')\nORDER BY other_account_details, account_open_weekday;",
+  "chart_spec": {
+    "viz_type": "Stacked Bar",
+    "superset_viz_type": "echarts_timeseries_bar",
+    "dataset_id": 146,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_05",
+    "metrics": [
+      "account_count"
+    ],
+    "dimensions": [
+      "account_open_weekday_name",
+      "other_account_details"
+    ],
+    "filters": "",
+    "time_range": "No filter; bin date_account_opened by weekday",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": true,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "account_open_weekday_name",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(account_count)",
+          "sqlExpression": "SUM(account_count)"
+        }
+      ],
+      "groupby": [
+        "other_account_details"
+      ],
+      "stack": "Stack"
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 146
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 444
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 6
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_customers_and_invoices_05",
+      "dataset_id": 146,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_05",
+      "dataset_id": 146,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_bar",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_05. Expected visualization: Stacked Bar.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": true,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "account_open_weekday_name",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(account_count)",
+            "sqlExpression": "SUM(account_count)"
+          }
+        ],
+        "groupby": [
+          "other_account_details"
+        ],
+        "stack": "Stack"
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 444,
+      "result": {
+        "datasource_id": 146,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_05. Expected visualization: Stacked Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"account_open_weekday_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"groupby\":[\"other_account_details\"],\"stack\":\"Stack\",\"datasource\":\"146__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"account_open_weekday_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"account_open_weekday_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":146,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"account_open_weekday_name\",\"label\":\"account_open_weekday_name\",\"expressionType\":\"SQL\"},\"other_account_details\"],\"series_columns\":[\"other_account_details\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"filters\":[{\"col\":\"account_open_weekday_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"account_open_weekday_name\"],\"columns\":[\"other_account_details\"],\"aggregates\":{\"SUM(account_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_05",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 444,
+      "ok": true,
+      "row_count": 6,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_05.png",
+      "screenshot_bytes": 14591,
+      "chart_url": "/superset/explore/?slice_id=444",
+      "issues": [
+        "warning: screenshot only 14.2 KB despite 6 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:44:24.318Z"
+}

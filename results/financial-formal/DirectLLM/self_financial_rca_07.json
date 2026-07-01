@@ -1,0 +1,53 @@
+{
+  "task_id": "self_financial_rca_07",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: Compare account openings in January and February 1994 by district, frequency, and region. Distinguish whether January was unusually high or February unusually low by checking each segment's Feb/Jan ratio and share of the total decline. The safest conclusion is descriptive: identify the segments explaining the drop without claiming a causal operational event.",
+  "sql": "WITH openings AS (SELECT DATE_TRUNC('month', CAST(a.date AS DATE)) AS month, d.A2 AS district, d.A3 AS region, a.frequency, COUNT(*) AS new_accounts FROM account a JOIN district d ON d.district_id=a.district_id WHERE CAST(a.date AS DATE) >= DATE '1994-01-01' AND CAST(a.date AS DATE) < DATE '1994-03-01' GROUP BY 1,2,3,4), pivoted AS (SELECT district, region, frequency, SUM(CASE WHEN month=DATE '1994-01-01' THEN new_accounts ELSE 0 END) AS jan_accounts, SUM(CASE WHEN month=DATE '1994-02-01' THEN new_accounts ELSE 0 END) AS feb_accounts FROM openings GROUP BY district,region,frequency) SELECT district, region, frequency, jan_accounts, feb_accounts, feb_accounts-jan_accounts AS change, feb_accounts::DECIMAL/NULLIF(jan_accounts,0) AS feb_to_jan_ratio FROM pivoted ORDER BY change ASC LIMIT 25;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "January vs February 1994 New Accounts",
+        "type": "bar",
+        "metrics": [
+          "COUNT(account.account_id)",
+          "Feb/Jan ratio"
+        ],
+        "dimensions": [
+          "district.A2",
+          "account.frequency",
+          "district.A3"
+        ],
+        "filters": [
+          "account.date in Jan-Feb 1994"
+        ]
+      },
+      {
+        "title": "Opening Drop Attribution",
+        "type": "table",
+        "metrics": [
+          "January count",
+          "February count",
+          "change",
+          "ratio"
+        ],
+        "dimensions": [
+          "district",
+          "region",
+          "frequency"
+        ],
+        "filters": [
+          "largest negative changes"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

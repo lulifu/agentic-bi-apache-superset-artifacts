@@ -1,0 +1,30 @@
+{
+  "task_id": "bird_european_football_2_05",
+  "system": "SkillGuidedAgent",
+  "task_class": "query",
+  "dataset": "european_football_2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Counts drawn matches by league in the 2015/2016 season and returns the league with the most draws.",
+  "sql": "SELECT l.name AS league_name, COUNT(*) AS draw_matches\nFROM \"Match\" AS m\nJOIN league AS l ON l.id = m.league_id\nWHERE m.season = '2015/2016'\n  AND m.home_team_goal = m.away_team_goal\nGROUP BY l.id, l.name\nORDER BY draw_matches DESC\nLIMIT 1;",
+  "chart_spec": null,
+  "tool_calls": [
+    "schema_inspection"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_european_football_2_05",
+    "sql": "SELECT l.name AS league_name, COUNT(*) AS draw_matches\nFROM \"Match\" AS m\nJOIN league AS l ON l.id = m.league_id\nWHERE m.season = '2015/2016'\n  AND m.home_team_goal = m.away_team_goal\nGROUP BY l.id, l.name\nORDER BY draw_matches DESC\nLIMIT 1;",
+    "artifact": "Counts drawn matches by league in the 2015/2016 season and returns the league with the most draws.",
+    "tool_calls": [
+      "schema_inspection"
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec786-c389-7d71-8c2c-56a79661e894",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:06:50.669Z"
+}

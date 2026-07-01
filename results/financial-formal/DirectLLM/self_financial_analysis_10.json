@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_10",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL counts new accounts by district in 1995 and 1996, ranks districts by the increase, and returns the top three with region, average salary, and unemployment-rate change. Commonality should be assessed by shared region or similar A11 and A13 minus A12 profiles across the top districts.",
+  "sql": "WITH counts AS (SELECT d.district_id, d.A2 AS district, d.A3 AS region, d.A11 AS avg_salary, d.A12 AS unemployment_1995, d.A13 AS unemployment_1996, EXTRACT(YEAR FROM CAST(a.date AS DATE)) AS year, COUNT(*) AS account_count FROM account AS a JOIN district AS d ON a.district_id = d.district_id WHERE EXTRACT(YEAR FROM CAST(a.date AS DATE)) IN (1995, 1996) GROUP BY d.district_id, d.A2, d.A3, d.A11, d.A12, d.A13, EXTRACT(YEAR FROM CAST(a.date AS DATE))), pivoted AS (SELECT district_id, district, region, avg_salary, unemployment_1995, unemployment_1996, SUM(CASE WHEN year = 1995 THEN account_count ELSE 0 END) AS accounts_1995, SUM(CASE WHEN year = 1996 THEN account_count ELSE 0 END) AS accounts_1996 FROM counts GROUP BY district_id, district, region, avg_salary, unemployment_1995, unemployment_1996) SELECT *, accounts_1996 - accounts_1995 AS account_count_delta, unemployment_1996 - unemployment_1995 AS unemployment_change FROM pivoted ORDER BY account_count_delta DESC LIMIT 3;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

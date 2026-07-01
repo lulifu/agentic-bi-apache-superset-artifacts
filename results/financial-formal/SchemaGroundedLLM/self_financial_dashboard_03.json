@@ -1,0 +1,67 @@
+{
+  "task_id": "self_financial_dashboard_03",
+  "system": "SchemaGroundedLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": {
+    "issuance_by_month_type": "SELECT DATE_TRUNC('month', c.issued)::date AS issued_month, c.type AS card_type, COUNT(c.card_id) AS issued_cards FROM card c GROUP BY 1, 2 ORDER BY 1, 2;",
+    "issued_card_mix": "SELECT c.type AS card_type, COUNT(c.card_id) AS issued_cards FROM card c GROUP BY 1 ORDER BY issued_cards DESC;",
+    "card_withdrawals_1997": "SELECT DATE_TRUNC('month', t.date)::date AS trans_month, COUNT(t.trans_id) AS card_withdrawal_count FROM trans t WHERE t.operation = 'VYBER KARTOU' AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01' GROUP BY 1 ORDER BY 1;"
+  },
+  "chart_spec": {
+    "charts": [
+      {
+        "id": "issuance_by_month_type",
+        "viz_type": "line",
+        "dataset": "card",
+        "metrics": [
+          "COUNT(card_id)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('month', issued)",
+          "type"
+        ],
+        "filters": [],
+        "layout_intent": "monthly issuance trend by card type"
+      },
+      {
+        "id": "issued_card_mix",
+        "viz_type": "pie",
+        "dataset": "card",
+        "metrics": [
+          "COUNT(card_id)"
+        ],
+        "dimensions": [
+          "type"
+        ],
+        "filters": [],
+        "layout_intent": "card type mix"
+      },
+      {
+        "id": "card_withdrawals_1997",
+        "viz_type": "line",
+        "dataset": "trans",
+        "metrics": [
+          "COUNT(trans_id) WHERE operation='VYBER KARTOU'"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('month', date)"
+        ],
+        "filters": [
+          "trans.date in 1997",
+          "trans.operation = 'VYBER KARTOU'"
+        ],
+        "layout_intent": "monthly withdrawal trend aligned with issuance convention"
+      }
+    ],
+    "layout_intent": "two trends stacked vertically with type mix as a side panel"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

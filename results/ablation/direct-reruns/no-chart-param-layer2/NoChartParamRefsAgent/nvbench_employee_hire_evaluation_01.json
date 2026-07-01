@@ -1,0 +1,54 @@
+{
+  "task_id": "nvbench_employee_hire_evaluation_01",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "chart",
+  "dataset": "nvbench-layer2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Bar chart of employee hires by shop name.",
+  "sql": "",
+  "chart_spec": {
+    "viz_type": "bar",
+    "metrics": [
+      "COUNT(*)"
+    ],
+    "dimensions": [
+      "Name"
+    ],
+    "filters": [],
+    "time_range": null
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "nvbench_employee_hire_evaluation_01",
+    "viz_type": "bar",
+    "metrics": [
+      "COUNT(*)"
+    ],
+    "dimensions": [
+      "Name"
+    ],
+    "filters": [],
+    "time_range": null,
+    "chart_spec": {
+      "viz_type": "bar",
+      "metrics": [
+        "COUNT(*)"
+      ],
+      "dimensions": [
+        "Name"
+      ],
+      "filters": [],
+      "time_range": null
+    },
+    "artifact": "Bar chart of employee hires by shop name."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc21-fd70-73f1-bfd7-eff2696ebe93",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.206Z"
+}

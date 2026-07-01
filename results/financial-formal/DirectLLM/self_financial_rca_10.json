@@ -1,0 +1,65 @@
+{
+  "task_id": "self_financial_rca_10",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: Rank districts by status-D loan count, compare the top three with the bottom three, and inspect unemployment, crime, and salary features. Report shared feature patterns as correlations only; the requested output is an outlier-versus-control profile, not a causal model.",
+  "sql": "WITH d_counts AS (SELECT d.district_id, d.A2 AS district, d.A3 AS region, d.A11 AS avg_salary, d.A13 AS unemployment_rate, d.A16 AS crime_rate, COUNT(l.loan_id) AS status_d_loans FROM district d LEFT JOIN account a ON a.district_id=d.district_id LEFT JOIN loan l ON l.account_id=a.account_id AND l.status='D' GROUP BY d.district_id,d.A2,d.A3,d.A11,d.A13,d.A16), ranked AS (SELECT *, RANK() OVER (ORDER BY status_d_loans DESC) AS high_rank, RANK() OVER (ORDER BY status_d_loans ASC) AS low_rank FROM d_counts) SELECT CASE WHEN high_rank <= 3 THEN 'top_3_status_D' WHEN low_rank <= 3 THEN 'bottom_3_status_D' ELSE 'middle' END AS comparison_group, district, region, status_d_loans, avg_salary, unemployment_rate, crime_rate FROM ranked WHERE high_rank <= 3 OR low_rank <= 3 ORDER BY comparison_group, status_d_loans DESC;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Status-D Loan Count by District",
+        "type": "bar",
+        "metrics": [
+          "COUNT(loan where status='D')"
+        ],
+        "dimensions": [
+          "district.A2"
+        ],
+        "filters": [
+          "loan.status = D"
+        ]
+      },
+      {
+        "title": "Top vs Bottom District Feature Profile",
+        "type": "table",
+        "metrics": [
+          "district.A11",
+          "district.A13",
+          "district.A16"
+        ],
+        "dimensions": [
+          "comparison group",
+          "district.A2",
+          "district.A3"
+        ],
+        "filters": [
+          "top 3 and bottom 3 by status-D count"
+        ]
+      },
+      {
+        "title": "Status-D Count vs District Features",
+        "type": "scatter",
+        "metrics": [
+          "status_d_loans",
+          "A11",
+          "A13",
+          "A16"
+        ],
+        "dimensions": [
+          "district.A2"
+        ],
+        "filters": [
+          "all districts"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

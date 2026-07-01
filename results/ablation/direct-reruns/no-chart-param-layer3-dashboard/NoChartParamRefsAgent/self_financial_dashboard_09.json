@@ -1,0 +1,129 @@
+{
+  "task_id": "self_financial_dashboard_09",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Household-payment risk dashboard for SIPO outflows with trend, account-level anomaly table, and regional volume comparison.",
+  "sql": "",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Monthly Household-Payment Outflow, 1997-1998",
+        "viz_type": "line",
+        "metrics": [
+          "SUM(trans.amount)"
+        ],
+        "dimensions": [
+          "trans.date month"
+        ],
+        "filters": [
+          "trans.k_symbol = 'SIPO'",
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) IN (1997, 1998)"
+        ]
+      },
+      {
+        "title": "Accounts Exceeding Twice 1996 Monthly Household-Payment Average",
+        "viz_type": "table",
+        "metrics": [
+          "SUM(trans.amount)",
+          "ratio_to_1996_baseline"
+        ],
+        "dimensions": [
+          "account.account_id"
+        ],
+        "filters": [
+          "trans.k_symbol = 'SIPO'",
+          "1997-1998 monthly payment amount > 2 * account 1996 monthly average"
+        ]
+      },
+      {
+        "title": "Household-Payment Volume by Region",
+        "viz_type": "bar",
+        "metrics": [
+          "SUM(trans.amount)"
+        ],
+        "dimensions": [
+          "district.A3"
+        ],
+        "filters": [
+          "trans.k_symbol = 'SIPO'"
+        ]
+      }
+    ],
+    "layout_intent": "Monthly risk trend on top, exception table and regional exposure bar below.",
+    "chart_count": 3,
+    "chart_viz_types": [
+      "line",
+      "table",
+      "bar"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_dashboard_09",
+    "artifact": "Household-payment risk dashboard for SIPO outflows with trend, account-level anomaly table, and regional volume comparison.",
+    "chart_spec": {
+      "charts": [
+        {
+          "title": "Monthly Household-Payment Outflow, 1997-1998",
+          "viz_type": "line",
+          "metrics": [
+            "SUM(trans.amount)"
+          ],
+          "dimensions": [
+            "trans.date month"
+          ],
+          "filters": [
+            "trans.k_symbol = 'SIPO'",
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) IN (1997, 1998)"
+          ]
+        },
+        {
+          "title": "Accounts Exceeding Twice 1996 Monthly Household-Payment Average",
+          "viz_type": "table",
+          "metrics": [
+            "SUM(trans.amount)",
+            "ratio_to_1996_baseline"
+          ],
+          "dimensions": [
+            "account.account_id"
+          ],
+          "filters": [
+            "trans.k_symbol = 'SIPO'",
+            "1997-1998 monthly payment amount > 2 * account 1996 monthly average"
+          ]
+        },
+        {
+          "title": "Household-Payment Volume by Region",
+          "viz_type": "bar",
+          "metrics": [
+            "SUM(trans.amount)"
+          ],
+          "dimensions": [
+            "district.A3"
+          ],
+          "filters": [
+            "trans.k_symbol = 'SIPO'"
+          ]
+        }
+      ],
+      "layout_intent": "Monthly risk trend on top, exception table and regional exposure bar below.",
+      "chart_count": 3,
+      "chart_viz_types": [
+        "line",
+        "table",
+        "bar"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-1fcf-7070-a2df-21c498fb4cbf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.287Z"
+}

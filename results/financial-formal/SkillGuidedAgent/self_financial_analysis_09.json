@@ -1,0 +1,47 @@
+{
+  "task_id": "self_financial_analysis_09",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_analysis_09.\ngold_vs_classic_engagement_1998: [{\"card_type\":\"classic\",\"clients\":659,\"avg_tx_per_client\":77.03186646433991,\"median_tx_per_client\":74,\"avg_transaction_size\":8371.013604793015},{\"card_type\":\"gold\",\"clients\":88,\"avg_tx_per_client\":78,\"median_tx_per_client\":75,\"avg_transaction_size\":9197.119258217112}]",
+  "sql": "WITH per_client AS (\n  SELECT c.type AS card_type, dp.client_id, COUNT(t.trans_id)::numeric AS tx_count, AVG(t.amount)::numeric AS avg_amount\n  FROM card c\n  JOIN disp dp ON dp.disp_id = c.disp_id\n  JOIN trans t ON t.account_id = dp.account_id\n  WHERE c.type IN ('gold','classic')\n    AND t.date >= DATE '1998-01-01' AND t.date < DATE '1999-01-01'\n  GROUP BY 1, 2\n)\nSELECT card_type, COUNT(*) AS clients, AVG(tx_count) AS avg_tx_per_client,\n       PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY tx_count) AS median_tx_per_client,\n       AVG(avg_amount) AS avg_transaction_size\nFROM per_client\nGROUP BY 1",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:gold_vs_classic_engagement_1998"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "gold_vs_classic_engagement_1998",
+        "sql": "WITH per_client AS (\n  SELECT c.type AS card_type, dp.client_id, COUNT(t.trans_id)::numeric AS tx_count, AVG(t.amount)::numeric AS avg_amount\n  FROM card c\n  JOIN disp dp ON dp.disp_id = c.disp_id\n  JOIN trans t ON t.account_id = dp.account_id\n  WHERE c.type IN ('gold','classic')\n    AND t.date >= DATE '1998-01-01' AND t.date < DATE '1999-01-01'\n  GROUP BY 1, 2\n)\nSELECT card_type, COUNT(*) AS clients, AVG(tx_count) AS avg_tx_per_client,\n       PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY tx_count) AS median_tx_per_client,\n       AVG(avg_amount) AS avg_transaction_size\nFROM per_client\nGROUP BY 1",
+        "rows": [
+          {
+            "card_type": "classic",
+            "clients": 659,
+            "avg_tx_per_client": 77.03186646433991,
+            "median_tx_per_client": 74,
+            "avg_transaction_size": 8371.013604793015
+          },
+          {
+            "card_type": "gold",
+            "clients": 88,
+            "avg_tx_per_client": 78,
+            "median_tx_per_client": 75,
+            "avg_transaction_size": 9197.119258217112
+          }
+        ],
+        "rowcount": 2
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:44.698Z"
+}

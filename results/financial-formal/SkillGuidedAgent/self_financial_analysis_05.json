@@ -1,0 +1,57 @@
+{
+  "task_id": "self_financial_analysis_05",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_analysis_05.\nduration_default_1996: [{\"duration_band\":\"short_12\",\"finished_loans\":15,\"defaulted_loans\":3,\"default_rate\":0.2,\"avg_amount\":59990.4,\"avg_payments\":4999.2},{\"duration_band\":\"medium_24_36\",\"finished_loans\":20,\"defaulted_loans\":3,\"default_rate\":0.15,\"avg_amount\":123594.75,\"avg_payments\":4057.7083333333335},{\"duration_band\":\"long_48_60\",\"finished_loans\":0,\"defaulted_loans\":0,\"default_rate\":null,\"avg_amount\":212690.22222222222,\"avg_payments\":3975.777777777778}]",
+  "sql": "SELECT CASE WHEN duration = 12 THEN 'short_12'\n            WHEN duration IN (24,36) THEN 'medium_24_36'\n            WHEN duration IN (48,60) THEN 'long_48_60'\n            ELSE 'other' END AS duration_band,\n       COUNT(*) FILTER (WHERE status IN ('A','B')) AS finished_loans,\n       COUNT(*) FILTER (WHERE status = 'B') AS defaulted_loans,\n       COUNT(*) FILTER (WHERE status = 'B')::numeric / NULLIF(COUNT(*) FILTER (WHERE status IN ('A','B')), 0) AS default_rate,\n       AVG(amount) AS avg_amount, AVG(payments) AS avg_payments\nFROM loan\nWHERE date >= DATE '1996-01-01' AND date < DATE '1997-01-01'\nGROUP BY 1\nORDER BY default_rate DESC NULLS LAST",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:duration_default_1996"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "duration_default_1996",
+        "sql": "SELECT CASE WHEN duration = 12 THEN 'short_12'\n            WHEN duration IN (24,36) THEN 'medium_24_36'\n            WHEN duration IN (48,60) THEN 'long_48_60'\n            ELSE 'other' END AS duration_band,\n       COUNT(*) FILTER (WHERE status IN ('A','B')) AS finished_loans,\n       COUNT(*) FILTER (WHERE status = 'B') AS defaulted_loans,\n       COUNT(*) FILTER (WHERE status = 'B')::numeric / NULLIF(COUNT(*) FILTER (WHERE status IN ('A','B')), 0) AS default_rate,\n       AVG(amount) AS avg_amount, AVG(payments) AS avg_payments\nFROM loan\nWHERE date >= DATE '1996-01-01' AND date < DATE '1997-01-01'\nGROUP BY 1\nORDER BY default_rate DESC NULLS LAST",
+        "rows": [
+          {
+            "duration_band": "short_12",
+            "finished_loans": 15,
+            "defaulted_loans": 3,
+            "default_rate": 0.2,
+            "avg_amount": 59990.4,
+            "avg_payments": 4999.2
+          },
+          {
+            "duration_band": "medium_24_36",
+            "finished_loans": 20,
+            "defaulted_loans": 3,
+            "default_rate": 0.15,
+            "avg_amount": 123594.75,
+            "avg_payments": 4057.7083333333335
+          },
+          {
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 212690.22222222222,
+            "avg_payments": 3975.777777777778
+          }
+        ],
+        "rowcount": 3
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:42.426Z"
+}

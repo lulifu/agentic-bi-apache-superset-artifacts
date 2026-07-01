@@ -1,0 +1,16 @@
+{
+  "task_id": "bird_financial_05",
+  "system": "SchemaGroundedLLM",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "query_result",
+  "sql": "SELECT (CAST(SUM(CASE WHEN status = 'A' THEN amount ELSE 0 END) AS DOUBLE PRECISION) * 100.0) / NULLIF(SUM(amount), 0) AS fully_paid_no_issue_amount_pct FROM loan;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

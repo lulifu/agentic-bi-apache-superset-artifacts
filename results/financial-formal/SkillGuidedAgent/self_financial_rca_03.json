@@ -1,0 +1,173 @@
+{
+  "task_id": "self_financial_rca_03",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_03.\njan_1998_card_withdrawal_attribution: [{\"card_type\":\"classic\",\"district_name\":\"Hl.m. Praha\",\"issuance_cohort\":\"existing_or_other\",\"tx_count\":93,\"total_amount\":207800},{\"card_type\":\"classic\",\"district_name\":\"Hl.m. Praha\",\"issuance_cohort\":\"issued_late_1997\",\"tx_count\":50,\"total_amount\":102100},{\"card_type\":\"classic\",\"district_name\":\"Karvina\",\"issuance_cohort\":\"existing_or_other\",\"tx_count\":48,\"total_amount\":101500},{\"card_type\":\"junior\",\"district_name\":\"Hl.m. Praha\",\"issuance_cohort\":\"existing_or_other\",\"tx_count\":42,\"total_amount\":68500},{\"card_type\":\"classic\",\"district_name\":\"Pisek\",\"issuance_cohort\":\"existing_or_other\",\"tx_count\":41,\"total_amount\":78200}]",
+  "sql": "SELECT c.type AS card_type, d.\"A2\" AS district_name,\n       CASE WHEN c.issued >= DATE '1997-10-01' AND c.issued < DATE '1998-01-01'\n            THEN 'issued_late_1997' ELSE 'existing_or_other' END AS issuance_cohort,\n       COUNT(*) AS tx_count, SUM(t.amount) AS total_amount\nFROM trans t\nJOIN account a ON a.account_id = t.account_id\nJOIN district d ON d.district_id = a.district_id\nJOIN disp dp ON dp.account_id = a.account_id\nJOIN card c ON c.disp_id = dp.disp_id\nWHERE t.operation = 'VYBER KARTOU'\n  AND t.date >= DATE '1998-01-01' AND t.date < DATE '1998-02-01'\nGROUP BY 1,2,3\nORDER BY tx_count DESC\nLIMIT 20",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:jan_1998_card_withdrawal_attribution"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "jan_1998_card_withdrawal_attribution",
+        "sql": "SELECT c.type AS card_type, d.\"A2\" AS district_name,\n       CASE WHEN c.issued >= DATE '1997-10-01' AND c.issued < DATE '1998-01-01'\n            THEN 'issued_late_1997' ELSE 'existing_or_other' END AS issuance_cohort,\n       COUNT(*) AS tx_count, SUM(t.amount) AS total_amount\nFROM trans t\nJOIN account a ON a.account_id = t.account_id\nJOIN district d ON d.district_id = a.district_id\nJOIN disp dp ON dp.account_id = a.account_id\nJOIN card c ON c.disp_id = dp.disp_id\nWHERE t.operation = 'VYBER KARTOU'\n  AND t.date >= DATE '1998-01-01' AND t.date < DATE '1998-02-01'\nGROUP BY 1,2,3\nORDER BY tx_count DESC\nLIMIT 20",
+        "rows": [
+          {
+            "card_type": "classic",
+            "district_name": "Hl.m. Praha",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 93,
+            "total_amount": 207800
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Hl.m. Praha",
+            "issuance_cohort": "issued_late_1997",
+            "tx_count": 50,
+            "total_amount": 102100
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Karvina",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 48,
+            "total_amount": 101500
+          },
+          {
+            "card_type": "junior",
+            "district_name": "Hl.m. Praha",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 42,
+            "total_amount": 68500
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Pisek",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 41,
+            "total_amount": 78200
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Bruntal",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 35,
+            "total_amount": 71300
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Olomouc",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 34,
+            "total_amount": 76600
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Pardubice",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 28,
+            "total_amount": 61100
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Plzen - jih",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 27,
+            "total_amount": 50000
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Zdar nad Sazavou",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 26,
+            "total_amount": 50800
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Cheb",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 21,
+            "total_amount": 36800
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Ceske Budejovice",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 21,
+            "total_amount": 40100
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Domazlice",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 21,
+            "total_amount": 34100
+          },
+          {
+            "card_type": "junior",
+            "district_name": "Plzen - sever",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 21,
+            "total_amount": 46100
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Ostrava - mesto",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 20,
+            "total_amount": 40000
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Decin",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 20,
+            "total_amount": 39400
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Liberec",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 20,
+            "total_amount": 42000
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Jindrichuv Hradec",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 19,
+            "total_amount": 33600
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Chrudim",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 19,
+            "total_amount": 34800
+          },
+          {
+            "card_type": "classic",
+            "district_name": "Most",
+            "issuance_cohort": "existing_or_other",
+            "tx_count": 18,
+            "total_amount": 36900
+          }
+        ],
+        "rowcount": 20
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:47.241Z"
+}

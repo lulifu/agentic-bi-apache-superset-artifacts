@@ -1,0 +1,85 @@
+{
+  "task_id": "self_financial_dashboard_05",
+  "system": "DirectLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": "SELECT FLOOR((1998 - EXTRACT(YEAR FROM CAST(c.birth_date AS DATE))) / 5) * 5 AS age_bucket_start, COUNT(*) AS client_count FROM client c GROUP BY 1 ORDER BY 1; SELECT gender, COUNT(*) AS client_count FROM client GROUP BY gender ORDER BY gender; SELECT c.client_id, 1998 - EXTRACT(YEAR FROM CAST(c.birth_date AS DATE)) AS age_years, l.amount AS loan_amount FROM client c JOIN disp dp ON dp.client_id=c.client_id JOIN account a ON a.account_id=dp.account_id JOIN loan l ON l.account_id=a.account_id; SELECT d.A2 AS district, COUNT(c.client_id) AS client_count FROM client c JOIN district d ON d.district_id=c.district_id GROUP BY d.A2 ORDER BY client_count DESC LIMIT 10;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Client Age Distribution",
+        "type": "histogram",
+        "metrics": [
+          "COUNT(client.client_id)"
+        ],
+        "dimensions": [
+          "age in years as of 1998-12-31"
+        ],
+        "filters": [
+          "all clients"
+        ]
+      },
+      {
+        "title": "Gender Breakdown",
+        "type": "bar",
+        "metrics": [
+          "COUNT(client.client_id)"
+        ],
+        "dimensions": [
+          "client.gender"
+        ],
+        "filters": [
+          "all clients"
+        ]
+      },
+      {
+        "title": "Age vs Loan Size",
+        "type": "scatter",
+        "metrics": [
+          "loan.amount"
+        ],
+        "dimensions": [
+          "client age"
+        ],
+        "filters": [
+          "clients with loans"
+        ]
+      },
+      {
+        "title": "Top 10 Districts by Client Count",
+        "type": "table",
+        "metrics": [
+          "COUNT(client.client_id)"
+        ],
+        "dimensions": [
+          "district.A2"
+        ],
+        "filters": [
+          "top 10 by count"
+        ]
+      }
+    ],
+    "metrics": [
+      "COUNT(client.client_id)",
+      "loan.amount"
+    ],
+    "dimensions": [
+      "age bucket",
+      "client.gender",
+      "district.A2"
+    ],
+    "filters": [
+      "age reference date 1998-12-31",
+      "scatter restricted to loan-holding clients"
+    ],
+    "layout_intent": "Demographic overview with distribution charts at the top and scatter plus district ranking below."
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

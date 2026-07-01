@@ -1,0 +1,266 @@
+{
+  "task_id": "self_financial_dashboard_02",
+  "system": "SkillGuidedAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "dashboard_id": 86,
+    "dashboard_title": "nl2bi-formal self_financial_dashboard_02 regional risk",
+    "dashboard_url": "/dashboard/86/",
+    "chart_ids": [
+      375,
+      376
+    ],
+    "charts": [
+      {
+        "chart_id": 375,
+        "slice_name": "nl2bi-formal d02 regional risk table",
+        "viz_type": "table",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 8,
+          "preview": [
+            {
+              "region": "north Moravia",
+              "clients": 942,
+              "active_loans": 76,
+              "default_rate": 0.14634146341463414,
+              "AVG(avg_salary)": 9412.493630573248
+            },
+            {
+              "region": "south Moravia",
+              "clients": 932,
+              "active_loans": 88,
+              "default_rate": 0.14634146341463414,
+              "AVG(avg_salary)": 8895.75965665236
+            },
+            {
+              "region": "Prague",
+              "clients": 671,
+              "active_loans": 47,
+              "default_rate": 0.08108108108108109,
+              "AVG(avg_salary)": 12541
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=375"
+      },
+      {
+        "chart_id": 376,
+        "slice_name": "nl2bi-formal d02 default rate by region",
+        "viz_type": "echarts_timeseries_bar",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 8,
+          "preview": [
+            {
+              "region": "Prague",
+              "default_rate": 0.08108108108108109
+            },
+            {
+              "region": "central Bohemia",
+              "default_rate": 0.16129032258064516
+            },
+            {
+              "region": "east Bohemia",
+              "default_rate": 0
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=376"
+      }
+    ],
+    "dashboard_chart_count": 2
+  },
+  "sql": null,
+  "chart_spec": {
+    "dashboard_title": "nl2bi-formal self_financial_dashboard_02 regional risk",
+    "chart_count": 2,
+    "chart_viz_types": [
+      "table",
+      "echarts_timeseries_bar"
+    ]
+  },
+  "tool_calls": [
+    "create_chart.mjs:375",
+    "create_chart.mjs:376",
+    "create_dashboard.mjs:86",
+    "query_dashboard.mjs:86:charts"
+  ],
+  "error": null,
+  "raw_response": {
+    "charts": [
+      {
+        "chart_id": 375,
+        "slice_name": "nl2bi-formal d02 regional risk table",
+        "viz_type": "table",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 8,
+          "preview": [
+            {
+              "region": "north Moravia",
+              "clients": 942,
+              "active_loans": 76,
+              "default_rate": 0.14634146341463414,
+              "AVG(avg_salary)": 9412.493630573248
+            },
+            {
+              "region": "south Moravia",
+              "clients": 932,
+              "active_loans": 88,
+              "default_rate": 0.14634146341463414,
+              "AVG(avg_salary)": 8895.75965665236
+            },
+            {
+              "region": "Prague",
+              "clients": 671,
+              "active_loans": 47,
+              "default_rate": 0.08108108108108109,
+              "AVG(avg_salary)": 12541
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=375"
+      },
+      {
+        "chart_id": 376,
+        "slice_name": "nl2bi-formal d02 default rate by region",
+        "viz_type": "echarts_timeseries_bar",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 8,
+          "preview": [
+            {
+              "region": "Prague",
+              "default_rate": 0.08108108108108109
+            },
+            {
+              "region": "central Bohemia",
+              "default_rate": 0.16129032258064516
+            },
+            {
+              "region": "east Bohemia",
+              "default_rate": 0
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=376"
+      }
+    ],
+    "dashboard_charts": [
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:34:41.596771",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "datasource": "40__table",
+          "groupby": [
+            "region"
+          ],
+          "metrics": [
+            {
+              "expressionType": "SQL",
+              "label": "clients",
+              "sqlExpression": "COUNT(DISTINCT client_id)"
+            },
+            {
+              "expressionType": "SQL",
+              "label": "active_loans",
+              "sqlExpression": "COUNT(DISTINCT loan_id) FILTER (WHERE loan_status IN ('C','D'))"
+            },
+            {
+              "expressionType": "SQL",
+              "label": "default_rate",
+              "sqlExpression": "COUNT(DISTINCT loan_id) FILTER (WHERE loan_status = 'B')::numeric / NULLIF(COUNT(DISTINCT loan_id) FILTER (WHERE loan_status IN ('A','B')), 0)"
+            },
+            {
+              "expressionType": "SQL",
+              "label": "AVG(avg_salary)",
+              "sqlExpression": "AVG(avg_salary)"
+            }
+          ],
+          "order_desc": true,
+          "row_limit": 1000,
+          "slice_id": 375,
+          "time_range": "No filter",
+          "viz_type": "table"
+        },
+        "id": 375,
+        "slice_name": "nl2bi-formal d02 regional risk table",
+        "slice_url": "/explore/?slice_id=375&form_data=%7B%22slice_id%22%3A%20375%7D"
+      },
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:34:43.089294",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "comparator": "No filter",
+              "expressionType": "SIMPLE",
+              "operator": "TEMPORAL_RANGE",
+              "subject": "region"
+            }
+          ],
+          "datasource": "40__table",
+          "granularity_sqla": "region",
+          "groupby": [],
+          "metrics": [
+            {
+              "expressionType": "SQL",
+              "label": "default_rate",
+              "sqlExpression": "COUNT(DISTINCT loan_id) FILTER (WHERE loan_status = 'B')::numeric / NULLIF(COUNT(DISTINCT loan_id) FILTER (WHERE loan_status IN ('A','B')), 0)"
+            }
+          ],
+          "orientation": "horizontal",
+          "row_limit": 1000,
+          "slice_id": 376,
+          "time_range": "No filter",
+          "viz_type": "echarts_timeseries_bar",
+          "x_axis": "region",
+          "y_axis_format": ".2%"
+        },
+        "id": 376,
+        "slice_name": "nl2bi-formal d02 default rate by region",
+        "slice_url": "/explore/?slice_id=376&form_data=%7B%22slice_id%22%3A%20376%7D"
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:34:44.040Z"
+}

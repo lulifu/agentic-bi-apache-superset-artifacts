@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_06",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL computes the proportion of card withdrawals among all withdrawals nationally and by region from 1996 to 1998. Regions with the largest absolute deviation_from_national are the outliers, and consistency is judged by whether regional proportions move in the same direction as the national trend.",
+  "sql": "WITH base AS (SELECT EXTRACT(YEAR FROM CAST(t.date AS DATE)) AS year, d.A3 AS region, COUNT(*) AS withdrawal_count, SUM(CASE WHEN t.operation = 'VYBER KARTOU' THEN 1 ELSE 0 END) AS card_withdrawal_count FROM trans AS t JOIN account AS a ON t.account_id = a.account_id JOIN district AS d ON a.district_id = d.district_id WHERE t.type = 'VYDAJ' AND EXTRACT(YEAR FROM CAST(t.date AS DATE)) IN (1996, 1997, 1998) GROUP BY 1, 2), national AS (SELECT year, SUM(card_withdrawal_count) * 1.0 / NULLIF(SUM(withdrawal_count), 0) AS national_prop FROM base GROUP BY year) SELECT b.year, b.region, b.card_withdrawal_count * 1.0 / NULLIF(b.withdrawal_count, 0) AS region_prop, n.national_prop, b.card_withdrawal_count * 1.0 / NULLIF(b.withdrawal_count, 0) - n.national_prop AS deviation_from_national FROM base AS b JOIN national AS n ON b.year = n.year ORDER BY b.year, ABS(b.card_withdrawal_count * 1.0 / NULLIF(b.withdrawal_count, 0) - n.national_prop) DESC;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

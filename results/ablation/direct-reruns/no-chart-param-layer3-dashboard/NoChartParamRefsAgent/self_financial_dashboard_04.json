@@ -1,0 +1,125 @@
+{
+  "task_id": "self_financial_dashboard_04",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Transaction-mix dashboard for 1997-1998 showing cash-flow direction, purpose-code share, and balance trend.",
+  "sql": "",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Monthly Transaction Amount by Type",
+        "viz_type": "stacked_bar",
+        "metrics": [
+          "SUM(trans.amount)"
+        ],
+        "dimensions": [
+          "trans.date month",
+          "trans.type"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) IN (1997, 1998)"
+        ]
+      },
+      {
+        "title": "Transaction Share by Purpose Code",
+        "viz_type": "pie",
+        "metrics": [
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.k_symbol"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) IN (1997, 1998)"
+        ]
+      },
+      {
+        "title": "Average Post-Transaction Balance Trend",
+        "viz_type": "line",
+        "metrics": [
+          "AVG(trans.balance)"
+        ],
+        "dimensions": [
+          "trans.date month"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) IN (1997, 1998)"
+        ]
+      }
+    ],
+    "layout_intent": "Full-width monthly stacked bar on top, pie and balance trend below for composition and outcome context.",
+    "chart_count": 3,
+    "chart_viz_types": [
+      "stacked_bar",
+      "pie",
+      "line"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_dashboard_04",
+    "artifact": "Transaction-mix dashboard for 1997-1998 showing cash-flow direction, purpose-code share, and balance trend.",
+    "chart_spec": {
+      "charts": [
+        {
+          "title": "Monthly Transaction Amount by Type",
+          "viz_type": "stacked_bar",
+          "metrics": [
+            "SUM(trans.amount)"
+          ],
+          "dimensions": [
+            "trans.date month",
+            "trans.type"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) IN (1997, 1998)"
+          ]
+        },
+        {
+          "title": "Transaction Share by Purpose Code",
+          "viz_type": "pie",
+          "metrics": [
+            "COUNT(trans.trans_id)"
+          ],
+          "dimensions": [
+            "trans.k_symbol"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) IN (1997, 1998)"
+          ]
+        },
+        {
+          "title": "Average Post-Transaction Balance Trend",
+          "viz_type": "line",
+          "metrics": [
+            "AVG(trans.balance)"
+          ],
+          "dimensions": [
+            "trans.date month"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) IN (1997, 1998)"
+          ]
+        }
+      ],
+      "layout_intent": "Full-width monthly stacked bar on top, pie and balance trend below for composition and outcome context.",
+      "chart_count": 3,
+      "chart_viz_types": [
+        "stacked_bar",
+        "pie",
+        "line"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-1fcf-7070-a2df-21c498fb4cbf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.286Z"
+}

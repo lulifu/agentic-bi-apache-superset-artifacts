@@ -1,0 +1,44 @@
+{
+  "task_id": "bird_student_club_04",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "student_club",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Repaired text/date comparison by casting event_date to DATE and removed extra columns so the output is only approved.",
+  "sql": "SELECT exp.approved FROM event AS ev JOIN budget AS bud ON bud.link_to_event = ev.event_id JOIN expense AS exp ON exp.link_to_budget = bud.budget_id WHERE ev.event_name = 'October Meeting' AND CAST(ev.event_date AS DATE) = DATE '2019-10-08' ORDER BY exp.expense_id;",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab first-pass status=error",
+    "sql_lab repair query_id=447 status=success"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_student_club_04",
+    "sql": "SELECT exp.approved FROM event AS ev JOIN budget AS bud ON bud.link_to_event = ev.event_id JOIN expense AS exp ON exp.link_to_budget = bud.budget_id WHERE ev.event_name = 'October Meeting' AND CAST(ev.event_date AS DATE) = DATE '2019-10-08' ORDER BY exp.expense_id;",
+    "artifact": "Repaired text/date comparison by casting event_date to DATE and removed extra columns so the output is only approved.",
+    "tool_calls": [
+      "sql_lab first-pass status=error",
+      "sql_lab repair query_id=447 status=success"
+    ],
+    "repair_attempts": [
+      {
+        "sql": "SELECT exp.expense_id, exp.expense_description, exp.approved FROM event AS ev JOIN budget AS bud ON bud.link_to_event = ev.event_id JOIN expense AS exp ON exp.link_to_budget = bud.budget_id WHERE ev.event_name = 'October Meeting' AND ev.event_date = DATE '2019-10-08' ORDER BY exp.expense_id;",
+        "status": "error",
+        "feedback": "PostgreSQL error: operator does not exist: text = date for ev.event_date = DATE literal."
+      },
+      {
+        "sql": "SELECT exp.approved FROM event AS ev JOIN budget AS bud ON bud.link_to_event = ev.event_id JOIN expense AS exp ON exp.link_to_budget = bud.budget_id WHERE ev.event_name = 'October Meeting' AND CAST(ev.event_date AS DATE) = DATE '2019-10-08' ORDER BY exp.expense_id;",
+        "status": "executed",
+        "feedback": "SQL Lab success after casting event_date to DATE; output column approved exactly matches the requested approved field."
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec795-1cd8-77b0-aa12-439acac28ee6",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:22:41.726Z"
+}

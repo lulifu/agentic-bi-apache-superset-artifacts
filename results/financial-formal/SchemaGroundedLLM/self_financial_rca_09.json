@@ -1,0 +1,24 @@
+{
+  "task_id": "self_financial_rca_09",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "East Bohemia UVER outflow rose from 998,826 in 1996 to 1,593,156 in 1997, a 59.5% increase. The main driver is more loan-payment accounts/new loans, not higher repayment frequency: new loans increased from 13 to 25, UVER-paying accounts from 35 to 49, while UVER transactions per account stayed flat at about 9.14 to 9.12. Average UVER payment also rose from 3,121 to 3,564, so larger payment size is a secondary driver.",
+  "sql": {
+    "regional_uver_growth": "SELECT d.\"A3\" AS region, EXTRACT(YEAR FROM t.date)::int AS year, SUM(t.amount) AS uver_amount, COUNT(t.trans_id) AS uver_transaction_count, COUNT(DISTINCT t.account_id) AS uver_accounts FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id WHERE t.k_symbol = 'UVER' AND t.date >= DATE '1996-01-01' AND t.date < DATE '1998-01-01' GROUP BY 1, 2 ORDER BY 1, 2;",
+    "drilldown_new_loans_amount_frequency": "WITH loan_drivers AS (SELECT d.\"A3\" AS region, EXTRACT(YEAR FROM l.date)::int AS year, COUNT(l.loan_id) AS new_loans, AVG(l.amount) AS avg_loan_amount FROM loan l JOIN account a ON a.account_id = l.account_id JOIN district d ON d.district_id = a.district_id WHERE l.date >= DATE '1996-01-01' AND l.date < DATE '1998-01-01' GROUP BY 1, 2), repay AS (SELECT d.\"A3\" AS region, EXTRACT(YEAR FROM t.date)::int AS year, COUNT(t.trans_id) AS uver_tx, COUNT(DISTINCT t.account_id) AS uver_accounts, COUNT(t.trans_id)::numeric / NULLIF(COUNT(DISTINCT t.account_id), 0) AS tx_per_account, AVG(t.amount) AS avg_payment FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id WHERE t.k_symbol = 'UVER' AND t.date >= DATE '1996-01-01' AND t.date < DATE '1998-01-01' GROUP BY 1, 2) SELECT COALESCE(ld.region, r.region) AS region, COALESCE(ld.year, r.year) AS year, ld.new_loans, ld.avg_loan_amount, r.uver_tx, r.uver_accounts, r.tx_per_account, r.avg_payment FROM loan_drivers ld FULL OUTER JOIN repay r ON r.region = ld.region AND r.year = ld.year ORDER BY 1, 2;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "regional UVER amount growth bar",
+      "driver table for new loan count, average loan amount, transactions per account, and average payment"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

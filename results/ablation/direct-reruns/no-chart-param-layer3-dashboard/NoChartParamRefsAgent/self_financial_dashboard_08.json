@@ -1,0 +1,125 @@
+{
+  "task_id": "self_financial_dashboard_08",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Card-program acquisition dashboard tracking issuance cohorts, conversion to first card withdrawal, and average activation lag.",
+  "sql": "",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Quarterly Card Issuance by Type",
+        "viz_type": "line",
+        "metrics": [
+          "COUNT(card.card_id)"
+        ],
+        "dimensions": [
+          "card.issued quarter",
+          "card.type"
+        ],
+        "filters": [
+          "card.issued between 1994 and 1998",
+          "card.type IN ('gold','classic','junior')"
+        ]
+      },
+      {
+        "title": "Card Issuance to First Withdrawal Funnel",
+        "viz_type": "funnel",
+        "metrics": [
+          "COUNT(DISTINCT client_id) at issued-card stage",
+          "COUNT(DISTINCT client_id) with first trans.operation = 'VYBER KARTOU'"
+        ],
+        "dimensions": [
+          "funnel_stage"
+        ],
+        "filters": [
+          "card.issued between 1994 and 1998"
+        ]
+      },
+      {
+        "title": "Average Days to First Card Transaction",
+        "viz_type": "big_number",
+        "metrics": [
+          "AVG(CAST(first_card_withdrawal_date AS DATE) - CAST(card.issued AS DATE))"
+        ],
+        "dimensions": [],
+        "filters": [
+          "first_card_withdrawal_date = MIN(trans.date) where trans.operation = 'VYBER KARTOU'"
+        ]
+      }
+    ],
+    "layout_intent": "Trend chart across the top, funnel and activation-lag KPI below.",
+    "chart_count": 3,
+    "chart_viz_types": [
+      "line",
+      "funnel",
+      "big_number"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_dashboard_08",
+    "artifact": "Card-program acquisition dashboard tracking issuance cohorts, conversion to first card withdrawal, and average activation lag.",
+    "chart_spec": {
+      "charts": [
+        {
+          "title": "Quarterly Card Issuance by Type",
+          "viz_type": "line",
+          "metrics": [
+            "COUNT(card.card_id)"
+          ],
+          "dimensions": [
+            "card.issued quarter",
+            "card.type"
+          ],
+          "filters": [
+            "card.issued between 1994 and 1998",
+            "card.type IN ('gold','classic','junior')"
+          ]
+        },
+        {
+          "title": "Card Issuance to First Withdrawal Funnel",
+          "viz_type": "funnel",
+          "metrics": [
+            "COUNT(DISTINCT client_id) at issued-card stage",
+            "COUNT(DISTINCT client_id) with first trans.operation = 'VYBER KARTOU'"
+          ],
+          "dimensions": [
+            "funnel_stage"
+          ],
+          "filters": [
+            "card.issued between 1994 and 1998"
+          ]
+        },
+        {
+          "title": "Average Days to First Card Transaction",
+          "viz_type": "big_number",
+          "metrics": [
+            "AVG(CAST(first_card_withdrawal_date AS DATE) - CAST(card.issued AS DATE))"
+          ],
+          "dimensions": [],
+          "filters": [
+            "first_card_withdrawal_date = MIN(trans.date) where trans.operation = 'VYBER KARTOU'"
+          ]
+        }
+      ],
+      "layout_intent": "Trend chart across the top, funnel and activation-lag KPI below.",
+      "chart_count": 3,
+      "chart_viz_types": [
+        "line",
+        "funnel",
+        "big_number"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-1fcf-7070-a2df-21c498fb4cbf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.287Z"
+}

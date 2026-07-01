@@ -1,0 +1,70 @@
+{
+  "task_id": "self_financial_dashboard_04",
+  "system": "SchemaGroundedLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": {
+    "monthly_amount_by_type": "SELECT DATE_TRUNC('month', t.date)::date AS trans_month, t.type AS transaction_type, SUM(t.amount) AS total_amount FROM trans t WHERE t.date >= DATE '1997-01-01' AND t.date < DATE '1999-01-01' GROUP BY 1, 2 ORDER BY 1, 2;",
+    "ksymbol_share": "SELECT COALESCE(NULLIF(t.k_symbol, ''), '(blank)') AS k_symbol, COUNT(t.trans_id) AS transaction_count FROM trans t WHERE t.date >= DATE '1997-01-01' AND t.date < DATE '1999-01-01' GROUP BY 1 ORDER BY transaction_count DESC;",
+    "monthly_avg_balance": "SELECT DATE_TRUNC('month', t.date)::date AS trans_month, AVG(t.balance) AS avg_post_transaction_balance FROM trans t WHERE t.date >= DATE '1997-01-01' AND t.date < DATE '1999-01-01' GROUP BY 1 ORDER BY 1;"
+  },
+  "chart_spec": {
+    "charts": [
+      {
+        "id": "monthly_amount_by_type",
+        "viz_type": "stacked_bar",
+        "dataset": "trans",
+        "metrics": [
+          "SUM(amount)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('month', date)",
+          "type"
+        ],
+        "filters": [
+          "trans.date from 1997-01-01 through 1998-12-31"
+        ],
+        "layout_intent": "monthly credit/withdrawal amount stack"
+      },
+      {
+        "id": "ksymbol_share",
+        "viz_type": "pie",
+        "dataset": "trans",
+        "metrics": [
+          "COUNT(trans_id)"
+        ],
+        "dimensions": [
+          "k_symbol"
+        ],
+        "filters": [
+          "trans.date from 1997-01-01 through 1998-12-31"
+        ],
+        "layout_intent": "purpose-code share"
+      },
+      {
+        "id": "monthly_avg_balance",
+        "viz_type": "line",
+        "dataset": "trans",
+        "metrics": [
+          "AVG(balance)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('month', date)"
+        ],
+        "filters": [
+          "trans.date from 1997-01-01 through 1998-12-31"
+        ],
+        "layout_intent": "average post-transaction balance trend"
+      }
+    ],
+    "layout_intent": "transaction mix overview with stacked amount, purpose mix, and balance trend"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

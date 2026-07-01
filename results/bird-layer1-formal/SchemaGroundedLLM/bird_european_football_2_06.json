@@ -1,0 +1,25 @@
+{
+  "task_id": "bird_european_football_2_06",
+  "system": "SchemaGroundedLLM",
+  "task_class": "query",
+  "dataset": "european_football_2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Filters leagues where average home goals exceed average away goals in 2009/2010.",
+  "sql": "SELECT l.name FROM league AS l JOIN \"Match\" AS m ON m.league_id = l.id WHERE m.season = '2009/2010' GROUP BY l.id, l.name HAVING SUM(m.home_team_goal)::numeric / COUNT(DISTINCT m.id) > SUM(m.away_team_goal)::numeric / COUNT(DISTINCT m.id);",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_european_football_2_06",
+    "sql": "SELECT l.name FROM league AS l JOIN \"Match\" AS m ON m.league_id = l.id WHERE m.season = '2009/2010' GROUP BY l.id, l.name HAVING SUM(m.home_team_goal)::numeric / COUNT(DISTINCT m.id) > SUM(m.away_team_goal)::numeric / COUNT(DISTINCT m.id);",
+    "artifact": "Filters leagues where average home goals exceed average away goals in 2009/2010."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec786-275d-7080-9880-e0f034980551",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:06:35.147Z"
+}

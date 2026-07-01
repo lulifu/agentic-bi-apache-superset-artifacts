@@ -1,0 +1,49 @@
+{
+  "task_id": "self_financial_rca_06",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: Compute each district's 1996 SIPO transaction-count share and compare it with the national share. Select the district with the largest absolute deviation, then characterize it by region, salary, and unemployment profile. Frame the result as an outlier description rather than a causal claim.",
+  "sql": "WITH district_share AS (SELECT d.district_id, d.A2 AS district, d.A3 AS region, d.A11 AS avg_salary, d.A12 AS unemployment_95, d.A13 AS unemployment_96, COUNT(*) AS total_tx, SUM(CASE WHEN t.k_symbol='SIPO' THEN 1 ELSE 0 END) AS sipo_tx, SUM(CASE WHEN t.k_symbol='SIPO' THEN 1 ELSE 0 END)::DECIMAL/NULLIF(COUNT(*),0) AS sipo_share FROM trans t JOIN account a ON a.account_id=t.account_id JOIN district d ON d.district_id=a.district_id WHERE EXTRACT(YEAR FROM CAST(t.date AS DATE))=1996 GROUP BY d.district_id,d.A2,d.A3,d.A11,d.A12,d.A13), national AS (SELECT SUM(sipo_tx)::DECIMAL/NULLIF(SUM(total_tx),0) AS national_sipo_share FROM district_share) SELECT ds.*, n.national_sipo_share, ds.sipo_share-n.national_sipo_share AS deviation, ABS(ds.sipo_share-n.national_sipo_share) AS abs_deviation FROM district_share ds CROSS JOIN national n ORDER BY abs_deviation DESC LIMIT 20;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "SIPO Share Deviation by District",
+        "type": "bar",
+        "metrics": [
+          "SIPO share",
+          "deviation from national share"
+        ],
+        "dimensions": [
+          "district.A2"
+        ],
+        "filters": [
+          "1996 transactions"
+        ]
+      },
+      {
+        "title": "Extreme District Profile",
+        "type": "table",
+        "metrics": [
+          "district.A11",
+          "district.A12",
+          "district.A13"
+        ],
+        "dimensions": [
+          "district.A2",
+          "district.A3"
+        ],
+        "filters": [
+          "largest absolute deviation"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

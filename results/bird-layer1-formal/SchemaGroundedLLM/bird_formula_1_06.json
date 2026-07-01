@@ -1,0 +1,25 @@
+{
+  "task_id": "bird_formula_1_06",
+  "system": "SchemaGroundedLLM",
+  "task_class": "query",
+  "dataset": "formula_1",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Computes completed Japanese-driver result rows divided by all Japanese-driver result rows from 2007 through 2009.",
+  "sql": "SELECT 100.0 * SUM(CASE WHEN res.time IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*) AS completion_percentage FROM results res JOIN drivers d ON res.\"driverId\" = d.\"driverId\" JOIN races r ON res.\"raceId\" = r.\"raceId\" WHERE d.nationality = 'Japanese' AND r.year BETWEEN 2007 AND 2009;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_formula_1_06",
+    "sql": "SELECT 100.0 * SUM(CASE WHEN res.time IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*) AS completion_percentage FROM results res JOIN drivers d ON res.\"driverId\" = d.\"driverId\" JOIN races r ON res.\"raceId\" = r.\"raceId\" WHERE d.nationality = 'Japanese' AND r.year BETWEEN 2007 AND 2009;",
+    "artifact": "Computes completed Japanese-driver result rows divided by all Japanese-driver result rows from 2007 through 2009."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec784-575c-7293-99c2-b05dd50c10e8",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:04:15.392Z"
+}

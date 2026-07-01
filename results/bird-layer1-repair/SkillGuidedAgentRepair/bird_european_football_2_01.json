@@ -1,0 +1,60 @@
+{
+  "task_id": "bird_european_football_2_01",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "european_football_2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Removed extra player_name and overall_rating columns because the NL asks only for the player's api id.",
+  "sql": "SELECT DISTINCT pa.player_api_id FROM player_attributes AS pa WHERE pa.overall_rating = (SELECT MAX(overall_rating) FROM player_attributes) ORDER BY pa.player_api_id;",
+  "chart_spec": null,
+  "tool_calls": [
+    {
+      "query_id": 433,
+      "status": "success",
+      "purpose": "first_pass"
+    },
+    {
+      "query_id": 435,
+      "status": "success",
+      "purpose": "shape_fix"
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_european_football_2_01",
+    "sql": "SELECT DISTINCT pa.player_api_id FROM player_attributes AS pa WHERE pa.overall_rating = (SELECT MAX(overall_rating) FROM player_attributes) ORDER BY pa.player_api_id;",
+    "artifact": "Removed extra player_name and overall_rating columns because the NL asks only for the player's api id.",
+    "tool_calls": [
+      {
+        "query_id": 433,
+        "status": "success",
+        "purpose": "first_pass"
+      },
+      {
+        "query_id": 435,
+        "status": "success",
+        "purpose": "shape_fix"
+      }
+    ],
+    "repair_attempts": [
+      {
+        "sql": "SELECT DISTINCT pa.player_api_id, p.player_name, pa.overall_rating FROM player_attributes AS pa JOIN player AS p ON p.player_api_id = pa.player_api_id WHERE pa.overall_rating = (SELECT MAX(overall_rating) FROM player_attributes) ORDER BY pa.player_api_id;",
+        "status": "shape_fix",
+        "feedback": "Executed successfully but returned extra columns beyond the requested player api id."
+      },
+      {
+        "sql": "SELECT DISTINCT pa.player_api_id FROM player_attributes AS pa WHERE pa.overall_rating = (SELECT MAX(overall_rating) FROM player_attributes) ORDER BY pa.player_api_id;",
+        "status": "executed",
+        "feedback": "Executed successfully with only player_api_id returned."
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec794-e67e-74c1-82cc-39c94ec3d335",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:23:24.192Z"
+}

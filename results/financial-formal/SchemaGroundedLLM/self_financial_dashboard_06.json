@@ -1,0 +1,60 @@
+{
+  "task_id": "self_financial_dashboard_06",
+  "system": "SchemaGroundedLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": {
+    "top5_quarterly_lines": "WITH top_districts AS (SELECT district_id, \"A2\" AS district FROM district ORDER BY CAST(\"A4\" AS INTEGER) DESC LIMIT 5) SELECT td.district, DATE_TRUNC('quarter', t.date)::date AS trans_quarter, SUM(t.amount) AS total_transaction_amount, COUNT(t.trans_id) AS transaction_count FROM top_districts td JOIN account a ON a.district_id = td.district_id JOIN trans t ON t.account_id = a.account_id WHERE t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01' GROUP BY 1, 2 ORDER BY 1, 2;",
+    "top5_quarterly_bar": "WITH top_districts AS (SELECT district_id, \"A2\" AS district FROM district ORDER BY CAST(\"A4\" AS INTEGER) DESC LIMIT 5) SELECT DATE_TRUNC('quarter', t.date)::date AS trans_quarter, td.district, SUM(t.amount) AS total_transaction_amount FROM top_districts td JOIN account a ON a.district_id = td.district_id JOIN trans t ON t.account_id = a.account_id WHERE t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01' GROUP BY 1, 2 ORDER BY 1, 2;"
+  },
+  "chart_spec": {
+    "charts": [
+      {
+        "id": "district_line_1_to_5",
+        "viz_type": "line",
+        "dataset": "top5_district_transaction_virtual",
+        "dataset_choice": "virtual_dataset",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('quarter', trans.date)",
+          "district.A2"
+        ],
+        "filters": [
+          "top 5 districts by CAST(district.A4 AS INTEGER)",
+          "trans.date in 1997"
+        ],
+        "layout_intent": "one line chart per top district"
+      },
+      {
+        "id": "combined_quarterly_bar",
+        "viz_type": "bar",
+        "dataset": "top5_district_transaction_virtual",
+        "dataset_choice": "virtual_dataset",
+        "metrics": [
+          "SUM(trans.amount)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('quarter', trans.date)",
+          "district.A2"
+        ],
+        "filters": [
+          "top 5 districts by inhabitants",
+          "trans.date in 1997"
+        ],
+        "layout_intent": "combined district comparison bar"
+      }
+    ],
+    "layout_intent": "2x3 grid with five district line charts and one combined bar chart"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

@@ -1,0 +1,341 @@
+{
+  "task_id": "self_financial_rca_07",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_07.\njan_feb_1994_account_openings: [{\"month\":\"1994-02-01\",\"district_name\":\"Hl.m. Praha\",\"region\":\"Prague\",\"frequency\":\"POPLATEK MESICNE\",\"new_accounts\":7},{\"month\":\"1994-02-01\",\"district_name\":\"Sumperk\",\"region\":\"north Moravia\",\"frequency\":\"POPLATEK MESICNE\",\"new_accounts\":3},{\"month\":\"1994-01-01\",\"district_name\":\"Hl.m. Praha\",\"region\":\"Prague\",\"frequency\":\"POPLATEK MESICNE\",\"new_accounts\":3},{\"month\":\"1994-02-01\",\"district_name\":\"Rokycany\",\"region\":\"west Bohemia\",\"frequency\":\"POPLATEK MESICNE\",\"new_accounts\":2},{\"month\":\"1994-01-01\",\"district_name\":\"Rokycany\",\"region\":\"west Bohemia\",\"frequency\":\"POPLATEK MESICNE\",\"new_accounts\":2}]",
+  "sql": "SELECT DATE_TRUNC('month', a.date)::date AS month, d.\"A2\" AS district_name, d.\"A3\" AS region,\n       a.frequency, COUNT(*) AS new_accounts\nFROM account a JOIN district d ON d.district_id = a.district_id\nWHERE a.date >= DATE '1994-01-01' AND a.date < DATE '1994-03-01'\nGROUP BY 1,2,3,4\nORDER BY new_accounts DESC",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:jan_feb_1994_account_openings"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "jan_feb_1994_account_openings",
+        "sql": "SELECT DATE_TRUNC('month', a.date)::date AS month, d.\"A2\" AS district_name, d.\"A3\" AS region,\n       a.frequency, COUNT(*) AS new_accounts\nFROM account a JOIN district d ON d.district_id = a.district_id\nWHERE a.date >= DATE '1994-01-01' AND a.date < DATE '1994-03-01'\nGROUP BY 1,2,3,4\nORDER BY new_accounts DESC",
+        "rows": [
+          {
+            "month": "1994-02-01",
+            "district_name": "Hl.m. Praha",
+            "region": "Prague",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 7
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Sumperk",
+            "region": "north Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 3
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Hl.m. Praha",
+            "region": "Prague",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 3
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Rokycany",
+            "region": "west Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 2
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Rokycany",
+            "region": "west Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 2
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Karvina",
+            "region": "north Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 2
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Breclav",
+            "region": "south Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 2
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Karvina",
+            "region": "north Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Melnik",
+            "region": "central Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Olomouc",
+            "region": "north Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Ostrava - mesto",
+            "region": "north Moravia",
+            "frequency": "POPLATEK TYDNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Pardubice",
+            "region": "east Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Pisek",
+            "region": "south Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Prachatice",
+            "region": "south Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Praha - vychod",
+            "region": "central Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Uherske Hradiste",
+            "region": "south Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Usti nad Orlici",
+            "region": "east Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Vsetin",
+            "region": "north Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Zdar nad Sazavou",
+            "region": "south Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Ceske Budejovice",
+            "region": "south Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Havlickuv Brod",
+            "region": "east Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Hl.m. Praha",
+            "region": "Prague",
+            "frequency": "POPLATEK PO OBRATU",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Jesenik",
+            "region": "north Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Klatovy",
+            "region": "west Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Mlada Boleslav",
+            "region": "central Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Opava",
+            "region": "north Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Pardubice",
+            "region": "east Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Plzen - sever",
+            "region": "west Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Prachatice",
+            "region": "south Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Prerov",
+            "region": "north Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Prostejov",
+            "region": "south Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Semily",
+            "region": "east Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Sokolov",
+            "region": "west Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Trebic",
+            "region": "south Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Zdar nad Sazavou",
+            "region": "south Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Zlin",
+            "region": "south Moravia",
+            "frequency": "POPLATEK PO OBRATU",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Brno - venkov",
+            "region": "south Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-02-01",
+            "district_name": "Znojmo",
+            "region": "south Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Ceske Budejovice",
+            "region": "south Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Chomutov",
+            "region": "north Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Havlickuv Brod",
+            "region": "east Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Hl.m. Praha",
+            "region": "Prague",
+            "frequency": "POPLATEK TYDNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Jablonec n. Nisou",
+            "region": "north Bohemia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          },
+          {
+            "month": "1994-01-01",
+            "district_name": "Jihlava",
+            "region": "south Moravia",
+            "frequency": "POPLATEK MESICNE",
+            "new_accounts": 1
+          }
+        ],
+        "rowcount": 44
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:48.765Z"
+}

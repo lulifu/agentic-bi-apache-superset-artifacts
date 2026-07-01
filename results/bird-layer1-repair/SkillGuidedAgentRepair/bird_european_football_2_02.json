@@ -1,0 +1,45 @@
+{
+  "task_id": "bird_european_football_2_02",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "european_football_2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Kept first-pass SQL; output columns answer height and name.",
+  "sql": "SELECT player_name, height FROM player WHERE height = (SELECT MAX(height) FROM player) ORDER BY player_name;",
+  "chart_spec": null,
+  "tool_calls": [
+    {
+      "query_id": 436,
+      "status": "success",
+      "purpose": "first_pass"
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_european_football_2_02",
+    "sql": "SELECT player_name, height FROM player WHERE height = (SELECT MAX(height) FROM player) ORDER BY player_name;",
+    "artifact": "Kept first-pass SQL; output columns answer height and name.",
+    "tool_calls": [
+      {
+        "query_id": 436,
+        "status": "success",
+        "purpose": "first_pass"
+      }
+    ],
+    "repair_attempts": [
+      {
+        "sql": "SELECT player_name, height FROM player WHERE height = (SELECT MAX(height) FROM player) ORDER BY player_name;",
+        "status": "executed",
+        "feedback": "Executed successfully with player_name and height returned."
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec794-e67e-74c1-82cc-39c94ec3d335",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:23:24.193Z"
+}

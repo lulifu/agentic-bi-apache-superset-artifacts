@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_04",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL counts transactions by calendar month and year from 1994 through 1998, then averages each month-of-year and computes a coefficient of variation. Highest and lowest average_count identify the seasonal peak and trough; lower cv means the seasonal pattern is more stable across years.",
+  "sql": "WITH ym AS (SELECT EXTRACT(YEAR FROM CAST(date AS DATE)) AS year, EXTRACT(MONTH FROM CAST(date AS DATE)) AS month_num, COUNT(*) AS txn_count FROM trans WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) BETWEEN 1994 AND 1998 GROUP BY 1, 2), stats AS (SELECT month_num, AVG(txn_count) AS avg_count, STDDEV_POP(txn_count) AS sd_count, STDDEV_POP(txn_count) / NULLIF(AVG(txn_count), 0) AS cv FROM ym GROUP BY month_num) SELECT *, avg_count - MIN(avg_count) OVER () AS gap_vs_lowest_month FROM stats ORDER BY avg_count DESC;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

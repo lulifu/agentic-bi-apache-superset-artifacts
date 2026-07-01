@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_07",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL compares finished-loan default rates for weekly versus monthly statement accounts and includes sample sizes. A difference is statistically meaningful only if the rate gap is large relative to the binomial uncertainty implied by the two denominators; small samples should be treated as inconclusive.",
+  "sql": "SELECT a.frequency, COUNT(*) AS finished_loan_count, SUM(CASE WHEN l.status = 'B' THEN 1 ELSE 0 END) AS default_count, 1.0 * SUM(CASE WHEN l.status = 'B' THEN 1 ELSE 0 END) / NULLIF(COUNT(*), 0) AS default_rate FROM account AS a JOIN loan AS l ON a.account_id = l.account_id WHERE l.status IN ('A', 'B') AND a.frequency IN ('POPLATEK TYDNE', 'POPLATEK MESICNE') GROUP BY a.frequency ORDER BY default_rate DESC;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

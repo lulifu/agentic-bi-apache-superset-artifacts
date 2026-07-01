@@ -1,0 +1,473 @@
+{
+  "task_id": "self_financial_rca_04",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_04.\nkolin_balance_1995_1996_drivers: [{\"yr\":1995,\"frequency\":\"POPLATEK MESICNE\",\"k_symbol\":\" \",\"age_band\":\"<30\",\"avg_balance\":53038.583333333336,\"tx_count\":12},{\"yr\":1996,\"frequency\":\"POPLATEK MESICNE\",\"k_symbol\":\" \",\"age_band\":\"<30\",\"avg_balance\":41133,\"tx_count\":28},{\"yr\":1995,\"frequency\":\"POPLATEK MESICNE\",\"k_symbol\":\" \",\"age_band\":\"30-49\",\"avg_balance\":52110.13333333333,\"tx_count\":60},{\"yr\":1996,\"frequency\":\"POPLATEK MESICNE\",\"k_symbol\":\" \",\"age_band\":\"30-49\",\"avg_balance\":47352.08955223881,\"tx_count\":67},{\"yr\":1995,\"frequency\":\"POPLATEK MESICNE\",\"k_symbol\":\" \",\"age_band\":\"50+\",\"avg_balance\":35120.78260869565,\"tx_count\":23}]",
+  "sql": "WITH client_age AS (\n  SELECT dp.account_id, CASE WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', c.birth_date)) < 30 THEN '<30'\n                             WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', c.birth_date)) < 50 THEN '30-49'\n                             ELSE '50+' END AS age_band\n  FROM disp dp JOIN client c ON c.client_id = dp.client_id\n),\nbase AS (\n  SELECT EXTRACT(YEAR FROM t.date)::int AS yr, a.frequency, COALESCE(NULLIF(t.k_symbol,''), '<blank>') AS k_symbol,\n         ca.age_band, AVG(t.balance)::numeric AS avg_balance, COUNT(*) AS tx_count\n  FROM trans t JOIN account a ON a.account_id = t.account_id\n  LEFT JOIN client_age ca ON ca.account_id = a.account_id\n  WHERE a.district_id = 5 AND t.date >= DATE '1995-01-01' AND t.date < DATE '1997-01-01'\n  GROUP BY 1,2,3,4\n)\nSELECT * FROM base ORDER BY frequency, k_symbol, age_band, yr",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:kolin_balance_1995_1996_drivers"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "kolin_balance_1995_1996_drivers",
+        "sql": "WITH client_age AS (\n  SELECT dp.account_id, CASE WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', c.birth_date)) < 30 THEN '<30'\n                             WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', c.birth_date)) < 50 THEN '30-49'\n                             ELSE '50+' END AS age_band\n  FROM disp dp JOIN client c ON c.client_id = dp.client_id\n),\nbase AS (\n  SELECT EXTRACT(YEAR FROM t.date)::int AS yr, a.frequency, COALESCE(NULLIF(t.k_symbol,''), '<blank>') AS k_symbol,\n         ca.age_band, AVG(t.balance)::numeric AS avg_balance, COUNT(*) AS tx_count\n  FROM trans t JOIN account a ON a.account_id = t.account_id\n  LEFT JOIN client_age ca ON ca.account_id = a.account_id\n  WHERE a.district_id = 5 AND t.date >= DATE '1995-01-01' AND t.date < DATE '1997-01-01'\n  GROUP BY 1,2,3,4\n)\nSELECT * FROM base ORDER BY frequency, k_symbol, age_band, yr",
+        "rows": [
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": " ",
+            "age_band": "<30",
+            "avg_balance": 53038.583333333336,
+            "tx_count": 12
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": " ",
+            "age_band": "<30",
+            "avg_balance": 41133,
+            "tx_count": 28
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": " ",
+            "age_band": "30-49",
+            "avg_balance": 52110.13333333333,
+            "tx_count": 60
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": " ",
+            "age_band": "30-49",
+            "avg_balance": 47352.08955223881,
+            "tx_count": 67
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": " ",
+            "age_band": "50+",
+            "avg_balance": 35120.78260869565,
+            "tx_count": 23
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": " ",
+            "age_band": "50+",
+            "avg_balance": 44867.41818181818,
+            "tx_count": 55
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "<blank>",
+            "age_band": "<30",
+            "avg_balance": 36545.08383233533,
+            "tx_count": 167
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "<blank>",
+            "age_band": "<30",
+            "avg_balance": 39136.09117647059,
+            "tx_count": 340
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "<blank>",
+            "age_band": "30-49",
+            "avg_balance": 49140.0623556582,
+            "tx_count": 433
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "<blank>",
+            "age_band": "30-49",
+            "avg_balance": 45059.07269503546,
+            "tx_count": 564
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "<blank>",
+            "age_band": "50+",
+            "avg_balance": 39839.12720848057,
+            "tx_count": 283
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "<blank>",
+            "age_band": "50+",
+            "avg_balance": 44093.58139534884,
+            "tx_count": 387
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "DUCHOD",
+            "age_band": "50+",
+            "avg_balance": 24676.875,
+            "tx_count": 72
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "DUCHOD",
+            "age_band": "50+",
+            "avg_balance": 24159.49090909091,
+            "tx_count": 110
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "POJISTNE",
+            "age_band": "<30",
+            "avg_balance": 33053.63636363637,
+            "tx_count": 11
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "POJISTNE",
+            "age_band": "30-49",
+            "avg_balance": 30232.166666666668,
+            "tx_count": 24
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "POJISTNE",
+            "age_band": "30-49",
+            "avg_balance": 29007.791666666668,
+            "tx_count": 24
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "POJISTNE",
+            "age_band": "50+",
+            "avg_balance": 59933.5,
+            "tx_count": 2
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "POJISTNE",
+            "age_band": "50+",
+            "avg_balance": 47972,
+            "tx_count": 12
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SANKC. UROK",
+            "age_band": "30-49",
+            "avg_balance": 5414.5,
+            "tx_count": 2
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SIPO",
+            "age_band": "<30",
+            "avg_balance": 29051.208333333332,
+            "tx_count": 48
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SIPO",
+            "age_band": "<30",
+            "avg_balance": 31508.66233766234,
+            "tx_count": 77
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SIPO",
+            "age_band": "30-49",
+            "avg_balance": 42143.74545454545,
+            "tx_count": 110
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SIPO",
+            "age_band": "30-49",
+            "avg_balance": 35910.13103448276,
+            "tx_count": 145
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SIPO",
+            "age_band": "50+",
+            "avg_balance": 27618.884210526317,
+            "tx_count": 95
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SIPO",
+            "age_band": "50+",
+            "avg_balance": 30966.960264900663,
+            "tx_count": 151
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "<30",
+            "avg_balance": 31810.433333333334,
+            "tx_count": 60
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "<30",
+            "avg_balance": 30867.649484536083,
+            "tx_count": 97
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "30-49",
+            "avg_balance": 40689.2131147541,
+            "tx_count": 122
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "30-49",
+            "avg_balance": 37649.61494252874,
+            "tx_count": 174
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "50+",
+            "avg_balance": 30802.145454545454,
+            "tx_count": 110
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "50+",
+            "avg_balance": 33451.46060606061,
+            "tx_count": 165
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "UROK",
+            "age_band": "<30",
+            "avg_balance": 32031.014925373132,
+            "tx_count": 67
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "UROK",
+            "age_band": "<30",
+            "avg_balance": 31974.043795620437,
+            "tx_count": 137
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "UROK",
+            "age_band": "30-49",
+            "avg_balance": 41011.39682539683,
+            "tx_count": 126
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "UROK",
+            "age_band": "30-49",
+            "avg_balance": 37642.572864321606,
+            "tx_count": 199
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "UROK",
+            "age_band": "50+",
+            "avg_balance": 30513.873015873018,
+            "tx_count": 126
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "UROK",
+            "age_band": "50+",
+            "avg_balance": 34114.621468926554,
+            "tx_count": 177
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "UVER",
+            "age_band": "30-49",
+            "avg_balance": 25142.181818181816,
+            "tx_count": 22
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "UVER",
+            "age_band": "30-49",
+            "avg_balance": 24742.708333333332,
+            "tx_count": 24
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK MESICNE",
+            "k_symbol": "UVER",
+            "age_band": "50+",
+            "avg_balance": 33421.4,
+            "tx_count": 5
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "<blank>",
+            "age_band": "<30",
+            "avg_balance": 47324,
+            "tx_count": 86
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "<blank>",
+            "age_band": "<30",
+            "avg_balance": 66861.8,
+            "tx_count": 130
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "<blank>",
+            "age_band": "50+",
+            "avg_balance": 60847.232558139534,
+            "tx_count": 43
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "<blank>",
+            "age_band": "50+",
+            "avg_balance": 66825.52272727272,
+            "tx_count": 44
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "<30",
+            "avg_balance": 41146.166666666664,
+            "tx_count": 24
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "<30",
+            "avg_balance": 63189.916666666664,
+            "tx_count": 24
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "50+",
+            "avg_balance": 68944.66666666667,
+            "tx_count": 12
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "SLUZBY",
+            "age_band": "50+",
+            "avg_balance": 68829.33333333333,
+            "tx_count": 12
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "UROK",
+            "age_band": "<30",
+            "avg_balance": 41176.166666666664,
+            "tx_count": 24
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "UROK",
+            "age_band": "<30",
+            "avg_balance": 63219.916666666664,
+            "tx_count": 24
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "UROK",
+            "age_band": "50+",
+            "avg_balance": 69648.20833333333,
+            "tx_count": 24
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "UROK",
+            "age_band": "50+",
+            "avg_balance": 73391.75,
+            "tx_count": 24
+          },
+          {
+            "yr": 1995,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "UVER",
+            "age_band": "<30",
+            "avg_balance": 19005.6,
+            "tx_count": 10
+          },
+          {
+            "yr": 1996,
+            "frequency": "POPLATEK TYDNE",
+            "k_symbol": "UVER",
+            "age_band": "<30",
+            "avg_balance": 43482.833333333336,
+            "tx_count": 24
+          }
+        ],
+        "rowcount": 55
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:47.696Z"
+}

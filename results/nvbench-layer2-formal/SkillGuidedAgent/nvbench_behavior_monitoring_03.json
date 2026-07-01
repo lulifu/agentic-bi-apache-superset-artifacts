@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_behavior_monitoring_03",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "behavior_monitoring",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 436,
+    "virtual_dataset_id": 138,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_03",
+    "superset_create_response": {
+      "id": 436,
+      "result": {
+        "datasource_id": 138,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(address_count)\",\"sqlExpression\":\"SUM(address_count)\"},\"groupby\":[\"other_details\"],\"show_labels\":true,\"datasource\":\"138__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":138,\"type\":\"table\"},\"queries\":[{\"columns\":[\"other_details\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_count)\",\"sqlExpression\":\"SUM(address_count)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_count)\",\"sqlExpression\":\"SUM(address_count)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 436,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_03.png",
+      "screenshot_bytes": 30109,
+      "chart_url": "/superset/explore/?slice_id=436",
+      "issues": [
+        "warning: screenshot only 29.4 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT other_details, COUNT(other_details) AS address_count\nFROM bench_nvbench_behavior_monitoring.student_addresses\nGROUP BY other_details\nORDER BY address_count DESC, other_details;",
+  "chart_spec": {
+    "viz_type": "Pie",
+    "superset_viz_type": "pie",
+    "dataset_id": 138,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_03",
+    "metrics": [
+      "address_count"
+    ],
+    "dimensions": [
+      "other_details"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "metric": {
+        "expressionType": "SQL",
+        "label": "SUM(address_count)",
+        "sqlExpression": "SUM(address_count)"
+      },
+      "groupby": [
+        "other_details"
+      ],
+      "show_labels": true
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 138
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 436
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 2
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_behavior_monitoring_03",
+      "dataset_id": 138,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_03",
+      "dataset_id": 138,
+      "dataset_type": "table",
+      "viz_type": "pie",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_03. Expected visualization: Pie.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "metric": {
+          "expressionType": "SQL",
+          "label": "SUM(address_count)",
+          "sqlExpression": "SUM(address_count)"
+        },
+        "groupby": [
+          "other_details"
+        ],
+        "show_labels": true
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 436,
+      "result": {
+        "datasource_id": 138,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(address_count)\",\"sqlExpression\":\"SUM(address_count)\"},\"groupby\":[\"other_details\"],\"show_labels\":true,\"datasource\":\"138__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":138,\"type\":\"table\"},\"queries\":[{\"columns\":[\"other_details\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_count)\",\"sqlExpression\":\"SUM(address_count)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_count)\",\"sqlExpression\":\"SUM(address_count)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 436,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_03.png",
+      "screenshot_bytes": 30109,
+      "chart_url": "/superset/explore/?slice_id=436",
+      "issues": [
+        "warning: screenshot only 29.4 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:42:30.616Z"
+}

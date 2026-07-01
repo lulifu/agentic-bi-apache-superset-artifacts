@@ -1,0 +1,46 @@
+{
+  "task_id": "bird_formula_1_03",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "formula_1",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Added a q1 non-null guard to avoid NULL ordering affecting the slowest-q1 selection; output remains only driverRef.",
+  "sql": "SELECT d.\"driverRef\" FROM qualifying q JOIN drivers d ON q.\"driverId\" = d.\"driverId\" WHERE q.\"raceId\" = 20 AND q.q1 IS NOT NULL ORDER BY q.q1 DESC LIMIT 5;",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab query_id=421 status=success first-pass",
+    "sql_lab query_id=451 status=success auxiliary null-q1 check",
+    "sql_lab query_id=453 status=success repaired"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_formula_1_03",
+    "sql": "SELECT d.\"driverRef\" FROM qualifying q JOIN drivers d ON q.\"driverId\" = d.\"driverId\" WHERE q.\"raceId\" = 20 AND q.q1 IS NOT NULL ORDER BY q.q1 DESC LIMIT 5;",
+    "artifact": "Added a q1 non-null guard to avoid NULL ordering affecting the slowest-q1 selection; output remains only driverRef.",
+    "tool_calls": [
+      "sql_lab query_id=421 status=success first-pass",
+      "sql_lab query_id=451 status=success auxiliary null-q1 check",
+      "sql_lab query_id=453 status=success repaired"
+    ],
+    "repair_attempts": [
+      {
+        "sql": "SELECT d.\"driverRef\" FROM qualifying q JOIN drivers d ON q.\"driverId\" = d.\"driverId\" WHERE q.\"raceId\" = 20 ORDER BY q.q1 DESC LIMIT 5;",
+        "status": "executed",
+        "feedback": "Executed successfully with one output column, but q1 NULL ordering was a possible risk."
+      },
+      {
+        "sql": "SELECT d.\"driverRef\" FROM qualifying q JOIN drivers d ON q.\"driverId\" = d.\"driverId\" WHERE q.\"raceId\" = 20 AND q.q1 IS NOT NULL ORDER BY q.q1 DESC LIMIT 5;",
+        "status": "executed",
+        "feedback": "Executed successfully with one output column: driverRef."
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec794-7be3-70f0-8ea1-459dc219ca26",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:23:07.150Z"
+}

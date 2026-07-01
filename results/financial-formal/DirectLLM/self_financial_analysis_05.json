@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_05",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL buckets 1996 finished loans into short, medium, and long duration bands, then computes default rate, average amount, and average payments. The worst band is the row with the highest default_rate; its typical loan profile is described by avg_amount and avg_payment.",
+  "sql": "SELECT CASE WHEN duration = 12 THEN 'short' WHEN duration IN (24, 36) THEN 'medium' WHEN duration IN (48, 60) THEN 'long' ELSE 'other' END AS duration_band, COUNT(*) AS finished_loan_count, 1.0 * SUM(CASE WHEN status = 'B' THEN 1 ELSE 0 END) / NULLIF(COUNT(*), 0) AS default_rate, AVG(amount) AS avg_amount, AVG(payments) AS avg_payment FROM loan WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) = 1996 AND status IN ('A', 'B') GROUP BY 1 ORDER BY default_rate DESC;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

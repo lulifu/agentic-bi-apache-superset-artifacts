@@ -1,0 +1,43 @@
+{
+  "task_id": "bird_card_games_05",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "card_games",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Kept first-pass SQL; it executed successfully and returns a single percentage column using joined foreign_data rows as the denominator.",
+  "sql": "SELECT 100.0 * COUNT(*) FILTER (WHERE fd.language = 'Chinese Simplified') / NULLIF(COUNT(*), 0) AS percentage_chinese_simplified FROM cards AS c JOIN foreign_data AS fd ON fd.uuid = c.uuid;",
+  "chart_spec": null,
+  "tool_calls": [
+    {
+      "query_id": 432,
+      "status": "success"
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_card_games_05",
+    "sql": "SELECT 100.0 * COUNT(*) FILTER (WHERE fd.language = 'Chinese Simplified') / NULLIF(COUNT(*), 0) AS percentage_chinese_simplified FROM cards AS c JOIN foreign_data AS fd ON fd.uuid = c.uuid;",
+    "artifact": "Kept first-pass SQL; it executed successfully and returns a single percentage column using joined foreign_data rows as the denominator.",
+    "tool_calls": [
+      {
+        "query_id": 432,
+        "status": "success"
+      }
+    ],
+    "repair_attempts": [
+      {
+        "sql": "SELECT 100.0 * COUNT(*) FILTER (WHERE fd.language = 'Chinese Simplified') / NULLIF(COUNT(*), 0) AS percentage_chinese_simplified FROM cards AS c JOIN foreign_data AS fd ON fd.uuid = c.uuid;",
+        "status": "executed",
+        "feedback": "Executed successfully; output column: percentage_chinese_simplified."
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec794-b3b1-76d2-a8c2-4605fda21ce2",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:22:26.753Z"
+}

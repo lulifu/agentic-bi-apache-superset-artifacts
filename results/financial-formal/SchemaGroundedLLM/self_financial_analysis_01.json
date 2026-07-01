@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_01",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH yearly AS (SELECT EXTRACT(YEAR FROM t.date)::int AS year, COUNT(*) AS tx_count, SUM(t.amount) AS total_amount, AVG(t.amount) AS avg_amount FROM trans AS t WHERE t.date >= DATE '1996-01-01' AND t.date < DATE '1998-01-01' GROUP BY 1), paired AS (SELECT y96.total_amount AS total_1996, y97.total_amount AS total_1997, y96.tx_count AS count_1996, y97.tx_count AS count_1997, y96.avg_amount AS avg_amount_1996, y97.avg_amount AS avg_amount_1997, y97.total_amount - y96.total_amount AS total_change, (y97.tx_count - y96.tx_count) * y96.avg_amount AS count_effect, y97.tx_count * (y97.avg_amount - y96.avg_amount) AS avg_amount_effect FROM yearly AS y96 CROSS JOIN yearly AS y97 WHERE y96.year = 1996 AND y97.year = 1997) SELECT total_1996, total_1997, total_change, total_change * 100.0 / NULLIF(total_1996, 0) AS total_pct_change, count_1996, count_1997, avg_amount_1996, avg_amount_1997, count_effect, avg_amount_effect, CASE WHEN ABS(count_effect) > ABS(avg_amount_effect) THEN 'transaction_count' ELSE 'average_amount' END AS larger_contribution FROM paired;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

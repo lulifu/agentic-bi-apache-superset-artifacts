@@ -1,0 +1,349 @@
+{
+  "task_id": "self_financial_dashboard_07",
+  "system": "SkillGuidedAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "dashboard_id": 88,
+    "dashboard_title": "nl2bi-formal self_financial_dashboard_07 loan portfolio aging",
+    "dashboard_url": "/dashboard/88/",
+    "chart_ids": [
+      385,
+      386,
+      387
+    ],
+    "charts": [
+      {
+        "chart_id": 385,
+        "slice_name": "nl2bi-formal d07 loan count by status and cohort",
+        "viz_type": "echarts_timeseries_bar",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 6,
+          "preview": [
+            {
+              "loan_year": 1993,
+              "loans, finished_default": 4,
+              "loans, finished_ok": 16,
+              "loans, running_in_debt": null,
+              "loans, running_ok": null
+            },
+            {
+              "loan_year": 1994,
+              "loans, finished_default": 12,
+              "loans, finished_ok": 73,
+              "loans, running_in_debt": 2,
+              "loans, running_ok": 14
+            },
+            {
+              "loan_year": 1995,
+              "loans, finished_default": 6,
+              "loans, finished_ok": 45,
+              "loans, running_in_debt": 6,
+              "loans, running_ok": 33
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=385"
+      },
+      {
+        "chart_id": 386,
+        "slice_name": "nl2bi-formal d07 average amount by duration and status",
+        "viz_type": "pivot_table_v2",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 20,
+          "preview": [
+            {
+              "loan_duration_months": 60,
+              "loan_status_label": "finished_default",
+              "AVG(loan_amount)": 464520
+            },
+            {
+              "loan_duration_months": 60,
+              "loan_status_label": "running_in_debt",
+              "AVG(loan_amount)": 319923.75
+            },
+            {
+              "loan_duration_months": 48,
+              "loan_status_label": "running_in_debt",
+              "AVG(loan_amount)": 283100.5714285714
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=386"
+      },
+      {
+        "chart_id": 387,
+        "slice_name": "nl2bi-formal d07 total approved amount 1998",
+        "viz_type": "big_number_total",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 1,
+          "preview": [
+            {
+              "SUM(loan_amount)": 30173028
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=387"
+      }
+    ],
+    "dashboard_chart_count": 3
+  },
+  "sql": null,
+  "chart_spec": {
+    "dashboard_title": "nl2bi-formal self_financial_dashboard_07 loan portfolio aging",
+    "chart_count": 3,
+    "chart_viz_types": [
+      "echarts_timeseries_bar",
+      "pivot_table_v2",
+      "big_number_total"
+    ]
+  },
+  "tool_calls": [
+    "create_chart.mjs:385",
+    "create_chart.mjs:386",
+    "create_chart.mjs:387",
+    "create_dashboard.mjs:88",
+    "query_dashboard.mjs:88:charts"
+  ],
+  "error": null,
+  "raw_response": {
+    "charts": [
+      {
+        "chart_id": 385,
+        "slice_name": "nl2bi-formal d07 loan count by status and cohort",
+        "viz_type": "echarts_timeseries_bar",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 6,
+          "preview": [
+            {
+              "loan_year": 1993,
+              "loans, finished_default": 4,
+              "loans, finished_ok": 16,
+              "loans, running_in_debt": null,
+              "loans, running_ok": null
+            },
+            {
+              "loan_year": 1994,
+              "loans, finished_default": 12,
+              "loans, finished_ok": 73,
+              "loans, running_in_debt": 2,
+              "loans, running_ok": 14
+            },
+            {
+              "loan_year": 1995,
+              "loans, finished_default": 6,
+              "loans, finished_ok": 45,
+              "loans, running_in_debt": 6,
+              "loans, running_ok": 33
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=385"
+      },
+      {
+        "chart_id": 386,
+        "slice_name": "nl2bi-formal d07 average amount by duration and status",
+        "viz_type": "pivot_table_v2",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 20,
+          "preview": [
+            {
+              "loan_duration_months": 60,
+              "loan_status_label": "finished_default",
+              "AVG(loan_amount)": 464520
+            },
+            {
+              "loan_duration_months": 60,
+              "loan_status_label": "running_in_debt",
+              "AVG(loan_amount)": 319923.75
+            },
+            {
+              "loan_duration_months": 48,
+              "loan_status_label": "running_in_debt",
+              "AVG(loan_amount)": 283100.5714285714
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=386"
+      },
+      {
+        "chart_id": 387,
+        "slice_name": "nl2bi-formal d07 total approved amount 1998",
+        "viz_type": "big_number_total",
+        "dataset_id": 40,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 1,
+          "preview": [
+            {
+              "SUM(loan_amount)": 30173028
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=387"
+      }
+    ],
+    "dashboard_charts": [
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:35:13.739553",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "expressionType": "SQL",
+              "sqlExpression": "loan_id IS NOT NULL"
+            },
+            {
+              "clause": "WHERE",
+              "comparator": "No filter",
+              "expressionType": "SIMPLE",
+              "operator": "TEMPORAL_RANGE",
+              "subject": "loan_year"
+            }
+          ],
+          "datasource": "40__table",
+          "granularity_sqla": "loan_year",
+          "groupby": [
+            "loan_status_label"
+          ],
+          "metrics": [
+            {
+              "expressionType": "SQL",
+              "label": "loans",
+              "sqlExpression": "COUNT(DISTINCT loan_id)"
+            }
+          ],
+          "row_limit": 1000,
+          "slice_id": 385,
+          "stack": "Stack",
+          "time_range": "No filter",
+          "viz_type": "echarts_timeseries_bar",
+          "x_axis": "loan_year"
+        },
+        "id": 385,
+        "slice_name": "nl2bi-formal d07 loan count by status and cohort",
+        "slice_url": "/explore/?slice_id=385&form_data=%7B%22slice_id%22%3A%20385%7D"
+      },
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:35:15.886791",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "expressionType": "SQL",
+              "sqlExpression": "loan_id IS NOT NULL"
+            }
+          ],
+          "colTotals": true,
+          "datasource": "40__table",
+          "groupbyColumns": [
+            "loan_status_label"
+          ],
+          "groupbyRows": [
+            "loan_duration_months"
+          ],
+          "metrics": [
+            {
+              "expressionType": "SQL",
+              "label": "AVG(loan_amount)",
+              "sqlExpression": "AVG(loan_amount)"
+            }
+          ],
+          "rowTotals": true,
+          "row_limit": 1000,
+          "slice_id": 386,
+          "time_range": "No filter",
+          "viz_type": "pivot_table_v2"
+        },
+        "id": 386,
+        "slice_name": "nl2bi-formal d07 average amount by duration and status",
+        "slice_url": "/explore/?slice_id=386&form_data=%7B%22slice_id%22%3A%20386%7D"
+      },
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:35:17.201049",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "expressionType": "SQL",
+              "sqlExpression": "loan_date >= DATE '1998-01-01' AND loan_date < DATE '1999-01-01'"
+            }
+          ],
+          "datasource": "40__table",
+          "metric": {
+            "expressionType": "SQL",
+            "label": "SUM(loan_amount)",
+            "sqlExpression": "SUM(loan_amount)"
+          },
+          "row_limit": 1000,
+          "slice_id": 387,
+          "subheader": "Approved amount, 1998",
+          "time_range": "No filter",
+          "viz_type": "big_number_total",
+          "y_axis_format": "SMART_NUMBER"
+        },
+        "id": 387,
+        "slice_name": "nl2bi-formal d07 total approved amount 1998",
+        "slice_url": "/explore/?slice_id=387&form_data=%7B%22slice_id%22%3A%20387%7D"
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:35:23.124Z"
+}

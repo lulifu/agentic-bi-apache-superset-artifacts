@@ -1,0 +1,105 @@
+{
+  "task_id": "self_financial_analysis_08",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_analysis_08.\nsouth_bohemia_mom_balance: [{\"month\":\"1997-01-01\",\"avg_balance\":32949.781499809666,\"prev_avg_balance\":null,\"mom_change\":null},{\"month\":\"1997-02-01\",\"avg_balance\":33192.06142034549,\"prev_avg_balance\":32949.781499809666,\"mom_change\":0.007353005376901194},{\"month\":\"1997-03-01\",\"avg_balance\":37636.431966726086,\"prev_avg_balance\":33192.06142034549,\"mom_change\":0.133898599731331},{\"month\":\"1997-04-01\",\"avg_balance\":38261.97429906542,\"prev_avg_balance\":37636.431966726086,\"mom_change\":0.01662065981420267},{\"month\":\"1997-05-01\",\"avg_balance\":39156.45580878266,\"prev_avg_balance\":38261.97429906542,\"mom_change\":0.023377818999242923}]",
+  "sql": "WITH monthly AS (\n  SELECT DATE_TRUNC('month', t.date)::date AS month, AVG(t.balance)::numeric AS avg_balance\n  FROM trans t\n  JOIN account a ON a.account_id = t.account_id\n  JOIN district d ON d.district_id = a.district_id\n  WHERE d.\"A3\" = 'south Bohemia'\n    AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01'\n  GROUP BY 1\n)\nSELECT month, avg_balance, LAG(avg_balance) OVER (ORDER BY month) AS prev_avg_balance,\n       (avg_balance - LAG(avg_balance) OVER (ORDER BY month)) / NULLIF(LAG(avg_balance) OVER (ORDER BY month), 0) AS mom_change\nFROM monthly\nORDER BY month",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:south_bohemia_mom_balance"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "south_bohemia_mom_balance",
+        "sql": "WITH monthly AS (\n  SELECT DATE_TRUNC('month', t.date)::date AS month, AVG(t.balance)::numeric AS avg_balance\n  FROM trans t\n  JOIN account a ON a.account_id = t.account_id\n  JOIN district d ON d.district_id = a.district_id\n  WHERE d.\"A3\" = 'south Bohemia'\n    AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01'\n  GROUP BY 1\n)\nSELECT month, avg_balance, LAG(avg_balance) OVER (ORDER BY month) AS prev_avg_balance,\n       (avg_balance - LAG(avg_balance) OVER (ORDER BY month)) / NULLIF(LAG(avg_balance) OVER (ORDER BY month), 0) AS mom_change\nFROM monthly\nORDER BY month",
+        "rows": [
+          {
+            "month": "1997-01-01",
+            "avg_balance": 32949.781499809666,
+            "prev_avg_balance": null,
+            "mom_change": null
+          },
+          {
+            "month": "1997-02-01",
+            "avg_balance": 33192.06142034549,
+            "prev_avg_balance": 32949.781499809666,
+            "mom_change": 0.007353005376901194
+          },
+          {
+            "month": "1997-03-01",
+            "avg_balance": 37636.431966726086,
+            "prev_avg_balance": 33192.06142034549,
+            "mom_change": 0.133898599731331
+          },
+          {
+            "month": "1997-04-01",
+            "avg_balance": 38261.97429906542,
+            "prev_avg_balance": 37636.431966726086,
+            "mom_change": 0.01662065981420267
+          },
+          {
+            "month": "1997-05-01",
+            "avg_balance": 39156.45580878266,
+            "prev_avg_balance": 38261.97429906542,
+            "mom_change": 0.023377818999242923
+          },
+          {
+            "month": "1997-06-01",
+            "avg_balance": 38127.78608515057,
+            "prev_avg_balance": 39156.45580878266,
+            "mom_change": -0.026270756696048034
+          },
+          {
+            "month": "1997-07-01",
+            "avg_balance": 38664.295790049204,
+            "prev_avg_balance": 38127.78608515057,
+            "mom_change": 0.014071357400622524
+          },
+          {
+            "month": "1997-08-01",
+            "avg_balance": 39081.71037388099,
+            "prev_avg_balance": 38664.295790049204,
+            "mom_change": 0.010795866711200012
+          },
+          {
+            "month": "1997-09-01",
+            "avg_balance": 38979.86744432661,
+            "prev_avg_balance": 39081.71037388099,
+            "mom_change": -0.002605897453823732
+          },
+          {
+            "month": "1997-10-01",
+            "avg_balance": 39020.66941297631,
+            "prev_avg_balance": 38979.86744432661,
+            "mom_change": 0.0010467446742339957
+          },
+          {
+            "month": "1997-11-01",
+            "avg_balance": 40769.381284221,
+            "prev_avg_balance": 39020.66941297631,
+            "mom_change": 0.04481501464613927
+          },
+          {
+            "month": "1997-12-01",
+            "avg_balance": 41517.231268947595,
+            "prev_avg_balance": 40769.381284221,
+            "mom_change": 0.018343422469745248
+          }
+        ],
+        "rowcount": 12
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:44.096Z"
+}

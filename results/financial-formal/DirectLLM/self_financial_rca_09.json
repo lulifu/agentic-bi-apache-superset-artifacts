@@ -1,0 +1,50 @@
+{
+  "task_id": "self_financial_rca_09",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: For UVER loan-payment outflows, decompose the 1996-to-1997 regional growth into more loan-payment transactions, more loan-holding accounts or newly approved loans, and larger average loans. If east Bohemia grows fastest, the primary driver is the component whose growth rate and contribution dominate the region's total UVER amount increase.",
+  "sql": "WITH uver AS (SELECT EXTRACT(YEAR FROM CAST(t.date AS DATE)) AS year, d.A3 AS region, SUM(t.amount) AS uver_amount, COUNT(*) AS uver_tx_count, COUNT(DISTINCT t.account_id) AS loan_paying_accounts FROM trans t JOIN account a ON a.account_id=t.account_id JOIN district d ON d.district_id=a.district_id WHERE t.k_symbol='UVER' AND EXTRACT(YEAR FROM CAST(t.date AS DATE)) IN (1996,1997) GROUP BY 1,2), loans AS (SELECT EXTRACT(YEAR FROM CAST(l.date AS DATE)) AS year, d.A3 AS region, COUNT(*) AS new_loans, AVG(l.amount) AS avg_loan_amount FROM loan l JOIN account a ON a.account_id=l.account_id JOIN district d ON d.district_id=a.district_id WHERE EXTRACT(YEAR FROM CAST(l.date AS DATE)) IN (1996,1997) GROUP BY 1,2) SELECT u.year, u.region, u.uver_amount, u.uver_tx_count, u.loan_paying_accounts, l.new_loans, l.avg_loan_amount, u.uver_tx_count::DECIMAL/NULLIF(u.loan_paying_accounts,0) AS tx_per_loan_paying_account FROM uver u LEFT JOIN loans l ON l.year=u.year AND l.region=u.region ORDER BY u.region,u.year;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "UVER Outflow Growth by Region",
+        "type": "line",
+        "metrics": [
+          "SUM(trans.amount)"
+        ],
+        "dimensions": [
+          "year",
+          "district.A3"
+        ],
+        "filters": [
+          "trans.k_symbol = UVER",
+          "1996-1997"
+        ]
+      },
+      {
+        "title": "Growth Driver Decomposition",
+        "type": "bar",
+        "metrics": [
+          "new_loans",
+          "avg_loan_amount",
+          "tx_per_loan_paying_account"
+        ],
+        "dimensions": [
+          "district.A3",
+          "year"
+        ],
+        "filters": [
+          "1996-1997"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

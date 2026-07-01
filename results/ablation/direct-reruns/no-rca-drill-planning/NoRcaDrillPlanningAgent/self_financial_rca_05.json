@@ -1,0 +1,32 @@
+{
+  "task_id": "self_financial_rca_05",
+  "system": "NoRcaDrillPlanningAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "RCA report: inconclusive. The 1997 weekly-issuance default-rate claim was not tested against data. The planned RCA compares default rates by frequency and then checks whether weekly accounts differ in district salary quartile, loan amount quartile, or duration bucket. Because these are observational cuts, any driver should be framed as associated rather than causal.",
+  "sql": {
+    "frequency_rates": "SELECT a.frequency, COUNT(*) AS finished_loans, SUM(CASE WHEN l.status='B' THEN 1 ELSE 0 END) AS defaults, SUM(CASE WHEN l.status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate, AVG(l.amount) AS avg_amount, AVG(l.duration) AS avg_duration, AVG(CAST(d.\"A11\" AS numeric)) AS avg_salary FROM loan l JOIN account a ON a.account_id=l.account_id JOIN district d ON d.district_id=a.district_id WHERE l.status IN ('A','B') AND EXTRACT(YEAR FROM CAST(l.date AS DATE))=1997 GROUP BY 1 ORDER BY default_rate DESC;",
+    "quartile_drill": "WITH base AS (SELECT a.frequency, l.status, l.amount, l.duration, CAST(d.\"A11\" AS numeric) AS salary, NTILE(4) OVER (ORDER BY CAST(d.\"A11\" AS numeric)) AS salary_quartile, NTILE(4) OVER (ORDER BY l.amount) AS amount_quartile FROM loan l JOIN account a ON a.account_id=l.account_id JOIN district d ON d.district_id=a.district_id WHERE l.status IN ('A','B') AND EXTRACT(YEAR FROM CAST(l.date AS DATE))=1997) SELECT frequency, salary_quartile, amount_quartile, CASE WHEN duration=12 THEN '12' WHEN duration IN (24,36) THEN '24-36' ELSE '48-60' END AS duration_bucket, COUNT(*) AS n, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate FROM base GROUP BY 1,2,3,4 ORDER BY frequency,n DESC;"
+  },
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_rca_05",
+    "artifact": "RCA report: inconclusive. The 1997 weekly-issuance default-rate claim was not tested against data. The planned RCA compares default rates by frequency and then checks whether weekly accounts differ in district salary quartile, loan amount quartile, or duration bucket. Because these are observational cuts, any driver should be framed as associated rather than causal.",
+    "sql": {
+      "frequency_rates": "SELECT a.frequency, COUNT(*) AS finished_loans, SUM(CASE WHEN l.status='B' THEN 1 ELSE 0 END) AS defaults, SUM(CASE WHEN l.status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate, AVG(l.amount) AS avg_amount, AVG(l.duration) AS avg_duration, AVG(CAST(d.\"A11\" AS numeric)) AS avg_salary FROM loan l JOIN account a ON a.account_id=l.account_id JOIN district d ON d.district_id=a.district_id WHERE l.status IN ('A','B') AND EXTRACT(YEAR FROM CAST(l.date AS DATE))=1997 GROUP BY 1 ORDER BY default_rate DESC;",
+      "quartile_drill": "WITH base AS (SELECT a.frequency, l.status, l.amount, l.duration, CAST(d.\"A11\" AS numeric) AS salary, NTILE(4) OVER (ORDER BY CAST(d.\"A11\" AS numeric)) AS salary_quartile, NTILE(4) OVER (ORDER BY l.amount) AS amount_quartile FROM loan l JOIN account a ON a.account_id=l.account_id JOIN district d ON d.district_id=a.district_id WHERE l.status IN ('A','B') AND EXTRACT(YEAR FROM CAST(l.date AS DATE))=1997) SELECT frequency, salary_quartile, amount_quartile, CASE WHEN duration=12 THEN '12' WHEN duration IN (24,36) THEN '24-36' ELSE '48-60' END AS duration_bucket, COUNT(*) AS n, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate FROM base GROUP BY 1,2,3,4 ORDER BY frequency,n DESC;"
+    },
+    "tool_calls": []
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-3cf4-70a3-9ce1-411c1e4a1720",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.304Z"
+}

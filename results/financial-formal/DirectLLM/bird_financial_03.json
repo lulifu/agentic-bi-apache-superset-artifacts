@@ -1,0 +1,16 @@
+{
+  "task_id": "bird_financial_03",
+  "system": "DirectLLM",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "artifact": null,
+  "sql": "SELECT COUNT(*) AS account_count FROM account AS a JOIN district AS d ON a.district_id = d.district_id WHERE d.A3 = 'east Bohemia' AND a.frequency = 'POPLATEK PO OBRATU';",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

@@ -1,0 +1,23 @@
+{
+  "task_id": "self_financial_rca_06",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Domazlice is the most extreme 1996 SIPO-share outlier: 242 SIPO transactions out of 1,726 total, a 14.02% share, which is 3.24 percentage points above the national share. It is in west Bohemia, has average salary A11=8,620, 1996 unemployment A13=1.25, and crime count A16=1,117. The profile points to a high household-payment share despite relatively low unemployment and moderate salary, not an obvious labor-market-stress explanation.",
+  "sql": {
+    "district_sipo_deviation": "WITH by_district AS (SELECT d.district_id, d.\"A2\" AS district, d.\"A3\" AS region, d.\"A11\" AS avg_salary, d.\"A12\" AS unemployment_1995, d.\"A13\" AS unemployment_1996, d.\"A16\" AS crime_count, COUNT(*) AS transaction_count, COUNT(*) FILTER (WHERE t.k_symbol = 'SIPO') AS sipo_count, COUNT(*) FILTER (WHERE t.k_symbol = 'SIPO')::numeric / NULLIF(COUNT(*), 0) AS sipo_share FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id WHERE t.date >= DATE '1996-01-01' AND t.date < DATE '1997-01-01' GROUP BY d.district_id, d.\"A2\", d.\"A3\", d.\"A11\", d.\"A12\", d.\"A13\", d.\"A16\"), national AS (SELECT COUNT(*) FILTER (WHERE t.k_symbol = 'SIPO')::numeric / NULLIF(COUNT(*), 0) AS national_sipo_share FROM trans t WHERE t.date >= DATE '1996-01-01' AND t.date < DATE '1997-01-01') SELECT bd.*, bd.sipo_share - n.national_sipo_share AS deviation_from_national, ABS(bd.sipo_share - n.national_sipo_share) AS abs_deviation FROM by_district bd CROSS JOIN national n ORDER BY abs_deviation DESC;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "sorted district deviation bar",
+      "profile table with district.A3, A11, A12, A13, and A16"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

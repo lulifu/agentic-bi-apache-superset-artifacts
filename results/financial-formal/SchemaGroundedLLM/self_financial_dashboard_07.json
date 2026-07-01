@@ -1,0 +1,65 @@
+{
+  "task_id": "self_financial_dashboard_07",
+  "system": "SchemaGroundedLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": {
+    "loan_count_by_status_cohort": "SELECT EXTRACT(YEAR FROM l.date)::int AS approval_cohort_year, CASE l.status WHEN 'A' THEN 'finished OK' WHEN 'B' THEN 'finished default' WHEN 'C' THEN 'running OK' WHEN 'D' THEN 'running in debt' END AS status_label, COUNT(l.loan_id) AS loan_count FROM loan l GROUP BY 1, 2 ORDER BY 1, 2;",
+    "avg_amount_by_duration_status": "SELECT l.duration AS duration_months, CASE l.status WHEN 'A' THEN 'finished OK' WHEN 'B' THEN 'finished default' WHEN 'C' THEN 'running OK' WHEN 'D' THEN 'running in debt' END AS status_label, AVG(l.amount) AS avg_loan_amount FROM loan l GROUP BY 1, 2 ORDER BY 1, 2;",
+    "total_approved_amount_1998": "SELECT SUM(l.amount) AS total_approved_amount_1998 FROM loan l WHERE l.date >= DATE '1998-01-01' AND l.date < DATE '1999-01-01';"
+  },
+  "chart_spec": {
+    "charts": [
+      {
+        "id": "loan_count_by_status_cohort",
+        "viz_type": "stacked_bar",
+        "dataset": "loan",
+        "metrics": [
+          "COUNT(loan_id)"
+        ],
+        "dimensions": [
+          "EXTRACT(YEAR FROM date)",
+          "status"
+        ],
+        "filters": [],
+        "layout_intent": "cohort-year status stack"
+      },
+      {
+        "id": "avg_amount_by_duration_status",
+        "viz_type": "pivot_table",
+        "dataset": "loan",
+        "metrics": [
+          "AVG(amount)"
+        ],
+        "dimensions": [
+          "duration",
+          "status"
+        ],
+        "filters": [],
+        "layout_intent": "duration by status matrix"
+      },
+      {
+        "id": "total_approved_amount_1998",
+        "viz_type": "kpi",
+        "dataset": "loan",
+        "metrics": [
+          "SUM(amount)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "loan.date in 1998"
+        ],
+        "layout_intent": "1998 approved amount KPI"
+      }
+    ],
+    "layout_intent": "aging dashboard with status/cohort bar, duration matrix, and KPI"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

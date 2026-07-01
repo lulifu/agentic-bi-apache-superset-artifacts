@@ -1,0 +1,127 @@
+{
+  "task_id": "self_financial_dashboard_03",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Credit-card product overview linking card issuance volume and type mix to 1997 card-withdrawal activity.",
+  "sql": "",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Monthly Card Issuance by Type",
+        "viz_type": "line",
+        "metrics": [
+          "COUNT(card.card_id)"
+        ],
+        "dimensions": [
+          "card.issued month",
+          "card.type"
+        ],
+        "filters": [
+          "card.type IN ('gold','classic','junior')"
+        ]
+      },
+      {
+        "title": "Issued Card Mix by Type",
+        "viz_type": "pie",
+        "metrics": [
+          "COUNT(card.card_id)"
+        ],
+        "dimensions": [
+          "card.type"
+        ],
+        "filters": [
+          "card.type IN ('gold','classic','junior')"
+        ]
+      },
+      {
+        "title": "Monthly Card-Withdrawal Transactions, 1997",
+        "viz_type": "line",
+        "metrics": [
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date month"
+        ],
+        "filters": [
+          "trans.operation = 'VYBER KARTOU'",
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997"
+        ]
+      }
+    ],
+    "layout_intent": "Two aligned line charts stacked for trend comparison, with card-type mix as a side panel.",
+    "chart_count": 3,
+    "chart_viz_types": [
+      "line",
+      "pie",
+      "line"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_dashboard_03",
+    "artifact": "Credit-card product overview linking card issuance volume and type mix to 1997 card-withdrawal activity.",
+    "chart_spec": {
+      "charts": [
+        {
+          "title": "Monthly Card Issuance by Type",
+          "viz_type": "line",
+          "metrics": [
+            "COUNT(card.card_id)"
+          ],
+          "dimensions": [
+            "card.issued month",
+            "card.type"
+          ],
+          "filters": [
+            "card.type IN ('gold','classic','junior')"
+          ]
+        },
+        {
+          "title": "Issued Card Mix by Type",
+          "viz_type": "pie",
+          "metrics": [
+            "COUNT(card.card_id)"
+          ],
+          "dimensions": [
+            "card.type"
+          ],
+          "filters": [
+            "card.type IN ('gold','classic','junior')"
+          ]
+        },
+        {
+          "title": "Monthly Card-Withdrawal Transactions, 1997",
+          "viz_type": "line",
+          "metrics": [
+            "COUNT(trans.trans_id)"
+          ],
+          "dimensions": [
+            "trans.date month"
+          ],
+          "filters": [
+            "trans.operation = 'VYBER KARTOU'",
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997"
+          ]
+        }
+      ],
+      "layout_intent": "Two aligned line charts stacked for trend comparison, with card-type mix as a side panel.",
+      "chart_count": 3,
+      "chart_viz_types": [
+        "line",
+        "pie",
+        "line"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-1fcf-7070-a2df-21c498fb4cbf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.286Z"
+}

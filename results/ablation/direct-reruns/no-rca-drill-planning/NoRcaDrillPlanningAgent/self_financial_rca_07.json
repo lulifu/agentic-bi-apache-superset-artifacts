@@ -1,0 +1,32 @@
+{
+  "task_id": "self_financial_rca_07",
+  "system": "NoRcaDrillPlanningAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "RCA report: inconclusive. SQL was not executed, so I cannot distinguish which districts, frequencies, or regions explain the February 1994 drop in new account openings. The planned analysis treats January as a possible one-time spike rather than assuming February is abnormal, and compares account openings by district, frequency, and region for January versus February.",
+  "sql": {
+    "month_counts": "SELECT date_trunc('month', CAST(a.date AS DATE)) AS month, COUNT(*) AS new_accounts FROM account a WHERE CAST(a.date AS DATE) >= DATE '1994-01-01' AND CAST(a.date AS DATE) < DATE '1994-03-01' GROUP BY 1 ORDER BY 1;",
+    "district_frequency_region": "WITH base AS (SELECT CASE WHEN CAST(a.date AS DATE) < DATE '1994-02-01' THEN '1994-01' ELSE '1994-02' END AS month, d.\"A2\" AS district, d.\"A3\" AS region, a.frequency, COUNT(*) AS new_accounts FROM account a JOIN district d ON d.district_id=a.district_id WHERE CAST(a.date AS DATE) >= DATE '1994-01-01' AND CAST(a.date AS DATE) < DATE '1994-03-01' GROUP BY 1,2,3,4) SELECT district, region, frequency, SUM(CASE WHEN month='1994-01' THEN new_accounts ELSE 0 END) AS jan_accounts, SUM(CASE WHEN month='1994-02' THEN new_accounts ELSE 0 END) AS feb_accounts, SUM(CASE WHEN month='1994-02' THEN new_accounts ELSE 0 END) - SUM(CASE WHEN month='1994-01' THEN new_accounts ELSE 0 END) AS change FROM base GROUP BY 1,2,3 ORDER BY change ASC;"
+  },
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_rca_07",
+    "artifact": "RCA report: inconclusive. SQL was not executed, so I cannot distinguish which districts, frequencies, or regions explain the February 1994 drop in new account openings. The planned analysis treats January as a possible one-time spike rather than assuming February is abnormal, and compares account openings by district, frequency, and region for January versus February.",
+    "sql": {
+      "month_counts": "SELECT date_trunc('month', CAST(a.date AS DATE)) AS month, COUNT(*) AS new_accounts FROM account a WHERE CAST(a.date AS DATE) >= DATE '1994-01-01' AND CAST(a.date AS DATE) < DATE '1994-03-01' GROUP BY 1 ORDER BY 1;",
+      "district_frequency_region": "WITH base AS (SELECT CASE WHEN CAST(a.date AS DATE) < DATE '1994-02-01' THEN '1994-01' ELSE '1994-02' END AS month, d.\"A2\" AS district, d.\"A3\" AS region, a.frequency, COUNT(*) AS new_accounts FROM account a JOIN district d ON d.district_id=a.district_id WHERE CAST(a.date AS DATE) >= DATE '1994-01-01' AND CAST(a.date AS DATE) < DATE '1994-03-01' GROUP BY 1,2,3,4) SELECT district, region, frequency, SUM(CASE WHEN month='1994-01' THEN new_accounts ELSE 0 END) AS jan_accounts, SUM(CASE WHEN month='1994-02' THEN new_accounts ELSE 0 END) AS feb_accounts, SUM(CASE WHEN month='1994-02' THEN new_accounts ELSE 0 END) - SUM(CASE WHEN month='1994-01' THEN new_accounts ELSE 0 END) AS change FROM base GROUP BY 1,2,3 ORDER BY change ASC;"
+    },
+    "tool_calls": []
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-3cf4-70a3-9ce1-411c1e4a1720",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.304Z"
+}

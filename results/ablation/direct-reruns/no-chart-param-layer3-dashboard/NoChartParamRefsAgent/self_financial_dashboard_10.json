@@ -1,0 +1,149 @@
+{
+  "task_id": "self_financial_dashboard_10",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Branch Manager dashboard for new-account growth, frequency preference, district-quarter patterns, and active-account base.",
+  "sql": "",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Monthly New Account Openings, 1993-1998",
+        "viz_type": "line",
+        "metrics": [
+          "COUNT(account.account_id)"
+        ],
+        "dimensions": [
+          "account.date month"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(account.date AS DATE)) BETWEEN 1993 AND 1998"
+        ]
+      },
+      {
+        "title": "New Account Share by Frequency Preference",
+        "viz_type": "pie",
+        "metrics": [
+          "COUNT(account.account_id)"
+        ],
+        "dimensions": [
+          "account.frequency"
+        ],
+        "filters": [
+          "account.frequency IN ('POPLATEK MESICNE','POPLATEK TYDNE','POPLATEK PO OBRATU')"
+        ]
+      },
+      {
+        "title": "New Account Count by District and Quarter, 1996",
+        "viz_type": "heatmap",
+        "metrics": [
+          "COUNT(account.account_id)"
+        ],
+        "dimensions": [
+          "district.A2",
+          "account.date quarter"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(account.date AS DATE)) = 1996"
+        ]
+      },
+      {
+        "title": "Total Active Accounts as of 1998-12-31",
+        "viz_type": "big_number",
+        "metrics": [
+          "COUNT(DISTINCT account.account_id)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "account has at least one trans.date <= DATE '1998-12-31'"
+        ]
+      }
+    ],
+    "layout_intent": "KPI and monthly line on top, preference mix and district-quarter heatmap below.",
+    "chart_count": 4,
+    "chart_viz_types": [
+      "line",
+      "pie",
+      "heatmap",
+      "big_number"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_dashboard_10",
+    "artifact": "Branch Manager dashboard for new-account growth, frequency preference, district-quarter patterns, and active-account base.",
+    "chart_spec": {
+      "charts": [
+        {
+          "title": "Monthly New Account Openings, 1993-1998",
+          "viz_type": "line",
+          "metrics": [
+            "COUNT(account.account_id)"
+          ],
+          "dimensions": [
+            "account.date month"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(account.date AS DATE)) BETWEEN 1993 AND 1998"
+          ]
+        },
+        {
+          "title": "New Account Share by Frequency Preference",
+          "viz_type": "pie",
+          "metrics": [
+            "COUNT(account.account_id)"
+          ],
+          "dimensions": [
+            "account.frequency"
+          ],
+          "filters": [
+            "account.frequency IN ('POPLATEK MESICNE','POPLATEK TYDNE','POPLATEK PO OBRATU')"
+          ]
+        },
+        {
+          "title": "New Account Count by District and Quarter, 1996",
+          "viz_type": "heatmap",
+          "metrics": [
+            "COUNT(account.account_id)"
+          ],
+          "dimensions": [
+            "district.A2",
+            "account.date quarter"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(account.date AS DATE)) = 1996"
+          ]
+        },
+        {
+          "title": "Total Active Accounts as of 1998-12-31",
+          "viz_type": "big_number",
+          "metrics": [
+            "COUNT(DISTINCT account.account_id)"
+          ],
+          "dimensions": [],
+          "filters": [
+            "account has at least one trans.date <= DATE '1998-12-31'"
+          ]
+        }
+      ],
+      "layout_intent": "KPI and monthly line on top, preference mix and district-quarter heatmap below.",
+      "chart_count": 4,
+      "chart_viz_types": [
+        "line",
+        "pie",
+        "heatmap",
+        "big_number"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-1fcf-7070-a2df-21c498fb4cbf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.287Z"
+}

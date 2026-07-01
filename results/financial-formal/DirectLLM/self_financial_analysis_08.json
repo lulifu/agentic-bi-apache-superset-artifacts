@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_08",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL calculates monthly average post-transaction balance for south Bohemia accounts in 1997 and flags any month where the month-over-month change is below -5 percent. The flagged rows are the required callouts.",
+  "sql": "WITH monthly AS (SELECT DATE_TRUNC('month', CAST(t.date AS DATE)) AS month, AVG(t.balance) AS avg_balance FROM trans AS t JOIN account AS a ON t.account_id = a.account_id JOIN district AS d ON a.district_id = d.district_id WHERE d.A3 = 'south Bohemia' AND EXTRACT(YEAR FROM CAST(t.date AS DATE)) = 1997 GROUP BY 1), changes AS (SELECT month, avg_balance, LAG(avg_balance) OVER (ORDER BY month) AS prev_avg_balance FROM monthly) SELECT month, avg_balance, prev_avg_balance, (avg_balance - prev_avg_balance) / NULLIF(prev_avg_balance, 0) AS mom_pct_change, CASE WHEN (avg_balance - prev_avg_balance) / NULLIF(prev_avg_balance, 0) < -0.05 THEN true ELSE false END AS dropped_more_than_5pct FROM changes ORDER BY month;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

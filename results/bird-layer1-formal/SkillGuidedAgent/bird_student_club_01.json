@@ -1,0 +1,30 @@
+{
+  "task_id": "bird_student_club_01",
+  "system": "SkillGuidedAgent",
+  "task_class": "query",
+  "dataset": "student_club",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Join member to major and return Angela Sanders's major_name.",
+  "sql": "SELECT maj.major_name FROM member AS mem JOIN major AS maj ON mem.link_to_major = maj.major_id WHERE mem.first_name = 'Angela' AND mem.last_name = 'Sanders';",
+  "chart_spec": null,
+  "tool_calls": [
+    "schema_inspection"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_student_club_01",
+    "sql": "SELECT maj.major_name FROM member AS mem JOIN major AS maj ON mem.link_to_major = maj.major_id WHERE mem.first_name = 'Angela' AND mem.last_name = 'Sanders';",
+    "artifact": "Join member to major and return Angela Sanders's major_name.",
+    "tool_calls": [
+      "schema_inspection"
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec786-e8c6-72c1-9726-9de400cc2330",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:06:50.768Z"
+}

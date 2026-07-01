@@ -1,0 +1,69 @@
+{
+  "task_id": "self_financial_analysis_10",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_analysis_10.\ndistrict_account_growth_1995_1996: [{\"district_id\":1,\"district_name\":\"Hl.m. Praha\",\"region\":\"Prague\",\"avg_salary\":12541,\"unemployment_1995\":0.2,\"unemployment_1996\":0.43,\"accounts_1995\":74,\"accounts_1996\":159,\"delta_accounts\":85,\"unemployment_delta\":0.23},{\"district_id\":54,\"district_name\":\"Brno - mesto\",\"region\":\"south Moravia\",\"avg_salary\":9897,\"unemployment_1995\":1.6,\"unemployment_1996\":1.96,\"accounts_1995\":16,\"accounts_1996\":46,\"delta_accounts\":30,\"unemployment_delta\":0.36},{\"district_id\":74,\"district_name\":\"Ostrava - mesto\",\"region\":\"north Moravia\",\"avg_salary\":10673,\"unemployment_1995\":4.7,\"unemployment_1996\":5.44,\"accounts_1995\":20,\"accounts_1996\":46,\"delta_accounts\":26,\"unemployment_delta\":0.74000025}]",
+  "sql": "WITH counts AS (\n  SELECT d.district_id, d.\"A2\" AS district_name, d.\"A3\" AS region, d.\"A11\" AS avg_salary,\n         d.\"A12\" AS unemployment_1995, d.\"A13\" AS unemployment_1996,\n         COUNT(*) FILTER (WHERE a.date >= DATE '1995-01-01' AND a.date < DATE '1996-01-01') AS accounts_1995,\n         COUNT(*) FILTER (WHERE a.date >= DATE '1996-01-01' AND a.date < DATE '1997-01-01') AS accounts_1996\n  FROM district d JOIN account a ON a.district_id = d.district_id\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT *, accounts_1996 - accounts_1995 AS delta_accounts,\n       unemployment_1996 - unemployment_1995 AS unemployment_delta\nFROM counts\nORDER BY delta_accounts DESC, accounts_1996 DESC\nLIMIT 3",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:district_account_growth_1995_1996"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "district_account_growth_1995_1996",
+        "sql": "WITH counts AS (\n  SELECT d.district_id, d.\"A2\" AS district_name, d.\"A3\" AS region, d.\"A11\" AS avg_salary,\n         d.\"A12\" AS unemployment_1995, d.\"A13\" AS unemployment_1996,\n         COUNT(*) FILTER (WHERE a.date >= DATE '1995-01-01' AND a.date < DATE '1996-01-01') AS accounts_1995,\n         COUNT(*) FILTER (WHERE a.date >= DATE '1996-01-01' AND a.date < DATE '1997-01-01') AS accounts_1996\n  FROM district d JOIN account a ON a.district_id = d.district_id\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT *, accounts_1996 - accounts_1995 AS delta_accounts,\n       unemployment_1996 - unemployment_1995 AS unemployment_delta\nFROM counts\nORDER BY delta_accounts DESC, accounts_1996 DESC\nLIMIT 3",
+        "rows": [
+          {
+            "district_id": 1,
+            "district_name": "Hl.m. Praha",
+            "region": "Prague",
+            "avg_salary": 12541,
+            "unemployment_1995": 0.2,
+            "unemployment_1996": 0.43,
+            "accounts_1995": 74,
+            "accounts_1996": 159,
+            "delta_accounts": 85,
+            "unemployment_delta": 0.23
+          },
+          {
+            "district_id": 54,
+            "district_name": "Brno - mesto",
+            "region": "south Moravia",
+            "avg_salary": 9897,
+            "unemployment_1995": 1.6,
+            "unemployment_1996": 1.96,
+            "accounts_1995": 16,
+            "accounts_1996": 46,
+            "delta_accounts": 30,
+            "unemployment_delta": 0.36
+          },
+          {
+            "district_id": 74,
+            "district_name": "Ostrava - mesto",
+            "region": "north Moravia",
+            "avg_salary": 10673,
+            "unemployment_1995": 4.7,
+            "unemployment_1996": 5.44,
+            "accounts_1995": 20,
+            "accounts_1996": 46,
+            "delta_accounts": 26,
+            "unemployment_delta": 0.74000025
+          }
+        ],
+        "rowcount": 3
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:45.343Z"
+}

@@ -1,0 +1,63 @@
+{
+  "task_id": "self_financial_dashboard_02",
+  "system": "DirectLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": "SELECT d.A3 AS region, COUNT(DISTINCT c.client_id) AS client_count, COUNT(DISTINCT CASE WHEN l.status IN ('C','D') THEN l.loan_id END) AS active_loan_count, COUNT(DISTINCT CASE WHEN l.status='B' THEN l.loan_id END)::DECIMAL / NULLIF(COUNT(DISTINCT CASE WHEN l.status IN ('A','B') THEN l.loan_id END),0) AS finished_default_rate, AVG(d.A11) AS avg_branch_salary FROM district d LEFT JOIN client c ON c.district_id=d.district_id LEFT JOIN disp dp ON dp.client_id=c.client_id LEFT JOIN account a ON a.account_id=dp.account_id LEFT JOIN loan l ON l.account_id=a.account_id GROUP BY d.A3 ORDER BY d.A3; SELECT d.A3 AS region, COUNT(DISTINCT CASE WHEN l.status='B' THEN l.loan_id END)::DECIMAL / NULLIF(COUNT(DISTINCT CASE WHEN l.status IN ('A','B') THEN l.loan_id END),0) AS finished_default_rate FROM district d LEFT JOIN client c ON c.district_id=d.district_id LEFT JOIN disp dp ON dp.client_id=c.client_id LEFT JOIN account a ON a.account_id=dp.account_id LEFT JOIN loan l ON l.account_id=a.account_id GROUP BY d.A3 ORDER BY finished_default_rate DESC;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Regional Lending Risk Table",
+        "type": "choropleth_style_table",
+        "metrics": [
+          "COUNT(DISTINCT client.client_id)",
+          "COUNT(active loans)",
+          "default_rate",
+          "AVG(district.A11)"
+        ],
+        "dimensions": [
+          "district.A3"
+        ],
+        "filters": [
+          "all time"
+        ]
+      },
+      {
+        "title": "Default Rate by Region",
+        "type": "horizontal_bar",
+        "metrics": [
+          "COUNT(status B) / COUNT(status A or B)"
+        ],
+        "dimensions": [
+          "district.A3"
+        ],
+        "filters": [
+          "finished loans only"
+        ]
+      }
+    ],
+    "metrics": [
+      "client_count",
+      "active_loan_count",
+      "finished_default_rate",
+      "average_client_salary"
+    ],
+    "dimensions": [
+      "district.A3 region"
+    ],
+    "filters": [
+      "all-time portfolio",
+      "active loans where status in C,D",
+      "finished loans where status in A,B"
+    ],
+    "layout_intent": "Regional comparison view with the table occupying most width and a ranked default-rate bar beside it."
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

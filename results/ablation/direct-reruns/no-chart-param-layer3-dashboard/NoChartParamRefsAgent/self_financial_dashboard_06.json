@@ -1,0 +1,241 @@
+{
+  "task_id": "self_financial_dashboard_06",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Quarterly 1997 transaction-volume dashboard for the five largest districts, with district-specific trends and a combined comparison.",
+  "sql": "",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Quarterly Transaction Amount - Largest District 1",
+        "viz_type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+          "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+          "district rank = 1"
+        ]
+      },
+      {
+        "title": "Quarterly Transaction Amount - Largest District 2",
+        "viz_type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+          "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+          "district rank = 2"
+        ]
+      },
+      {
+        "title": "Quarterly Transaction Amount - Largest District 3",
+        "viz_type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+          "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+          "district rank = 3"
+        ]
+      },
+      {
+        "title": "Quarterly Transaction Amount - Largest District 4",
+        "viz_type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+          "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+          "district rank = 4"
+        ]
+      },
+      {
+        "title": "Quarterly Transaction Amount - Largest District 5",
+        "viz_type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+          "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+          "district rank = 5"
+        ]
+      },
+      {
+        "title": "Top Five Districts Quarterly Comparison",
+        "viz_type": "bar",
+        "metrics": [
+          "SUM(trans.amount)"
+        ],
+        "dimensions": [
+          "district.A2",
+          "trans.date quarter"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+          "district.A2 in top 5 by CAST(district.A4 AS INTEGER)"
+        ]
+      }
+    ],
+    "layout_intent": "2x3 grid: five district line charts plus one combined quarterly comparison bar.",
+    "chart_count": 6,
+    "chart_viz_types": [
+      "line",
+      "line",
+      "line",
+      "line",
+      "line",
+      "bar"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_dashboard_06",
+    "artifact": "Quarterly 1997 transaction-volume dashboard for the five largest districts, with district-specific trends and a combined comparison.",
+    "chart_spec": {
+      "charts": [
+        {
+          "title": "Quarterly Transaction Amount - Largest District 1",
+          "viz_type": "line",
+          "metrics": [
+            "SUM(trans.amount)",
+            "COUNT(trans.trans_id)"
+          ],
+          "dimensions": [
+            "trans.date quarter"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+            "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+            "district rank = 1"
+          ]
+        },
+        {
+          "title": "Quarterly Transaction Amount - Largest District 2",
+          "viz_type": "line",
+          "metrics": [
+            "SUM(trans.amount)",
+            "COUNT(trans.trans_id)"
+          ],
+          "dimensions": [
+            "trans.date quarter"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+            "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+            "district rank = 2"
+          ]
+        },
+        {
+          "title": "Quarterly Transaction Amount - Largest District 3",
+          "viz_type": "line",
+          "metrics": [
+            "SUM(trans.amount)",
+            "COUNT(trans.trans_id)"
+          ],
+          "dimensions": [
+            "trans.date quarter"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+            "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+            "district rank = 3"
+          ]
+        },
+        {
+          "title": "Quarterly Transaction Amount - Largest District 4",
+          "viz_type": "line",
+          "metrics": [
+            "SUM(trans.amount)",
+            "COUNT(trans.trans_id)"
+          ],
+          "dimensions": [
+            "trans.date quarter"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+            "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+            "district rank = 4"
+          ]
+        },
+        {
+          "title": "Quarterly Transaction Amount - Largest District 5",
+          "viz_type": "line",
+          "metrics": [
+            "SUM(trans.amount)",
+            "COUNT(trans.trans_id)"
+          ],
+          "dimensions": [
+            "trans.date quarter"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+            "district.A2 in top 5 by CAST(district.A4 AS INTEGER)",
+            "district rank = 5"
+          ]
+        },
+        {
+          "title": "Top Five Districts Quarterly Comparison",
+          "viz_type": "bar",
+          "metrics": [
+            "SUM(trans.amount)"
+          ],
+          "dimensions": [
+            "district.A2",
+            "trans.date quarter"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(trans.date AS DATE)) = 1997",
+            "district.A2 in top 5 by CAST(district.A4 AS INTEGER)"
+          ]
+        }
+      ],
+      "layout_intent": "2x3 grid: five district line charts plus one combined quarterly comparison bar.",
+      "chart_count": 6,
+      "chart_viz_types": [
+        "line",
+        "line",
+        "line",
+        "line",
+        "line",
+        "bar"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-1fcf-7070-a2df-21c498fb4cbf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.286Z"
+}

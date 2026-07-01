@@ -1,0 +1,143 @@
+{
+  "task_id": "nvbench_customers_and_invoices_02",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "customers_and_invoices",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 441,
+    "virtual_dataset_id": 143,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_02",
+    "superset_create_response": {
+      "id": 441,
+      "result": {
+        "datasource_id": 143,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_02. Expected visualization: Line.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"account_open_year\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"groupby\":[],\"datasource\":\"143__table\",\"viz_type\":\"echarts_timeseries_line\",\"granularity_sqla\":\"account_open_year\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"account_open_year\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":143,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"account_open_year\",\"label\":\"account_open_year\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"filters\":[{\"col\":\"account_open_year\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"account_open_year\"],\"columns\":[],\"aggregates\":{\"SUM(account_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_02",
+        "viz_type": "echarts_timeseries_line"
+      }
+    },
+    "verification": {
+      "chart_id": 441,
+      "ok": true,
+      "row_count": 9,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_02.png",
+      "screenshot_bytes": 45477,
+      "chart_url": "/superset/explore/?slice_id=441",
+      "issues": []
+    }
+  },
+  "sql": "SELECT EXTRACT(YEAR FROM date_account_opened)::int AS account_open_year, COUNT(date_account_opened) AS account_count\nFROM bench_nvbench_customers_and_invoices.accounts\nGROUP BY account_open_year\nORDER BY account_open_year;",
+  "chart_spec": {
+    "viz_type": "Line",
+    "superset_viz_type": "echarts_timeseries_line",
+    "dataset_id": 143,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_02",
+    "metrics": [
+      "account_count"
+    ],
+    "dimensions": [
+      "account_open_year"
+    ],
+    "filters": "",
+    "time_range": "No filter; bin date_account_opened by year",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "account_open_year",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(account_count)",
+          "sqlExpression": "SUM(account_count)"
+        }
+      ],
+      "groupby": []
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 143
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 441
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 9
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_customers_and_invoices_02",
+      "dataset_id": 143,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_02",
+      "dataset_id": 143,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_line",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_02. Expected visualization: Line.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "account_open_year",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(account_count)",
+            "sqlExpression": "SUM(account_count)"
+          }
+        ],
+        "groupby": []
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 441,
+      "result": {
+        "datasource_id": 143,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_02. Expected visualization: Line.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"account_open_year\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"groupby\":[],\"datasource\":\"143__table\",\"viz_type\":\"echarts_timeseries_line\",\"granularity_sqla\":\"account_open_year\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"account_open_year\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":143,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"account_open_year\",\"label\":\"account_open_year\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"filters\":[{\"col\":\"account_open_year\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"account_open_year\"],\"columns\":[],\"aggregates\":{\"SUM(account_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_02",
+        "viz_type": "echarts_timeseries_line"
+      }
+    },
+    "verification": {
+      "chart_id": 441,
+      "ok": true,
+      "row_count": 9,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_02.png",
+      "screenshot_bytes": 45477,
+      "chart_url": "/superset/explore/?slice_id=441",
+      "issues": []
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:43:41.456Z"
+}

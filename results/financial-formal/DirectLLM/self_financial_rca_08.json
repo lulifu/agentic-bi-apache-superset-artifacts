@@ -1,0 +1,49 @@
+{
+  "task_id": "self_financial_rca_08",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: Estimate the finished-loan default-rate gap between gold and junior card holders. Decompose the gap by comparing like-for-like age bands and loan amount bands, then report the residual unexplained gap. The result should rank whether age composition or loan-size composition explains more, while making clear that unexplained residual is not causal proof.",
+  "sql": "WITH cohort AS (SELECT ca.type AS card_type, l.status, CASE WHEN EXTRACT(YEAR FROM CAST(l.date AS DATE)) - EXTRACT(YEAR FROM CAST(c.birth_date AS DATE)) < 30 THEN 'under_30' WHEN EXTRACT(YEAR FROM CAST(l.date AS DATE)) - EXTRACT(YEAR FROM CAST(c.birth_date AS DATE)) < 50 THEN '30_49' WHEN EXTRACT(YEAR FROM CAST(l.date AS DATE)) - EXTRACT(YEAR FROM CAST(c.birth_date AS DATE)) < 65 THEN '50_64' ELSE '65_plus' END AS age_band, CASE WHEN l.amount < 50000 THEN 'low' WHEN l.amount < 150000 THEN 'mid' ELSE 'high' END AS amount_band FROM loan l JOIN account a ON a.account_id=l.account_id JOIN disp dp ON dp.account_id=a.account_id JOIN client c ON c.client_id=dp.client_id JOIN card ca ON ca.disp_id=dp.disp_id WHERE l.status IN ('A','B') AND ca.type IN ('gold','junior')) SELECT card_type, age_band, amount_band, COUNT(*) AS finished_loans, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END) AS defaults, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::DECIMAL/NULLIF(COUNT(*),0) AS default_rate FROM cohort GROUP BY card_type,age_band,amount_band ORDER BY card_type, default_rate DESC;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Gold vs Junior Default Rate",
+        "type": "bar",
+        "metrics": [
+          "default_rate",
+          "finished_loans"
+        ],
+        "dimensions": [
+          "card.type"
+        ],
+        "filters": [
+          "status in A,B",
+          "card.type in gold,junior"
+        ]
+      },
+      {
+        "title": "Default Gap Decomposition",
+        "type": "stacked_bar",
+        "metrics": [
+          "explained share by age",
+          "explained share by amount",
+          "unexplained residual"
+        ],
+        "dimensions": [
+          "decomposition component"
+        ],
+        "filters": [
+          "finished loans"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

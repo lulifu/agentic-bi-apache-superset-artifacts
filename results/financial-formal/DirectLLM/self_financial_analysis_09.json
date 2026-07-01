@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_09",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL aggregates 1998 transaction count and average transaction size per card-holding client for gold and classic cards, then compares segment averages. Gold should be treated as high engagement only if both per-client transaction count and average transaction amount are materially higher, not merely because total segment volume is larger.",
+  "sql": "WITH per_client AS (SELECT c.type AS card_type, dp.client_id, COUNT(t.trans_id) AS txn_count, AVG(t.amount) AS avg_txn_amount FROM card AS c JOIN disp AS dp ON c.disp_id = dp.disp_id JOIN trans AS t ON dp.account_id = t.account_id WHERE c.type IN ('gold', 'classic') AND EXTRACT(YEAR FROM CAST(t.date AS DATE)) = 1998 GROUP BY c.type, dp.client_id) SELECT card_type, COUNT(*) AS client_count, AVG(txn_count) AS avg_txn_count_per_client, AVG(avg_txn_amount) AS avg_transaction_size, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY txn_count) AS median_txn_count_per_client FROM per_client GROUP BY card_type ORDER BY card_type;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

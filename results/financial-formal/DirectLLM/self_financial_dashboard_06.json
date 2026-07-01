@@ -1,0 +1,122 @@
+{
+  "task_id": "self_financial_dashboard_06",
+  "system": "DirectLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": "WITH top_districts AS (SELECT district_id, A2 AS district_name FROM district ORDER BY CAST(A4 AS INTEGER) DESC LIMIT 5), quarterly AS (SELECT td.district_name, DATE_TRUNC('quarter', CAST(t.date AS DATE)) AS quarter, SUM(t.amount) AS total_amount, COUNT(t.trans_id) AS trans_count FROM top_districts td JOIN account a ON a.district_id=td.district_id JOIN trans t ON t.account_id=a.account_id WHERE EXTRACT(YEAR FROM CAST(t.date AS DATE))=1997 GROUP BY 1,2) SELECT * FROM quarterly ORDER BY district_name, quarter; WITH top_districts AS (SELECT district_id, A2 AS district_name FROM district ORDER BY CAST(A4 AS INTEGER) DESC LIMIT 5) SELECT td.district_name, DATE_TRUNC('quarter', CAST(t.date AS DATE)) AS quarter, SUM(t.amount) AS total_amount FROM top_districts td JOIN account a ON a.district_id=td.district_id JOIN trans t ON t.account_id=a.account_id WHERE EXTRACT(YEAR FROM CAST(t.date AS DATE))=1997 GROUP BY 1,2 ORDER BY 2,1;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Quarterly Transaction Volume: District 1",
+        "type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "1997",
+          "one of top 5 districts by inhabitants"
+        ]
+      },
+      {
+        "title": "Quarterly Transaction Volume: District 2",
+        "type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "1997",
+          "one of top 5 districts by inhabitants"
+        ]
+      },
+      {
+        "title": "Quarterly Transaction Volume: District 3",
+        "type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "1997",
+          "one of top 5 districts by inhabitants"
+        ]
+      },
+      {
+        "title": "Quarterly Transaction Volume: District 4",
+        "type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "1997",
+          "one of top 5 districts by inhabitants"
+        ]
+      },
+      {
+        "title": "Quarterly Transaction Volume: District 5",
+        "type": "line",
+        "metrics": [
+          "SUM(trans.amount)",
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date quarter"
+        ],
+        "filters": [
+          "1997",
+          "one of top 5 districts by inhabitants"
+        ]
+      },
+      {
+        "title": "Quarterly Total Amount Across Top Districts",
+        "type": "bar",
+        "metrics": [
+          "SUM(trans.amount)"
+        ],
+        "dimensions": [
+          "district.A2",
+          "trans.date quarter"
+        ],
+        "filters": [
+          "1997",
+          "top 5 districts by CAST(district.A4 AS INTEGER)"
+        ]
+      }
+    ],
+    "metrics": [
+      "SUM(trans.amount)",
+      "COUNT(trans.trans_id)"
+    ],
+    "dimensions": [
+      "trans.date quarter",
+      "district.A2"
+    ],
+    "filters": [
+      "1997 transactions",
+      "top 5 districts by inhabitants"
+    ],
+    "layout_intent": "2x3 grid: five small-multiple line charts plus one combined comparison bar."
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

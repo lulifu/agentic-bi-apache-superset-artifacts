@@ -1,0 +1,362 @@
+{
+  "task_id": "self_financial_dashboard_04",
+  "system": "SkillGuidedAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "dashboard_id": 87,
+    "dashboard_title": "nl2bi-formal self_financial_dashboard_04 transaction mix",
+    "dashboard_url": "/dashboard/87/",
+    "chart_ids": [
+      379,
+      380,
+      381
+    ],
+    "charts": [
+      {
+        "chart_id": 379,
+        "slice_name": "nl2bi-formal d04 transaction amount by type monthly",
+        "viz_type": "echarts_timeseries_bar",
+        "dataset_id": 42,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 24,
+          "preview": [
+            {
+              "trans_date": 852076800000,
+              "SUM(trans_amount), PRIJEM": 62241235,
+              "SUM(trans_amount), VYBER": 3494041,
+              "SUM(trans_amount), VYDAJ": 83574284
+            },
+            {
+              "trans_date": 854755200000,
+              "SUM(trans_amount), PRIJEM": 61296479,
+              "SUM(trans_amount), VYBER": 3548856,
+              "SUM(trans_amount), VYDAJ": 40323702
+            },
+            {
+              "trans_date": 857174400000,
+              "SUM(trans_amount), PRIJEM": 64765756,
+              "SUM(trans_amount), VYBER": 4322578,
+              "SUM(trans_amount), VYDAJ": 51742277
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=379"
+      },
+      {
+        "chart_id": 380,
+        "slice_name": "nl2bi-formal d04 transaction purpose share",
+        "viz_type": "pie",
+        "dataset_id": 42,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 9,
+          "preview": [
+            {
+              "k_symbol": null,
+              "COUNT(trans_id)": 272573
+            },
+            {
+              "k_symbol": "UROK",
+              "COUNT(trans_id)": 103417
+            },
+            {
+              "k_symbol": "SLUZBY",
+              "COUNT(trans_id)": 90550
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=380"
+      },
+      {
+        "chart_id": 381,
+        "slice_name": "nl2bi-formal d04 average balance monthly",
+        "viz_type": "echarts_timeseries_line",
+        "dataset_id": 42,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 24,
+          "preview": [
+            {
+              "trans_date": 852076800000,
+              "AVG(post_transaction_balance)": 34539.92782819117
+            },
+            {
+              "trans_date": 854755200000,
+              "AVG(post_transaction_balance)": 34957.845224455785
+            },
+            {
+              "trans_date": 857174400000,
+              "AVG(post_transaction_balance)": 37896.94539065931
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=381"
+      }
+    ],
+    "dashboard_chart_count": 3
+  },
+  "sql": null,
+  "chart_spec": {
+    "dashboard_title": "nl2bi-formal self_financial_dashboard_04 transaction mix",
+    "chart_count": 3,
+    "chart_viz_types": [
+      "echarts_timeseries_bar",
+      "pie",
+      "echarts_timeseries_line"
+    ]
+  },
+  "tool_calls": [
+    "create_chart.mjs:379",
+    "create_chart.mjs:380",
+    "create_chart.mjs:381",
+    "create_dashboard.mjs:87",
+    "query_dashboard.mjs:87:charts"
+  ],
+  "error": null,
+  "raw_response": {
+    "charts": [
+      {
+        "chart_id": 379,
+        "slice_name": "nl2bi-formal d04 transaction amount by type monthly",
+        "viz_type": "echarts_timeseries_bar",
+        "dataset_id": 42,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 24,
+          "preview": [
+            {
+              "trans_date": 852076800000,
+              "SUM(trans_amount), PRIJEM": 62241235,
+              "SUM(trans_amount), VYBER": 3494041,
+              "SUM(trans_amount), VYDAJ": 83574284
+            },
+            {
+              "trans_date": 854755200000,
+              "SUM(trans_amount), PRIJEM": 61296479,
+              "SUM(trans_amount), VYBER": 3548856,
+              "SUM(trans_amount), VYDAJ": 40323702
+            },
+            {
+              "trans_date": 857174400000,
+              "SUM(trans_amount), PRIJEM": 64765756,
+              "SUM(trans_amount), VYBER": 4322578,
+              "SUM(trans_amount), VYDAJ": 51742277
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=379"
+      },
+      {
+        "chart_id": 380,
+        "slice_name": "nl2bi-formal d04 transaction purpose share",
+        "viz_type": "pie",
+        "dataset_id": 42,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 9,
+          "preview": [
+            {
+              "k_symbol": null,
+              "COUNT(trans_id)": 272573
+            },
+            {
+              "k_symbol": "UROK",
+              "COUNT(trans_id)": 103417
+            },
+            {
+              "k_symbol": "SLUZBY",
+              "COUNT(trans_id)": 90550
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=380"
+      },
+      {
+        "chart_id": 381,
+        "slice_name": "nl2bi-formal d04 average balance monthly",
+        "viz_type": "echarts_timeseries_line",
+        "dataset_id": 42,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 24,
+          "preview": [
+            {
+              "trans_date": 852076800000,
+              "AVG(post_transaction_balance)": 34539.92782819117
+            },
+            {
+              "trans_date": 854755200000,
+              "AVG(post_transaction_balance)": 34957.845224455785
+            },
+            {
+              "trans_date": 857174400000,
+              "AVG(post_transaction_balance)": 37896.94539065931
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=381"
+      }
+    ],
+    "dashboard_charts": [
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:34:55.101122",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "expressionType": "SQL",
+              "sqlExpression": "trans_date >= DATE '1997-01-01' AND trans_date < DATE '1999-01-01'"
+            }
+          ],
+          "datasource": "42__table",
+          "groupby": [
+            "k_symbol"
+          ],
+          "metric": {
+            "expressionType": "SQL",
+            "label": "COUNT(trans_id)",
+            "sqlExpression": "COUNT(trans_id)"
+          },
+          "row_limit": 1000,
+          "slice_id": 380,
+          "time_range": "No filter",
+          "viz_type": "pie"
+        },
+        "id": 380,
+        "slice_name": "nl2bi-formal d04 transaction purpose share",
+        "slice_url": "/explore/?slice_id=380&form_data=%7B%22slice_id%22%3A%20380%7D"
+      },
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:34:51.427183",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "expressionType": "SQL",
+              "sqlExpression": "trans_date >= DATE '1997-01-01' AND trans_date < DATE '1999-01-01'"
+            },
+            {
+              "clause": "WHERE",
+              "comparator": "No filter",
+              "expressionType": "SIMPLE",
+              "operator": "TEMPORAL_RANGE",
+              "subject": "trans_date"
+            }
+          ],
+          "datasource": "42__table",
+          "granularity_sqla": "trans_date",
+          "groupby": [
+            "trans_type"
+          ],
+          "metrics": [
+            {
+              "expressionType": "SQL",
+              "label": "SUM(trans_amount)",
+              "sqlExpression": "SUM(trans_amount)"
+            }
+          ],
+          "row_limit": 1000,
+          "slice_id": 379,
+          "stack": "Stack",
+          "time_grain_sqla": "P1M",
+          "time_range": "No filter",
+          "viz_type": "echarts_timeseries_bar",
+          "x_axis": "trans_date",
+          "y_axis_format": "SMART_NUMBER"
+        },
+        "id": 379,
+        "slice_name": "nl2bi-formal d04 transaction amount by type monthly",
+        "slice_url": "/explore/?slice_id=379&form_data=%7B%22slice_id%22%3A%20379%7D"
+      },
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:35:00.645421",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "expressionType": "SQL",
+              "sqlExpression": "trans_date >= DATE '1997-01-01' AND trans_date < DATE '1999-01-01'"
+            },
+            {
+              "clause": "WHERE",
+              "comparator": "No filter",
+              "expressionType": "SIMPLE",
+              "operator": "TEMPORAL_RANGE",
+              "subject": "trans_date"
+            }
+          ],
+          "datasource": "42__table",
+          "granularity_sqla": "trans_date",
+          "metrics": [
+            {
+              "expressionType": "SQL",
+              "label": "AVG(post_transaction_balance)",
+              "sqlExpression": "AVG(post_transaction_balance)"
+            }
+          ],
+          "row_limit": 1000,
+          "show_legend": false,
+          "slice_id": 381,
+          "time_grain_sqla": "P1M",
+          "time_range": "No filter",
+          "viz_type": "echarts_timeseries_line",
+          "x_axis": "trans_date",
+          "y_axis_format": "SMART_NUMBER"
+        },
+        "id": 381,
+        "slice_name": "nl2bi-formal d04 average balance monthly",
+        "slice_url": "/explore/?slice_id=381&form_data=%7B%22slice_id%22%3A%20381%7D"
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:35:04.475Z"
+}

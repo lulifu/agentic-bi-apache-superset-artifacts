@@ -1,0 +1,143 @@
+{
+  "task_id": "nvbench_cre_Docs_and_Epenses_03",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "cre_Docs_and_Epenses",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 430,
+    "virtual_dataset_id": 132,
+    "virtual_dataset_table": "vd_l2_nvbench_cre_Docs_and_Epenses_03",
+    "superset_create_response": {
+      "id": 430,
+      "result": {
+        "datasource_id": 132,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},\"groupby\":[\"budget_type_code\"],\"show_labels\":true,\"datasource\":\"132__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":132,\"type\":\"table\"},\"queries\":[{\"columns\":[\"budget_type_code\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 430,
+      "ok": true,
+      "row_count": 3,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_cre_Docs_and_Epenses_03.png",
+      "screenshot_bytes": 32789,
+      "chart_url": "/superset/explore/?slice_id=430",
+      "issues": []
+    }
+  },
+  "sql": "SELECT \"Budget_Type_Code\" AS budget_type_code, COUNT(*) AS document_count\nFROM bench_nvbench_cre_docs_and_expenses.documents_with_expenses\nGROUP BY \"Budget_Type_Code\"\nORDER BY \"Budget_Type_Code\";",
+  "chart_spec": {
+    "viz_type": "Pie",
+    "superset_viz_type": "pie",
+    "dataset_id": 132,
+    "virtual_dataset_table": "vd_l2_nvbench_cre_Docs_and_Epenses_03",
+    "metrics": [
+      "document_count"
+    ],
+    "dimensions": [
+      "budget_type_code"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "metric": {
+        "expressionType": "SQL",
+        "label": "SUM(document_count)",
+        "sqlExpression": "SUM(document_count)"
+      },
+      "groupby": [
+        "budget_type_code"
+      ],
+      "show_labels": true
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 132
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 430
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 3
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_cre_Docs_and_Epenses_03",
+      "dataset_id": 132,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_03",
+      "dataset_id": 132,
+      "dataset_type": "table",
+      "viz_type": "pie",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_03. Expected visualization: Pie.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "metric": {
+          "expressionType": "SQL",
+          "label": "SUM(document_count)",
+          "sqlExpression": "SUM(document_count)"
+        },
+        "groupby": [
+          "budget_type_code"
+        ],
+        "show_labels": true
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 430,
+      "result": {
+        "datasource_id": 132,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},\"groupby\":[\"budget_type_code\"],\"show_labels\":true,\"datasource\":\"132__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":132,\"type\":\"table\"},\"queries\":[{\"columns\":[\"budget_type_code\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 430,
+      "ok": true,
+      "row_count": 3,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_cre_Docs_and_Epenses_03.png",
+      "screenshot_bytes": 32789,
+      "chart_url": "/superset/explore/?slice_id=430",
+      "issues": []
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:39:12.363Z"
+}

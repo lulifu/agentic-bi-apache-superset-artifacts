@@ -1,0 +1,33 @@
+.DS_Store
+__pycache__/
+*.pyc
+.env
+.env.*
+*.pem
+*.key
+*.crt
+cache/
+tmp/
+
+# Upstream benchmark downloads and generated exports
+tasks/datasets/bird/
+tasks/datasets/nvbench/
+tasks/datasets/csv-export/
+tasks/datasets/*.zip
+
+# Generated visual evidence; public artifact keeps manifests/hashes only.
+results/**/screenshots/
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# LaTeX/build outputs if a manuscript copy is added later.
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.xdv

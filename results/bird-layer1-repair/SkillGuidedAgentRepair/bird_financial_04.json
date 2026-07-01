@@ -1,0 +1,43 @@
+{
+  "task_id": "bird_financial_04",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": null,
+  "sql": "SELECT T2.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE EXTRACT(YEAR FROM CAST(T1.date AS DATE)) = 1997 AND T2.frequency = 'POPLATEK TYDNE' AND T1.amount = (SELECT MIN(T3.amount) FROM loan AS T3 INNER JOIN account AS T4 ON T3.account_id = T4.account_id WHERE EXTRACT(YEAR FROM CAST(T3.date AS DATE)) = 1997 AND T4.frequency = 'POPLATEK TYDNE') ORDER BY T2.account_id;",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:self_test"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_financial_04",
+    "sql": "SELECT T2.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE EXTRACT(YEAR FROM CAST(T1.date AS DATE)) = 1997 AND T2.frequency = 'POPLATEK TYDNE' AND T1.amount = (SELECT MIN(T3.amount) FROM loan AS T3 INNER JOIN account AS T4 ON T3.account_id = T4.account_id WHERE EXTRACT(YEAR FROM CAST(T3.date AS DATE)) = 1997 AND T4.frequency = 'POPLATEK TYDNE') ORDER BY T2.account_id;",
+    "tool_calls": [
+      "sql_lab.mjs:self_test"
+    ],
+    "repair_decision": "repaired",
+    "self_test": {
+      "executed": true,
+      "rowcount": 1,
+      "headers": [
+        "account_id"
+      ],
+      "sample_rows": [
+        {
+          "account_id": 176
+        }
+      ]
+    },
+    "notes": "Repaired LIMIT 1 into a min-amount predicate so all lowest-amount accounts would be returned if tied."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec79b-8eea-7e33-abe8-95eaeb40a70c",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:30:57.371Z"
+}

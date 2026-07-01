@@ -1,0 +1,83 @@
+{
+  "task_id": "self_financial_dashboard_10",
+  "system": "SchemaGroundedLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": {
+    "monthly_new_account_openings": "SELECT DATE_TRUNC('month', a.date)::date AS opened_month, COUNT(a.account_id) AS new_accounts FROM account a WHERE a.date >= DATE '1993-01-01' AND a.date < DATE '1999-01-01' GROUP BY 1 ORDER BY 1;",
+    "frequency_share": "SELECT a.frequency, COUNT(a.account_id) AS account_count FROM account a GROUP BY 1 ORDER BY account_count DESC;",
+    "district_quarter_heatmap_1996": "SELECT d.\"A2\" AS district, DATE_TRUNC('quarter', a.date)::date AS opened_quarter, COUNT(a.account_id) AS new_account_count FROM account a JOIN district d ON d.district_id = a.district_id WHERE a.date >= DATE '1996-01-01' AND a.date < DATE '1997-01-01' GROUP BY 1, 2 ORDER BY 1, 2;",
+    "active_accounts_as_of_1998_12_31": "SELECT COUNT(DISTINCT t.account_id) AS active_accounts_as_of_1998_12_31 FROM trans t WHERE t.date <= DATE '1998-12-31';"
+  },
+  "chart_spec": {
+    "charts": [
+      {
+        "id": "monthly_new_account_openings",
+        "viz_type": "line",
+        "dataset": "account",
+        "metrics": [
+          "COUNT(account_id)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('month', date)"
+        ],
+        "filters": [
+          "account.date from 1993 through 1998"
+        ],
+        "layout_intent": "new-account growth trend"
+      },
+      {
+        "id": "frequency_share",
+        "viz_type": "pie",
+        "dataset": "account",
+        "metrics": [
+          "COUNT(account_id)"
+        ],
+        "dimensions": [
+          "frequency"
+        ],
+        "filters": [],
+        "layout_intent": "frequency preference share"
+      },
+      {
+        "id": "district_quarter_heatmap_1996",
+        "viz_type": "heatmap",
+        "dataset": "account_district_virtual",
+        "dataset_choice": "virtual_dataset",
+        "metrics": [
+          "COUNT(account.account_id)"
+        ],
+        "dimensions": [
+          "district.A2",
+          "DATE_TRUNC('quarter', account.date)"
+        ],
+        "filters": [
+          "account.date in 1996"
+        ],
+        "layout_intent": "district by quarter account-opening heatmap"
+      },
+      {
+        "id": "active_accounts_as_of_1998_12_31",
+        "viz_type": "big_number",
+        "dataset": "trans",
+        "metrics": [
+          "COUNT(DISTINCT account_id)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "trans.date <= 1998-12-31"
+        ],
+        "layout_intent": "active-account KPI tile"
+      }
+    ],
+    "layout_intent": "growth line and KPI on top, frequency and district heatmap below"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

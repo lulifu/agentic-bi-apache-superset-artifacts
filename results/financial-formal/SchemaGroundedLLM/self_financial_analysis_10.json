@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_10",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH district_counts AS (SELECT dist.district_id, dist.\"A2\" AS district_name, dist.\"A3\" AS region, dist.\"A11\" AS avg_salary, dist.\"A12\" AS unemployment_1995, dist.\"A13\" AS unemployment_1996, COUNT(a.account_id) FILTER (WHERE a.date >= DATE '1995-01-01' AND a.date < DATE '1996-01-01') AS accounts_1995, COUNT(a.account_id) FILTER (WHERE a.date >= DATE '1996-01-01' AND a.date < DATE '1997-01-01') AS accounts_1996 FROM district AS dist LEFT JOIN account AS a ON a.district_id = dist.district_id AND a.date >= DATE '1995-01-01' AND a.date < DATE '1997-01-01' GROUP BY dist.district_id, dist.\"A2\", dist.\"A3\", dist.\"A11\", dist.\"A12\", dist.\"A13\") SELECT district_id, district_name, region, accounts_1995, accounts_1996, accounts_1996 - accounts_1995 AS account_count_delta, avg_salary, unemployment_1995, unemployment_1996, unemployment_1996 - unemployment_1995 AS unemployment_delta FROM district_counts ORDER BY account_count_delta DESC, district_id LIMIT 3;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

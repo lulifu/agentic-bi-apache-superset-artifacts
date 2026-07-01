@@ -1,0 +1,30 @@
+{
+  "task_id": "self_financial_rca_06",
+  "system": "NoRcaDrillPlanningAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "RCA report: inconclusive. I could not execute the district SIPO-share outlier query. The intended result ranks districts by absolute deviation from the national 1996 SIPO transaction-count share, then profiles the top outlier using region, salary A11, and unemployment A12/A13. No district is named without query output.",
+  "sql": {
+    "national_and_district": "WITH district_share AS (SELECT d.district_id, d.\"A2\" AS district, d.\"A3\" AS region, CAST(d.\"A11\" AS numeric) AS avg_salary, CAST(d.\"A12\" AS numeric) AS unemployment_1995, CAST(d.\"A13\" AS numeric) AS unemployment_1996, COUNT(*) AS txn_count, SUM(CASE WHEN t.k_symbol='SIPO' THEN 1 ELSE 0 END) AS sipo_count, SUM(CASE WHEN t.k_symbol='SIPO' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS sipo_share FROM trans t JOIN account a ON a.account_id=t.account_id JOIN district d ON d.district_id=a.district_id WHERE EXTRACT(YEAR FROM CAST(t.date AS DATE))=1996 GROUP BY 1,2,3,4,5,6), national AS (SELECT SUM(sipo_count)::double precision/SUM(txn_count) AS national_sipo_share FROM district_share) SELECT ds.*, n.national_sipo_share, ds.sipo_share-n.national_sipo_share AS deviation, ABS(ds.sipo_share-n.national_sipo_share) AS abs_deviation FROM district_share ds CROSS JOIN national n ORDER BY abs_deviation DESC LIMIT 10;"
+  },
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_rca_06",
+    "artifact": "RCA report: inconclusive. I could not execute the district SIPO-share outlier query. The intended result ranks districts by absolute deviation from the national 1996 SIPO transaction-count share, then profiles the top outlier using region, salary A11, and unemployment A12/A13. No district is named without query output.",
+    "sql": {
+      "national_and_district": "WITH district_share AS (SELECT d.district_id, d.\"A2\" AS district, d.\"A3\" AS region, CAST(d.\"A11\" AS numeric) AS avg_salary, CAST(d.\"A12\" AS numeric) AS unemployment_1995, CAST(d.\"A13\" AS numeric) AS unemployment_1996, COUNT(*) AS txn_count, SUM(CASE WHEN t.k_symbol='SIPO' THEN 1 ELSE 0 END) AS sipo_count, SUM(CASE WHEN t.k_symbol='SIPO' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS sipo_share FROM trans t JOIN account a ON a.account_id=t.account_id JOIN district d ON d.district_id=a.district_id WHERE EXTRACT(YEAR FROM CAST(t.date AS DATE))=1996 GROUP BY 1,2,3,4,5,6), national AS (SELECT SUM(sipo_count)::double precision/SUM(txn_count) AS national_sipo_share FROM district_share) SELECT ds.*, n.national_sipo_share, ds.sipo_share-n.national_sipo_share AS deviation, ABS(ds.sipo_share-n.national_sipo_share) AS abs_deviation FROM district_share ds CROSS JOIN national n ORDER BY abs_deviation DESC LIMIT 10;"
+    },
+    "tool_calls": []
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-3cf4-70a3-9ce1-411c1e4a1720",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.304Z"
+}

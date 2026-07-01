@@ -1,0 +1,16 @@
+{
+  "task_id": "bird_financial_04",
+  "system": "SchemaGroundedLLM",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "query_result",
+  "sql": "SELECT T2.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE EXTRACT(YEAR FROM T1.date) = 1997 AND T2.frequency = 'POPLATEK TYDNE' ORDER BY T1.amount LIMIT 1;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

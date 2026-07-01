@@ -1,0 +1,49 @@
+{
+  "task_id": "self_financial_rca_04",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: For Kolin, compare 1996 average post-transaction balance against the 1995 account-level baseline, then rank the segments with the largest negative shift. The strongest contributor is the account-frequency, age-band, or k_symbol segment with both a large balance decline and substantial transaction volume; avoid attributing the district decline to tiny segments.",
+  "sql": "WITH tx AS (SELECT EXTRACT(YEAR FROM CAST(t.date AS DATE)) AS year, a.account_id, a.frequency, CASE WHEN 1996 - EXTRACT(YEAR FROM CAST(c.birth_date AS DATE)) < 30 THEN 'under_30' WHEN 1996 - EXTRACT(YEAR FROM CAST(c.birth_date AS DATE)) < 50 THEN '30_49' WHEN 1996 - EXTRACT(YEAR FROM CAST(c.birth_date AS DATE)) < 65 THEN '50_64' ELSE '65_plus' END AS age_band, COALESCE(t.k_symbol,'UNKNOWN') AS k_symbol, t.balance FROM trans t JOIN account a ON a.account_id=t.account_id JOIN disp dp ON dp.account_id=a.account_id JOIN client c ON c.client_id=dp.client_id WHERE a.district_id=5 AND EXTRACT(YEAR FROM CAST(t.date AS DATE)) IN (1995,1996)), agg AS (SELECT year, frequency, age_band, k_symbol, COUNT(*) AS tx_count, AVG(balance) AS avg_balance FROM tx GROUP BY 1,2,3,4) SELECT cur.frequency, cur.age_band, cur.k_symbol, cur.tx_count AS tx_count_1996, prev.avg_balance AS avg_balance_1995, cur.avg_balance AS avg_balance_1996, cur.avg_balance-prev.avg_balance AS balance_delta FROM agg cur JOIN agg prev ON prev.frequency=cur.frequency AND prev.age_band=cur.age_band AND prev.k_symbol=cur.k_symbol AND prev.year=1995 WHERE cur.year=1996 ORDER BY balance_delta ASC LIMIT 25;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Kolin Average Balance by Segment",
+        "type": "bar",
+        "metrics": [
+          "AVG(trans.balance)",
+          "balance_delta"
+        ],
+        "dimensions": [
+          "account.frequency",
+          "age band",
+          "trans.k_symbol"
+        ],
+        "filters": [
+          "district_id = 5",
+          "1995 vs 1996"
+        ]
+      },
+      {
+        "title": "Kolin Balance Trend",
+        "type": "line",
+        "metrics": [
+          "AVG(trans.balance)"
+        ],
+        "dimensions": [
+          "month"
+        ],
+        "filters": [
+          "district_id = 5"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

@@ -1,0 +1,30 @@
+{
+  "task_id": "bird_formula_1_04",
+  "system": "SkillGuidedAgent",
+  "task_class": "query",
+  "dataset": "formula_1",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Counts 2010 races whose circuit country is not in the Asia or Europe country lists represented in the Formula 1 dataset.",
+  "sql": "SELECT COUNT(*) AS race_count\nFROM races r\nJOIN circuits c ON r.\"circuitId\" = c.circuitid\nWHERE r.year = 2010\n  AND c.country NOT IN (\n    'Bahrain', 'China', 'India', 'Japan', 'Korea', 'Malaysia', 'Singapore', 'Turkey', 'UAE',\n    'Austria', 'Belgium', 'France', 'Germany', 'Hungary', 'Italy', 'Monaco', 'Netherlands',\n    'Portugal', 'Russia', 'Spain', 'Sweden', 'Switzerland', 'UK'\n  );",
+  "chart_spec": null,
+  "tool_calls": [
+    "schema_inspection"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_formula_1_04",
+    "sql": "SELECT COUNT(*) AS race_count\nFROM races r\nJOIN circuits c ON r.\"circuitId\" = c.circuitid\nWHERE r.year = 2010\n  AND c.country NOT IN (\n    'Bahrain', 'China', 'India', 'Japan', 'Korea', 'Malaysia', 'Singapore', 'Turkey', 'UAE',\n    'Austria', 'Belgium', 'France', 'Germany', 'Hungary', 'Italy', 'Monaco', 'Netherlands',\n    'Portugal', 'Russia', 'Spain', 'Sweden', 'Switzerland', 'UK'\n  );",
+    "artifact": "Counts 2010 races whose circuit country is not in the Asia or Europe country lists represented in the Formula 1 dataset.",
+    "tool_calls": [
+      "schema_inspection"
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec786-74de-7503-94db-e3f49aead004",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:06:35.299Z"
+}

@@ -1,0 +1,24 @@
+{
+  "task_id": "self_financial_rca_03",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "January 1998 card-withdrawal volume is genuinely high at 1,702 versus the 1997 monthly average of 180.5. The largest visible driver is card type: classic cards account for 1,244 withdrawals, junior for 299, and gold for 159. Late-1997 issuance explains only part of the spike: cards issued in 1997 Q4 account for 308 January withdrawals, while other issuance cohorts account for 1,394. District concentration is present but not dominant; Hl.m. Praha leads with 214 withdrawals.",
+  "sql": {
+    "monthly_card_withdrawals": "SELECT DATE_TRUNC('month', t.date)::date AS trans_month, COUNT(t.trans_id) AS card_withdrawal_count FROM trans t WHERE t.operation = 'VYBER KARTOU' AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-02-01' GROUP BY 1 ORDER BY 1;",
+    "drilldown_type_district_cohort": "SELECT c.type AS card_type, d.\"A2\" AS district, CASE WHEN c.issued >= DATE '1997-10-01' AND c.issued < DATE '1998-01-01' THEN 'issued_1997_Q4' ELSE 'other_issued' END AS issuance_cohort, COUNT(t.trans_id) AS january_1998_withdrawals FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id JOIN disp dp ON dp.account_id = a.account_id JOIN card c ON c.disp_id = dp.disp_id WHERE t.operation = 'VYBER KARTOU' AND t.date >= DATE '1998-01-01' AND t.date < DATE '1998-02-01' GROUP BY 1, 2, 3 ORDER BY january_1998_withdrawals DESC;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "monthly card-withdrawal line with January 1998 annotation",
+      "stacked bars by card type, issuance cohort, and district"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

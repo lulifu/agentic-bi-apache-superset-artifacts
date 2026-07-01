@@ -1,0 +1,30 @@
+{
+  "task_id": "bird_formula_1_05",
+  "system": "SkillGuidedAgent",
+  "task_class": "query",
+  "dataset": "formula_1",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Among drivers with a non-null finish time in raceId 592, returns the oldest driver by earliest date of birth.",
+  "sql": "SELECT d.*\nFROM results res\nJOIN drivers d ON res.\"driverId\" = d.\"driverId\"\nWHERE res.\"raceId\" = 592\n  AND res.time IS NOT NULL\nORDER BY d.dob ASC\nLIMIT 1;",
+  "chart_spec": null,
+  "tool_calls": [
+    "schema_inspection"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_formula_1_05",
+    "sql": "SELECT d.*\nFROM results res\nJOIN drivers d ON res.\"driverId\" = d.\"driverId\"\nWHERE res.\"raceId\" = 592\n  AND res.time IS NOT NULL\nORDER BY d.dob ASC\nLIMIT 1;",
+    "artifact": "Among drivers with a non-null finish time in raceId 592, returns the oldest driver by earliest date of birth.",
+    "tool_calls": [
+      "schema_inspection"
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec786-74de-7503-94db-e3f49aead004",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:06:35.299Z"
+}

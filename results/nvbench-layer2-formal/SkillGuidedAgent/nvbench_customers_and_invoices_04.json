@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_customers_and_invoices_04",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "customers_and_invoices",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 443,
+    "virtual_dataset_id": 145,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_04",
+    "superset_create_response": {
+      "id": 443,
+      "result": {
+        "datasource_id": 145,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_04. Expected visualization: Scatter.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"gender\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(customer_count)\",\"sqlExpression\":\"SUM(customer_count)\"}],\"groupby\":[],\"datasource\":\"145__table\",\"viz_type\":\"echarts_timeseries_scatter\",\"granularity_sqla\":\"gender\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"gender\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":145,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"gender\",\"label\":\"gender\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(customer_count)\",\"sqlExpression\":\"SUM(customer_count)\"}],\"filters\":[{\"col\":\"gender\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(customer_count)\",\"sqlExpression\":\"SUM(customer_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"gender\"],\"columns\":[],\"aggregates\":{\"SUM(customer_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_04",
+        "viz_type": "echarts_timeseries_scatter"
+      }
+    },
+    "verification": {
+      "chart_id": 443,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_04.png",
+      "screenshot_bytes": 10679,
+      "chart_url": "/superset/explore/?slice_id=443",
+      "issues": [
+        "warning: screenshot only 10.4 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT gender, COUNT(*) AS customer_count\nFROM bench_nvbench_customers_and_invoices.customers\nGROUP BY gender\nORDER BY gender;",
+  "chart_spec": {
+    "viz_type": "Scatter",
+    "superset_viz_type": "echarts_timeseries_scatter",
+    "dataset_id": 145,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_04",
+    "metrics": [
+      "customer_count"
+    ],
+    "dimensions": [
+      "gender"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "gender",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(customer_count)",
+          "sqlExpression": "SUM(customer_count)"
+        }
+      ],
+      "groupby": []
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 145
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 443
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 2
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_customers_and_invoices_04",
+      "dataset_id": 145,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_04",
+      "dataset_id": 145,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_scatter",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_04. Expected visualization: Scatter.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "gender",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(customer_count)",
+            "sqlExpression": "SUM(customer_count)"
+          }
+        ],
+        "groupby": []
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 443,
+      "result": {
+        "datasource_id": 145,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_04. Expected visualization: Scatter.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"gender\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(customer_count)\",\"sqlExpression\":\"SUM(customer_count)\"}],\"groupby\":[],\"datasource\":\"145__table\",\"viz_type\":\"echarts_timeseries_scatter\",\"granularity_sqla\":\"gender\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"gender\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":145,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"gender\",\"label\":\"gender\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(customer_count)\",\"sqlExpression\":\"SUM(customer_count)\"}],\"filters\":[{\"col\":\"gender\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(customer_count)\",\"sqlExpression\":\"SUM(customer_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"gender\"],\"columns\":[],\"aggregates\":{\"SUM(customer_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_04",
+        "viz_type": "echarts_timeseries_scatter"
+      }
+    },
+    "verification": {
+      "chart_id": 443,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_04.png",
+      "screenshot_bytes": 10679,
+      "chart_url": "/superset/explore/?slice_id=443",
+      "issues": [
+        "warning: screenshot only 10.4 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:44:10.117Z"
+}

@@ -1,0 +1,25 @@
+{
+  "task_id": "bird_student_club_05",
+  "system": "SchemaGroundedLLM",
+  "task_class": "query",
+  "dataset": "student_club",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "The requested event status is stored as budget.event_status for the matching expense.",
+  "sql": "SELECT DISTINCT b.event_status FROM expense AS ex JOIN budget AS b ON ex.link_to_budget = b.budget_id WHERE ex.expense_description = 'Post Cards, Posters' AND ex.expense_date = DATE '2019-08-20';",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_student_club_05",
+    "sql": "SELECT DISTINCT b.event_status FROM expense AS ex JOIN budget AS b ON ex.link_to_budget = b.budget_id WHERE ex.expense_description = 'Post Cards, Posters' AND ex.expense_date = DATE '2019-08-20';",
+    "artifact": "The requested event status is stored as budget.event_status for the matching expense."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec786-4bd7-77a1-b324-4f51283058df",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:06:35.200Z"
+}

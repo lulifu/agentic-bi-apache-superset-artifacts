@@ -1,0 +1,73 @@
+{
+  "task_id": "self_financial_dashboard_07",
+  "system": "DirectLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": "SELECT EXTRACT(YEAR FROM CAST(date AS DATE)) AS cohort_year, CASE status WHEN 'A' THEN 'finished OK' WHEN 'B' THEN 'finished default' WHEN 'C' THEN 'running OK' WHEN 'D' THEN 'running in debt' END AS loan_status, COUNT(*) AS loan_count FROM loan GROUP BY 1,2 ORDER BY 1,2; SELECT duration AS duration_bucket_months, CASE status WHEN 'A' THEN 'finished OK' WHEN 'B' THEN 'finished default' WHEN 'C' THEN 'running OK' WHEN 'D' THEN 'running in debt' END AS loan_status, AVG(amount) AS avg_loan_amount FROM loan GROUP BY 1,2 ORDER BY 1,2; SELECT SUM(amount) AS total_approved_amount_1998 FROM loan WHERE EXTRACT(YEAR FROM CAST(date AS DATE))=1998;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Loan Count by Status and Approval Cohort",
+        "type": "stacked_bar",
+        "metrics": [
+          "COUNT(loan.loan_id)"
+        ],
+        "dimensions": [
+          "approval cohort year",
+          "mapped loan.status"
+        ],
+        "filters": [
+          "all-time"
+        ]
+      },
+      {
+        "title": "Average Loan Amount by Duration and Status",
+        "type": "pivot_table",
+        "metrics": [
+          "AVG(loan.amount)"
+        ],
+        "dimensions": [
+          "loan.duration",
+          "mapped loan.status"
+        ],
+        "filters": [
+          "all-time"
+        ]
+      },
+      {
+        "title": "1998 Total Approved Amount",
+        "type": "kpi",
+        "metrics": [
+          "SUM(loan.amount)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "loan.date in 1998"
+        ]
+      }
+    ],
+    "metrics": [
+      "COUNT(loan.loan_id)",
+      "AVG(loan.amount)",
+      "SUM(loan.amount)"
+    ],
+    "dimensions": [
+      "loan.status",
+      "loan.duration",
+      "approval cohort year"
+    ],
+    "filters": [
+      "all-time for status and duration charts",
+      "1998 only for KPI"
+    ],
+    "layout_intent": "Aging dashboard with KPI header, cohort status stack as main chart, and duration-status matrix below."
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

@@ -1,0 +1,143 @@
+{
+  "task_id": "nvbench_dog_kennels_03",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "dog_kennels",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 418,
+    "virtual_dataset_id": 121,
+    "virtual_dataset_table": "vd_l2_nvbench_dog_kennels_03",
+    "superset_create_response": {
+      "id": 418,
+      "result": {
+        "datasource_id": 121,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_dog_kennels_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(treatment_count)\",\"sqlExpression\":\"SUM(treatment_count)\"},\"groupby\":[\"name\"],\"show_labels\":true,\"datasource\":\"121__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":121,\"type\":\"table\"},\"queries\":[{\"columns\":[\"name\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(treatment_count)\",\"sqlExpression\":\"SUM(treatment_count)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(treatment_count)\",\"sqlExpression\":\"SUM(treatment_count)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_dog_kennels_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 418,
+      "ok": true,
+      "row_count": 3,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_dog_kennels_03.png",
+      "screenshot_bytes": 33415,
+      "chart_url": "/superset/explore/?slice_id=418",
+      "issues": []
+    }
+  },
+  "sql": "SELECT T1.name, COUNT(T1.name) AS treatment_count\nFROM bench_nvbench_dog_kennels.dogs AS T1\nJOIN bench_nvbench_dog_kennels.treatments AS T2 ON T1.dog_id = T2.dog_id\nWHERE T1.breed_code = (\n  SELECT breed_code\n  FROM bench_nvbench_dog_kennels.dogs\n  GROUP BY breed_code\n  ORDER BY COUNT(*) ASC, breed_code ASC\n  LIMIT 1\n)\nGROUP BY T1.name\nORDER BY T1.name;",
+  "chart_spec": {
+    "viz_type": "Pie",
+    "superset_viz_type": "pie",
+    "dataset_id": 121,
+    "virtual_dataset_table": "vd_l2_nvbench_dog_kennels_03",
+    "metrics": [
+      "treatment_count"
+    ],
+    "dimensions": [
+      "name"
+    ],
+    "filters": "breed_code = rarest breed by dog count",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "metric": {
+        "expressionType": "SQL",
+        "label": "SUM(treatment_count)",
+        "sqlExpression": "SUM(treatment_count)"
+      },
+      "groupby": [
+        "name"
+      ],
+      "show_labels": true
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 121
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 418
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 3
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_dog_kennels_03",
+      "dataset_id": 121,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_dog_kennels_03",
+      "dataset_id": 121,
+      "dataset_type": "table",
+      "viz_type": "pie",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_dog_kennels_03. Expected visualization: Pie.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "metric": {
+          "expressionType": "SQL",
+          "label": "SUM(treatment_count)",
+          "sqlExpression": "SUM(treatment_count)"
+        },
+        "groupby": [
+          "name"
+        ],
+        "show_labels": true
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 418,
+      "result": {
+        "datasource_id": 121,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_dog_kennels_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(treatment_count)\",\"sqlExpression\":\"SUM(treatment_count)\"},\"groupby\":[\"name\"],\"show_labels\":true,\"datasource\":\"121__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":121,\"type\":\"table\"},\"queries\":[{\"columns\":[\"name\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(treatment_count)\",\"sqlExpression\":\"SUM(treatment_count)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(treatment_count)\",\"sqlExpression\":\"SUM(treatment_count)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_dog_kennels_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 418,
+      "ok": true,
+      "row_count": 3,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_dog_kennels_03.png",
+      "screenshot_bytes": 33415,
+      "chart_url": "/superset/explore/?slice_id=418",
+      "issues": []
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:36:21.816Z"
+}

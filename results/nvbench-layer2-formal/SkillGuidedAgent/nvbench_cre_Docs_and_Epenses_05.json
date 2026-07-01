@@ -1,0 +1,154 @@
+{
+  "task_id": "nvbench_cre_Docs_and_Epenses_05",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "cre_Docs_and_Epenses",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 432,
+    "virtual_dataset_id": 134,
+    "virtual_dataset_table": "vd_l2_nvbench_cre_Docs_and_Epenses_05",
+    "superset_create_response": {
+      "id": 432,
+      "result": {
+        "datasource_id": 134,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_05. Expected visualization: Stacked Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"document_weekday_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"groupby\":[\"document_type_name\"],\"stack\":\"Stack\",\"datasource\":\"134__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"document_weekday_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"document_weekday_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":134,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"document_weekday_name\",\"label\":\"document_weekday_name\",\"expressionType\":\"SQL\"},\"document_type_name\"],\"series_columns\":[\"document_type_name\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"filters\":[{\"col\":\"document_weekday_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"document_weekday_name\"],\"columns\":[\"document_type_name\"],\"aggregates\":{\"SUM(document_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_05",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 432,
+      "ok": true,
+      "row_count": 6,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_cre_Docs_and_Epenses_05.png",
+      "screenshot_bytes": 15658,
+      "chart_url": "/superset/explore/?slice_id=432",
+      "issues": [
+        "warning: screenshot only 15.3 KB despite 6 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT T1.\"Document_Type_Name\" AS document_type_name,\n       EXTRACT(ISODOW FROM T2.\"Document_Date\")::int AS document_weekday,\n       TO_CHAR(T2.\"Document_Date\", 'Dy') AS document_weekday_name,\n       COUNT(T2.\"Document_Date\") AS document_count\nFROM bench_nvbench_cre_docs_and_expenses.ref_document_types AS T1\nJOIN bench_nvbench_cre_docs_and_expenses.documents AS T2 ON T1.\"Document_Type_Code\" = T2.\"Document_Type_Code\"\nGROUP BY T1.\"Document_Type_Name\", EXTRACT(ISODOW FROM T2.\"Document_Date\")::int, TO_CHAR(T2.\"Document_Date\", 'Dy')\nORDER BY T1.\"Document_Type_Name\", document_weekday;",
+  "chart_spec": {
+    "viz_type": "Stacked Bar",
+    "superset_viz_type": "echarts_timeseries_bar",
+    "dataset_id": 134,
+    "virtual_dataset_table": "vd_l2_nvbench_cre_Docs_and_Epenses_05",
+    "metrics": [
+      "document_count"
+    ],
+    "dimensions": [
+      "document_weekday_name",
+      "document_type_name"
+    ],
+    "filters": "",
+    "time_range": "No filter; bin Document_Date by weekday",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": true,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "document_weekday_name",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(document_count)",
+          "sqlExpression": "SUM(document_count)"
+        }
+      ],
+      "groupby": [
+        "document_type_name"
+      ],
+      "stack": "Stack"
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 134
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 432
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 6
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_cre_Docs_and_Epenses_05",
+      "dataset_id": 134,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_05",
+      "dataset_id": 134,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_bar",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_05. Expected visualization: Stacked Bar.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": true,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "document_weekday_name",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(document_count)",
+            "sqlExpression": "SUM(document_count)"
+          }
+        ],
+        "groupby": [
+          "document_type_name"
+        ],
+        "stack": "Stack"
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 432,
+      "result": {
+        "datasource_id": 134,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_05. Expected visualization: Stacked Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"document_weekday_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"groupby\":[\"document_type_name\"],\"stack\":\"Stack\",\"datasource\":\"134__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"document_weekday_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"document_weekday_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":134,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"document_weekday_name\",\"label\":\"document_weekday_name\",\"expressionType\":\"SQL\"},\"document_type_name\"],\"series_columns\":[\"document_type_name\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"filters\":[{\"col\":\"document_weekday_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"document_weekday_name\"],\"columns\":[\"document_type_name\"],\"aggregates\":{\"SUM(document_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_05",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 432,
+      "ok": true,
+      "row_count": 6,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_cre_Docs_and_Epenses_05.png",
+      "screenshot_bytes": 15658,
+      "chart_url": "/superset/explore/?slice_id=432",
+      "issues": [
+        "warning: screenshot only 15.3 KB despite 6 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:41:33.888Z"
+}

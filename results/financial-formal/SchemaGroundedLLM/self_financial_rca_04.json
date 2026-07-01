@@ -1,0 +1,24 @@
+{
+  "task_id": "self_financial_rca_04",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "The stated decline is not supported for district 5 (Kolin): average post-transaction balance increased from 39,213.77 in 1995 to 40,390.48 in 1996. Account frequency is not the cause of a drop because both monthly and weekly statement groups rose. The only notable negative slice is owner age band 30-44, whose average balance fell from 42,836.50 to 40,737.87, but that did not overcome increases in other age bands and k_symbol groups.",
+  "sql": {
+    "overall_balance_by_year": "SELECT EXTRACT(YEAR FROM t.date)::int AS year, COUNT(DISTINCT t.account_id) AS accounts, COUNT(*) AS transaction_count, AVG(t.balance) AS avg_post_transaction_balance FROM trans t JOIN account a ON a.account_id = t.account_id WHERE a.district_id = 5 AND t.date >= DATE '1995-01-01' AND t.date < DATE '1997-01-01' GROUP BY 1 ORDER BY 1;",
+    "drilldown_frequency_age_ksymbol": "WITH owner_age AS (SELECT a.account_id, CASE WHEN EXTRACT(YEAR FROM AGE(DATE '1996-12-31', c.birth_date)) < 30 THEN '<30' WHEN EXTRACT(YEAR FROM AGE(DATE '1996-12-31', c.birth_date)) < 45 THEN '30-44' WHEN EXTRACT(YEAR FROM AGE(DATE '1996-12-31', c.birth_date)) < 60 THEN '45-59' ELSE '60+' END AS age_band FROM account a JOIN disp dp ON dp.account_id = a.account_id AND dp.type = 'OWNER' JOIN client c ON c.client_id = dp.client_id WHERE a.district_id = 5) SELECT axis, segment, EXTRACT(YEAR FROM t.date)::int AS year, COUNT(*) AS transaction_count, AVG(t.balance) AS avg_balance FROM trans t JOIN account a ON a.account_id = t.account_id LEFT JOIN owner_age oa ON oa.account_id = a.account_id CROSS JOIN LATERAL (VALUES ('frequency', a.frequency), ('age_band', oa.age_band), ('k_symbol', COALESCE(NULLIF(t.k_symbol, ''), '(blank)'))) AS x(axis, segment) WHERE a.district_id = 5 AND t.date >= DATE '1995-01-01' AND t.date < DATE '1997-01-01' GROUP BY axis, segment, year ORDER BY axis, segment, year;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "year-over-year average balance bar",
+      "drill bars by account.frequency, owner age band, and trans.k_symbol"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

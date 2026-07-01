@@ -1,0 +1,16 @@
+{
+  "task_id": "bird_financial_02",
+  "system": "DirectLLM",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "artifact": null,
+  "sql": "SELECT CASE WHEN AVG(A13) > AVG(A12) THEN '1996' ELSE '1995' END AS higher_average_unemployment_year FROM district;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

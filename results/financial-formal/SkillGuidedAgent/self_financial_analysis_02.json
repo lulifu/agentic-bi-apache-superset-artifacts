@@ -1,0 +1,195 @@
+{
+  "task_id": "self_financial_analysis_02",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 2 data-backed Superset SQL Lab query/queries for self_financial_analysis_02.\ncard_withdrawal_months_1997: [{\"month\":\"1997-01-01\",\"total_amount\":1704600,\"tx_count\":804,\"avg_amount\":410858.3333333333,\"ratio_to_avg\":4.14887532198852},{\"month\":\"1997-12-01\",\"total_amount\":914500,\"tx_count\":405,\"avg_amount\":410858.3333333333,\"ratio_to_avg\":2.225828042918281}]\nflagged_month_attribution: [{\"month\":\"1997-01-01\",\"district_name\":\"Hl.m. Praha\",\"card_type\":\"classic\",\"tx_count\":42,\"total_amount\":79800},{\"month\":\"1997-12-01\",\"district_name\":\"Hl.m. Praha\",\"card_type\":\"classic\",\"tx_count\":31,\"total_amount\":66600},{\"month\":\"1997-01-01\",\"district_name\":\"Olomouc\",\"card_type\":\"classic\",\"tx_count\":25,\"total_amount\":55700},{\"month\":\"1997-01-01\",\"district_name\":\"Hl.m. Praha\",\"card_type\":\"junior\",\"tx_count\":25,\"total_amount\":46600},{\"month\":\"1997-01-01\",\"district_name\":\"Karvina\",\"card_type\":\"classic\",\"tx_count\":18,\"total_amount\":41600}]",
+  "sql": "WITH monthly AS (\n  SELECT DATE_TRUNC('month', t.date)::date AS month, SUM(t.amount)::numeric AS total_amount, COUNT(*) AS tx_count\n  FROM trans t\n  WHERE t.operation = 'VYBER KARTOU'\n    AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01'\n  GROUP BY 1\n),\navg_month AS (SELECT AVG(total_amount) AS avg_amount FROM monthly)\nSELECT m.month, m.total_amount, m.tx_count, a.avg_amount,\n       m.total_amount / NULLIF(a.avg_amount, 0) AS ratio_to_avg\nFROM monthly m CROSS JOIN avg_month a\nWHERE m.total_amount >= 1.30 * a.avg_amount\nORDER BY m.total_amount DESC\n\n-- next query --\n\nWITH monthly AS (\n  SELECT DATE_TRUNC('month', t.date)::date AS month, SUM(t.amount)::numeric AS total_amount\n  FROM trans t\n  WHERE t.operation = 'VYBER KARTOU'\n    AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01'\n  GROUP BY 1\n),\nflagged AS (\n  SELECT month FROM monthly WHERE total_amount >= 1.30 * (SELECT AVG(total_amount) FROM monthly)\n)\nSELECT DATE_TRUNC('month', t.date)::date AS month, d.\"A2\" AS district_name, c.type AS card_type,\n       COUNT(*) AS tx_count, SUM(t.amount) AS total_amount\nFROM trans t\nJOIN account a ON a.account_id = t.account_id\nJOIN district d ON d.district_id = a.district_id\nJOIN disp dp ON dp.account_id = a.account_id\nJOIN card c ON c.disp_id = dp.disp_id\nJOIN flagged f ON f.month = DATE_TRUNC('month', t.date)::date\nWHERE t.operation = 'VYBER KARTOU'\nGROUP BY 1, 2, 3\nORDER BY total_amount DESC\nLIMIT 20",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:card_withdrawal_months_1997",
+    "sql_lab.mjs:flagged_month_attribution"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "card_withdrawal_months_1997",
+        "sql": "WITH monthly AS (\n  SELECT DATE_TRUNC('month', t.date)::date AS month, SUM(t.amount)::numeric AS total_amount, COUNT(*) AS tx_count\n  FROM trans t\n  WHERE t.operation = 'VYBER KARTOU'\n    AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01'\n  GROUP BY 1\n),\navg_month AS (SELECT AVG(total_amount) AS avg_amount FROM monthly)\nSELECT m.month, m.total_amount, m.tx_count, a.avg_amount,\n       m.total_amount / NULLIF(a.avg_amount, 0) AS ratio_to_avg\nFROM monthly m CROSS JOIN avg_month a\nWHERE m.total_amount >= 1.30 * a.avg_amount\nORDER BY m.total_amount DESC",
+        "rows": [
+          {
+            "month": "1997-01-01",
+            "total_amount": 1704600,
+            "tx_count": 804,
+            "avg_amount": 410858.3333333333,
+            "ratio_to_avg": 4.14887532198852
+          },
+          {
+            "month": "1997-12-01",
+            "total_amount": 914500,
+            "tx_count": 405,
+            "avg_amount": 410858.3333333333,
+            "ratio_to_avg": 2.225828042918281
+          }
+        ],
+        "rowcount": 2
+      },
+      {
+        "name": "flagged_month_attribution",
+        "sql": "WITH monthly AS (\n  SELECT DATE_TRUNC('month', t.date)::date AS month, SUM(t.amount)::numeric AS total_amount\n  FROM trans t\n  WHERE t.operation = 'VYBER KARTOU'\n    AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01'\n  GROUP BY 1\n),\nflagged AS (\n  SELECT month FROM monthly WHERE total_amount >= 1.30 * (SELECT AVG(total_amount) FROM monthly)\n)\nSELECT DATE_TRUNC('month', t.date)::date AS month, d.\"A2\" AS district_name, c.type AS card_type,\n       COUNT(*) AS tx_count, SUM(t.amount) AS total_amount\nFROM trans t\nJOIN account a ON a.account_id = t.account_id\nJOIN district d ON d.district_id = a.district_id\nJOIN disp dp ON dp.account_id = a.account_id\nJOIN card c ON c.disp_id = dp.disp_id\nJOIN flagged f ON f.month = DATE_TRUNC('month', t.date)::date\nWHERE t.operation = 'VYBER KARTOU'\nGROUP BY 1, 2, 3\nORDER BY total_amount DESC\nLIMIT 20",
+        "rows": [
+          {
+            "month": "1997-01-01",
+            "district_name": "Hl.m. Praha",
+            "card_type": "classic",
+            "tx_count": 42,
+            "total_amount": 79800
+          },
+          {
+            "month": "1997-12-01",
+            "district_name": "Hl.m. Praha",
+            "card_type": "classic",
+            "tx_count": 31,
+            "total_amount": 66600
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Olomouc",
+            "card_type": "classic",
+            "tx_count": 25,
+            "total_amount": 55700
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Hl.m. Praha",
+            "card_type": "junior",
+            "tx_count": 25,
+            "total_amount": 46600
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Karvina",
+            "card_type": "classic",
+            "tx_count": 18,
+            "total_amount": 41600
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Plzen - sever",
+            "card_type": "junior",
+            "tx_count": 17,
+            "total_amount": 40200
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Jindrichuv Hradec",
+            "card_type": "classic",
+            "tx_count": 19,
+            "total_amount": 39000
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Plzen - sever",
+            "card_type": "classic",
+            "tx_count": 15,
+            "total_amount": 36000
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Benesov",
+            "card_type": "classic",
+            "tx_count": 14,
+            "total_amount": 34300
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Tachov",
+            "card_type": "classic",
+            "tx_count": 15,
+            "total_amount": 32100
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Kolin",
+            "card_type": "classic",
+            "tx_count": 13,
+            "total_amount": 30700
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Decin",
+            "card_type": "classic",
+            "tx_count": 16,
+            "total_amount": 30400
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Kladno",
+            "card_type": "classic",
+            "tx_count": 13,
+            "total_amount": 29700
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Trebic",
+            "card_type": "classic",
+            "tx_count": 14,
+            "total_amount": 29000
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Liberec",
+            "card_type": "classic",
+            "tx_count": 14,
+            "total_amount": 28800
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Semily",
+            "card_type": "gold",
+            "tx_count": 6,
+            "total_amount": 28200
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Prerov",
+            "card_type": "classic",
+            "tx_count": 11,
+            "total_amount": 28100
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Pisek",
+            "card_type": "classic",
+            "tx_count": 13,
+            "total_amount": 26900
+          },
+          {
+            "month": "1997-12-01",
+            "district_name": "Karvina",
+            "card_type": "classic",
+            "tx_count": 12,
+            "total_amount": 26300
+          },
+          {
+            "month": "1997-01-01",
+            "district_name": "Prostejov",
+            "card_type": "classic",
+            "tx_count": 10,
+            "total_amount": 25700
+          }
+        ],
+        "rowcount": 20
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:40.567Z"
+}

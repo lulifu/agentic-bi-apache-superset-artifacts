@@ -1,0 +1,43 @@
+{
+  "task_id": "bird_financial_02",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": null,
+  "sql": "SELECT DISTINCT CASE WHEN AVG(\"A13\") > AVG(\"A12\") THEN '1996' ELSE '1995' END FROM district;",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:self_test"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_financial_02",
+    "sql": "SELECT DISTINCT CASE WHEN AVG(\"A13\") > AVG(\"A12\") THEN '1996' ELSE '1995' END FROM district;",
+    "tool_calls": [
+      "sql_lab.mjs:self_test"
+    ],
+    "repair_decision": "kept_first_pass",
+    "self_test": {
+      "executed": true,
+      "rowcount": 1,
+      "headers": [
+        "case"
+      ],
+      "sample_rows": [
+        {
+          "case": "1996"
+        }
+      ]
+    },
+    "notes": "First pass compares average 1996 unemployment rate against average 1995 rate as requested."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec79b-8eea-7e33-abe8-95eaeb40a70c",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:30:57.371Z"
+}

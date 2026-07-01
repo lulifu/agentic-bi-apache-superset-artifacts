@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_03",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH base AS (SELECT l.loan_id, l.status, dist.\"A3\" AS region, dist.\"A11\" AS avg_salary, c.client_id, c.gender FROM loan AS l INNER JOIN account AS a ON a.account_id = l.account_id INNER JOIN district AS dist ON dist.district_id = a.district_id LEFT JOIN disp AS dp ON dp.account_id = a.account_id AND dp.type = 'OWNER' LEFT JOIN client AS c ON c.client_id = dp.client_id WHERE l.status IN ('A', 'B') AND l.date <= DATE '1997-12-31'), regional AS (SELECT region, COUNT(DISTINCT loan_id) AS finished_loan_count, COUNT(DISTINCT CASE WHEN status = 'B' THEN loan_id END) AS defaulted_loan_count, COUNT(DISTINCT CASE WHEN status = 'B' THEN loan_id END) * 1.0 / NULLIF(COUNT(DISTINCT loan_id), 0) AS default_rate, COUNT(DISTINCT client_id) AS borrower_client_count, COUNT(DISTINCT CASE WHEN gender = 'M' THEN client_id END) * 100.0 / NULLIF(COUNT(DISTINCT client_id), 0) AS male_client_pct, AVG(avg_salary) AS avg_branch_salary FROM base GROUP BY region) SELECT region, finished_loan_count, defaulted_loan_count, default_rate, borrower_client_count, male_client_pct, avg_branch_salary, RANK() OVER (ORDER BY default_rate DESC) AS default_rate_rank FROM regional ORDER BY default_rate DESC;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

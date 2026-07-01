@@ -1,0 +1,101 @@
+{
+  "task_id": "self_financial_dashboard_02",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Regional risk dashboard comparing Czech regions on client base, active-loan exposure, finished-loan default rate, and salary context.",
+  "sql": "",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Regional Risk Summary",
+        "viz_type": "table",
+        "metrics": [
+          "COUNT(DISTINCT client.client_id)",
+          "COUNT(loan.loan_id) WHERE loan.status IN ('C','D')",
+          "COUNT(loan.loan_id) WHERE loan.status = 'B' / COUNT(loan.loan_id) WHERE loan.status IN ('A','B')",
+          "AVG(district.A11)"
+        ],
+        "dimensions": [
+          "district.A3"
+        ],
+        "filters": [
+          "all-time"
+        ]
+      },
+      {
+        "title": "Default Rate by Region",
+        "viz_type": "bar",
+        "metrics": [
+          "COUNT(loan.loan_id) WHERE loan.status = 'B' / COUNT(loan.loan_id) WHERE loan.status IN ('A','B')"
+        ],
+        "dimensions": [
+          "district.A3"
+        ],
+        "filters": [
+          "loan.status IN ('A','B')"
+        ]
+      }
+    ],
+    "layout_intent": "Wide regional summary table above a horizontal default-rate ranking bar.",
+    "chart_count": 2,
+    "chart_viz_types": [
+      "table",
+      "bar"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_dashboard_02",
+    "artifact": "Regional risk dashboard comparing Czech regions on client base, active-loan exposure, finished-loan default rate, and salary context.",
+    "chart_spec": {
+      "charts": [
+        {
+          "title": "Regional Risk Summary",
+          "viz_type": "table",
+          "metrics": [
+            "COUNT(DISTINCT client.client_id)",
+            "COUNT(loan.loan_id) WHERE loan.status IN ('C','D')",
+            "COUNT(loan.loan_id) WHERE loan.status = 'B' / COUNT(loan.loan_id) WHERE loan.status IN ('A','B')",
+            "AVG(district.A11)"
+          ],
+          "dimensions": [
+            "district.A3"
+          ],
+          "filters": [
+            "all-time"
+          ]
+        },
+        {
+          "title": "Default Rate by Region",
+          "viz_type": "bar",
+          "metrics": [
+            "COUNT(loan.loan_id) WHERE loan.status = 'B' / COUNT(loan.loan_id) WHERE loan.status IN ('A','B')"
+          ],
+          "dimensions": [
+            "district.A3"
+          ],
+          "filters": [
+            "loan.status IN ('A','B')"
+          ]
+        }
+      ],
+      "layout_intent": "Wide regional summary table above a horizontal default-rate ranking bar.",
+      "chart_count": 2,
+      "chart_viz_types": [
+        "table",
+        "bar"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-1fcf-7070-a2df-21c498fb4cbf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.286Z"
+}

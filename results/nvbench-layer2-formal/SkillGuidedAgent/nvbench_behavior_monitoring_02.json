@@ -1,0 +1,143 @@
+{
+  "task_id": "nvbench_behavior_monitoring_02",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "behavior_monitoring",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 435,
+    "virtual_dataset_id": 137,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_02",
+    "superset_create_response": {
+      "id": 435,
+      "result": {
+        "datasource_id": 137,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_02. Expected visualization: Line.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"note_year_start\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(note_count)\",\"sqlExpression\":\"SUM(note_count)\"}],\"groupby\":[],\"datasource\":\"137__table\",\"viz_type\":\"echarts_timeseries_line\",\"granularity_sqla\":\"note_year_start\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"note_year_start\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":137,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"note_year_start\",\"label\":\"note_year_start\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(note_count)\",\"sqlExpression\":\"SUM(note_count)\"}],\"filters\":[{\"col\":\"note_year_start\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(note_count)\",\"sqlExpression\":\"SUM(note_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"note_year_start\"],\"columns\":[],\"aggregates\":{\"SUM(note_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_02",
+        "viz_type": "echarts_timeseries_line"
+      }
+    },
+    "verification": {
+      "chart_id": 435,
+      "ok": true,
+      "row_count": 8,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_02.png",
+      "screenshot_bytes": 53242,
+      "chart_url": "/superset/explore/?slice_id=435",
+      "issues": []
+    }
+  },
+  "sql": "SELECT (1971 + FLOOR((EXTRACT(YEAR FROM date_of_notes)::int - 1971) / 5.0)::int * 5) AS note_year_start,\n       COUNT(date_of_notes) AS note_count\nFROM bench_nvbench_behavior_monitoring.assessment_notes\nGROUP BY note_year_start\nORDER BY note_year_start;",
+  "chart_spec": {
+    "viz_type": "Line",
+    "superset_viz_type": "echarts_timeseries_line",
+    "dataset_id": 137,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_02",
+    "metrics": [
+      "note_count"
+    ],
+    "dimensions": [
+      "note_year_start"
+    ],
+    "filters": "",
+    "time_range": "No filter; bin date_of_notes by year interval",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "note_year_start",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(note_count)",
+          "sqlExpression": "SUM(note_count)"
+        }
+      ],
+      "groupby": []
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 137
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 435
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 8
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_behavior_monitoring_02",
+      "dataset_id": 137,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_02",
+      "dataset_id": 137,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_line",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_02. Expected visualization: Line.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "note_year_start",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(note_count)",
+            "sqlExpression": "SUM(note_count)"
+          }
+        ],
+        "groupby": []
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 435,
+      "result": {
+        "datasource_id": 137,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_02. Expected visualization: Line.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"note_year_start\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(note_count)\",\"sqlExpression\":\"SUM(note_count)\"}],\"groupby\":[],\"datasource\":\"137__table\",\"viz_type\":\"echarts_timeseries_line\",\"granularity_sqla\":\"note_year_start\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"note_year_start\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":137,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"note_year_start\",\"label\":\"note_year_start\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(note_count)\",\"sqlExpression\":\"SUM(note_count)\"}],\"filters\":[{\"col\":\"note_year_start\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(note_count)\",\"sqlExpression\":\"SUM(note_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"note_year_start\"],\"columns\":[],\"aggregates\":{\"SUM(note_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_02",
+        "viz_type": "echarts_timeseries_line"
+      }
+    },
+    "verification": {
+      "chart_id": 435,
+      "ok": true,
+      "row_count": 8,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_02.png",
+      "screenshot_bytes": 53242,
+      "chart_url": "/superset/explore/?slice_id=435",
+      "issues": []
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:42:16.472Z"
+}

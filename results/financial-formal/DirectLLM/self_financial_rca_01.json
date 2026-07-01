@@ -1,0 +1,50 @@
+{
+  "task_id": "self_financial_rca_01",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: Treat March 1996 as an amount anomaly rather than a count anomaly. Compare March against the average of February and April, then rank negative gap contributors by region, transaction type, and k_symbol. The most likely primary driver is a lower average transaction amount within high-volume withdrawal or payment categories, since neighboring-month row counts are not materially lower for March.",
+  "sql": "WITH monthly AS (SELECT DATE_TRUNC('month', CAST(t.date AS DATE)) AS month, d.A3 AS region, t.type, COALESCE(t.k_symbol,'UNKNOWN') AS k_symbol, COUNT(*) AS tx_count, SUM(t.amount) AS total_amount, AVG(t.amount) AS avg_amount FROM trans t JOIN account a ON a.account_id=t.account_id JOIN district d ON d.district_id=a.district_id WHERE CAST(t.date AS DATE) >= DATE '1996-02-01' AND CAST(t.date AS DATE) < DATE '1996-05-01' GROUP BY 1,2,3,4), baseline AS (SELECT region, type, k_symbol, AVG(total_amount) AS baseline_amount FROM monthly WHERE month IN (DATE '1996-02-01', DATE '1996-04-01') GROUP BY 1,2,3) SELECT m.region, m.type, m.k_symbol, m.total_amount AS march_amount, b.baseline_amount, m.total_amount-b.baseline_amount AS amount_gap, m.tx_count, m.avg_amount FROM monthly m JOIN baseline b USING(region,type,k_symbol) WHERE m.month=DATE '1996-03-01' ORDER BY amount_gap ASC LIMIT 25;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "March 1996 Gap Waterfall",
+        "type": "waterfall",
+        "metrics": [
+          "SUM(trans.amount) gap vs Feb-Apr baseline"
+        ],
+        "dimensions": [
+          "district.A3",
+          "trans.type",
+          "trans.k_symbol"
+        ],
+        "filters": [
+          "Feb-Mar-Apr 1996"
+        ]
+      },
+      {
+        "title": "Largest Negative Contributors",
+        "type": "bar",
+        "metrics": [
+          "amount_gap",
+          "avg_amount"
+        ],
+        "dimensions": [
+          "region",
+          "transaction type",
+          "k_symbol"
+        ],
+        "filters": [
+          "March 1996 vs neighboring-month baseline"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

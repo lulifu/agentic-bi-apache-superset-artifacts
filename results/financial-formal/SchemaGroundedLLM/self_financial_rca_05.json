@@ -1,0 +1,24 @@
+{
+  "task_id": "self_financial_rca_05",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "The stated weekly-statement default-rate problem is not supported in the 1997 finished-loan cohort. Weekly statement accounts had 0 defaults out of 4 finished loans, while monthly statement accounts had 3 defaults out of 39, a 7.69% default rate. Weekly loans do not skew larger or longer in this slice: average amount is 51,423 and duration is 12 months, versus 57,339 and 12 months for monthly accounts.",
+  "sql": {
+    "default_rate_by_frequency": "SELECT a.frequency, COUNT(*) AS finished_loans, COUNT(*) FILTER (WHERE l.status = 'B') AS defaults, COUNT(*) FILTER (WHERE l.status = 'B')::numeric / NULLIF(COUNT(*), 0) AS default_rate, AVG(l.amount) AS avg_amount, AVG(l.duration) AS avg_duration, AVG(d.\"A11\") AS avg_salary FROM loan l JOIN account a ON a.account_id = l.account_id JOIN district d ON d.district_id = a.district_id WHERE l.date >= DATE '1997-01-01' AND l.date < DATE '1998-01-01' AND l.status IN ('A','B') GROUP BY 1 ORDER BY default_rate DESC;",
+    "drilldown_salary_amount_duration": "WITH base AS (SELECT l.loan_id, l.status, a.frequency, l.amount, l.duration, d.\"A11\", NTILE(4) OVER (ORDER BY d.\"A11\") AS salary_quartile, NTILE(4) OVER (ORDER BY l.amount) AS amount_quartile FROM loan l JOIN account a ON a.account_id = l.account_id JOIN district d ON d.district_id = a.district_id WHERE l.date >= DATE '1997-01-01' AND l.date < DATE '1998-01-01' AND l.status IN ('A','B')) SELECT axis, segment, frequency, COUNT(*) AS finished_loans, COUNT(*) FILTER (WHERE status = 'B') AS defaults, COUNT(*) FILTER (WHERE status = 'B')::numeric / NULLIF(COUNT(*), 0) AS default_rate FROM (SELECT 'salary_quartile' AS axis, salary_quartile::text AS segment, frequency, status FROM base UNION ALL SELECT 'amount_quartile', amount_quartile::text, frequency, status FROM base UNION ALL SELECT 'duration', duration::text, frequency, status FROM base) x GROUP BY 1, 2, 3 ORDER BY 1, 2, 3;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "frequency default-rate bar",
+      "salary quartile, amount quartile, and duration drilldown table"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

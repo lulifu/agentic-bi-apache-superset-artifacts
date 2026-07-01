@@ -1,0 +1,25 @@
+{
+  "task_id": "bird_student_club_05",
+  "system": "DirectLLM",
+  "task_class": "query",
+  "dataset": "student_club",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Find the expense by description and date, then return the linked event status.",
+  "sql": "SELECT e.event_status\nFROM expense AS ex\nJOIN event AS e ON ex.event_id = e.event_id\nWHERE ex.description = 'Post Cards, Posters'\n  AND ex.expense_date = DATE '2019-08-20';",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_student_club_05",
+    "sql": "SELECT e.event_status\nFROM expense AS ex\nJOIN event AS e ON ex.event_id = e.event_id\nWHERE ex.description = 'Post Cards, Posters'\n  AND ex.expense_date = DATE '2019-08-20';",
+    "artifact": "Find the expense by description and date, then return the linked event status."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec784-15db-7943-b8be-c717437e4e6b",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:05:05.684Z"
+}

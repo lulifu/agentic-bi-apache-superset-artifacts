@@ -1,0 +1,85 @@
+{
+  "arm": "ApiOnlyMonitoringAgent",
+  "evidence_status": "direct",
+  "evidence_scope": {
+    "included": [
+      "tasks/nl2bi-benchmark.csv",
+      "results/financial-formal/SkillGuidedAgent/self_financial_dashboard_01.json through self_financial_dashboard_10.json",
+      "results/financial-formal/SkillGuidedAgent/self_financial_analysis_01.json through self_financial_analysis_10.json",
+      "results/financial-formal/SkillGuidedAgent/self_financial_rca_01.json through self_financial_rca_10.json"
+    ],
+    "excluded": [
+      "PNG screenshots",
+      "screenshot manifests",
+      "dashboard screenshot evidence markdown",
+      "ablation summary files",
+      "existing score sheets or summary tables"
+    ],
+    "basis": "Scores use only API-observable structured chart metadata, chart-data previews, SQL text, and query result rows."
+  },
+  "class_scores": {
+    "dashboard": {
+      "entries": 10,
+      "dimensions": {
+        "dashboard_create_success": 2.0,
+        "expected_charts_present": 2.0,
+        "dataset_metric_correctness": 1.8,
+        "viz_type_appropriateness": 2.0,
+        "layout_legibility": 1.0,
+        "render_and_screenshot": 1.0
+      },
+      "avg_2pt": 1.6333,
+      "normalized_pct": 81.67
+    },
+    "analysis": {
+      "entries": 10,
+      "dimensions": {
+        "latest_value_correct": 2.0,
+        "baseline_correct": 2.0,
+        "percentage_change_correct": 1.6,
+        "trend_direction_correct": 1.9,
+        "evidence_supported": 2.0,
+        "separates_observation_from_hypothesis": 1.0
+      },
+      "avg_2pt": 1.75,
+      "normalized_pct": 87.5
+    },
+    "rca": {
+      "entries": 10,
+      "dimensions": {
+        "anomaly_correctly_identified": 0.8,
+        "drilldown_dimensions_correct": 1.9,
+        "top_contributor_correct": 0.7,
+        "evidence_from_executed_queries": 2.0,
+        "actionable_and_concise": 0.4
+      },
+      "avg_2pt": 1.16,
+      "normalized_pct": 58.0
+    }
+  },
+  "representative_task_scores": [
+    {
+      "task_id": "self_financial_dashboard_05",
+      "class": "dashboard",
+      "avg_2pt": 1.5,
+      "notes": "Expected chart set exists, but metric grounding is partial because the loan-size scatter is aggregated as AVG loan amount by age/gender."
+    },
+    {
+      "task_id": "self_financial_analysis_01",
+      "class": "analysis",
+      "avg_2pt": 1.6667,
+      "notes": "1996/1997 totals, counts, averages, and decomposition are supported by SQL rows; total percentage change is not explicitly computed."
+    },
+    {
+      "task_id": "self_financial_rca_06",
+      "class": "rca",
+      "avg_2pt": 1.8,
+      "notes": "Identifies the largest absolute SIPO-share deviation and includes district, region, salary, and unemployment profile fields."
+    }
+  ],
+  "caveats": [
+    "Dashboard layout_legibility and render_and_screenshot were intentionally capped at partial credit because the allowed evidence excludes screenshots and screenshot manifests.",
+    "Analysis and RCA artifacts are mostly SQL result rows rather than narrative reports, so observation/hypothesis separation and actionable-concise dimensions receive limited credit even when the data query is correct.",
+    "Scores do not use any existing score sheets, summary tables, PNG evidence, screenshot manifests, dashboard screenshot evidence markdown, or ablation summary files."
+  ]
+}

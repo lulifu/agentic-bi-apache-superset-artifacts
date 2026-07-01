@@ -1,0 +1,376 @@
+{
+  "task_id": "self_financial_dashboard_03",
+  "system": "SkillGuidedAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "dashboard_id": 89,
+    "dashboard_title": "nl2bi-formal self_financial_dashboard_03 card product overview",
+    "dashboard_url": "/dashboard/89/",
+    "chart_ids": [
+      391,
+      392,
+      393
+    ],
+    "charts": [
+      {
+        "chart_id": 391,
+        "slice_name": "nl2bi-formal d03 card issuance by month and type",
+        "viz_type": "echarts_timeseries_line",
+        "dataset_id": 33,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 59,
+          "preview": [
+            {
+              "issued": 757382400000,
+              "COUNT(card_id), classic": 1,
+              "COUNT(card_id), gold": null,
+              "COUNT(card_id), junior": null
+            },
+            {
+              "issued": 760060800000,
+              "COUNT(card_id), classic": 3,
+              "COUNT(card_id), gold": null,
+              "COUNT(card_id), junior": null
+            },
+            {
+              "issued": 762480000000,
+              "COUNT(card_id), classic": 1,
+              "COUNT(card_id), gold": null,
+              "COUNT(card_id), junior": null
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=391"
+      },
+      {
+        "chart_id": 392,
+        "slice_name": "nl2bi-formal d03 issued card mix by type",
+        "viz_type": "pie",
+        "dataset_id": 33,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 3,
+          "preview": [
+            {
+              "type": "classic",
+              "COUNT(card_id)": 658
+            },
+            {
+              "type": "junior",
+              "COUNT(card_id)": 145
+            },
+            {
+              "type": "gold",
+              "COUNT(card_id)": 88
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=392"
+      },
+      {
+        "chart_id": 393,
+        "slice_name": "nl2bi-formal d03 card withdrawals per month 1997",
+        "viz_type": "echarts_timeseries_line",
+        "dataset_id": 41,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 12,
+          "preview": [
+            {
+              "trans_date": 852076800000,
+              "COUNT(trans_id), classic": 552,
+              "COUNT(trans_id), gold": 54,
+              "COUNT(trans_id), junior": 198
+            },
+            {
+              "trans_date": 854755200000,
+              "COUNT(trans_id), classic": 46,
+              "COUNT(trans_id), gold": 5,
+              "COUNT(trans_id), junior": 19
+            },
+            {
+              "trans_date": 857174400000,
+              "COUNT(trans_id), classic": 49,
+              "COUNT(trans_id), gold": 5,
+              "COUNT(trans_id), junior": 16
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=393"
+      }
+    ],
+    "dashboard_chart_count": 3
+  },
+  "sql": null,
+  "chart_spec": {
+    "dashboard_title": "nl2bi-formal self_financial_dashboard_03 card product overview",
+    "chart_count": 3,
+    "chart_viz_types": [
+      "echarts_timeseries_line",
+      "pie",
+      "echarts_timeseries_line"
+    ]
+  },
+  "tool_calls": [
+    "create_chart.mjs:391",
+    "create_chart.mjs:392",
+    "create_chart.mjs:393",
+    "create_dashboard.mjs:89",
+    "query_dashboard.mjs:89:charts"
+  ],
+  "error": null,
+  "raw_response": {
+    "charts": [
+      {
+        "chart_id": 391,
+        "slice_name": "nl2bi-formal d03 card issuance by month and type",
+        "viz_type": "echarts_timeseries_line",
+        "dataset_id": 33,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 59,
+          "preview": [
+            {
+              "issued": 757382400000,
+              "COUNT(card_id), classic": 1,
+              "COUNT(card_id), gold": null,
+              "COUNT(card_id), junior": null
+            },
+            {
+              "issued": 760060800000,
+              "COUNT(card_id), classic": 3,
+              "COUNT(card_id), gold": null,
+              "COUNT(card_id), junior": null
+            },
+            {
+              "issued": 762480000000,
+              "COUNT(card_id), classic": 1,
+              "COUNT(card_id), gold": null,
+              "COUNT(card_id), junior": null
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=391"
+      },
+      {
+        "chart_id": 392,
+        "slice_name": "nl2bi-formal d03 issued card mix by type",
+        "viz_type": "pie",
+        "dataset_id": 33,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 3,
+          "preview": [
+            {
+              "type": "classic",
+              "COUNT(card_id)": 658
+            },
+            {
+              "type": "junior",
+              "COUNT(card_id)": 145
+            },
+            {
+              "type": "gold",
+              "COUNT(card_id)": 88
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=392"
+      },
+      {
+        "chart_id": 393,
+        "slice_name": "nl2bi-formal d03 card withdrawals per month 1997",
+        "viz_type": "echarts_timeseries_line",
+        "dataset_id": 41,
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": []
+        },
+        "chart_data": {
+          "rowcount": 12,
+          "preview": [
+            {
+              "trans_date": 852076800000,
+              "COUNT(trans_id), classic": 552,
+              "COUNT(trans_id), gold": 54,
+              "COUNT(trans_id), junior": 198
+            },
+            {
+              "trans_date": 854755200000,
+              "COUNT(trans_id), classic": 46,
+              "COUNT(trans_id), gold": 5,
+              "COUNT(trans_id), junior": 19
+            },
+            {
+              "trans_date": 857174400000,
+              "COUNT(trans_id), classic": 49,
+              "COUNT(trans_id), gold": 5,
+              "COUNT(trans_id), junior": 16
+            }
+          ]
+        },
+        "url": "/superset/explore/?slice_id=393"
+      }
+    ],
+    "dashboard_charts": [
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:37:59.477844",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "expressionType": "SQL",
+              "sqlExpression": "issued >= DATE '1994-01-01' AND issued < DATE '1999-01-01'"
+            }
+          ],
+          "datasource": "33__table",
+          "groupby": [
+            "type"
+          ],
+          "metric": {
+            "expressionType": "SQL",
+            "label": "COUNT(card_id)",
+            "sqlExpression": "COUNT(card_id)"
+          },
+          "row_limit": 1000,
+          "show_labels": true,
+          "slice_id": 392,
+          "time_range": "No filter",
+          "viz_type": "pie"
+        },
+        "id": 392,
+        "slice_name": "nl2bi-formal d03 issued card mix by type",
+        "slice_url": "/explore/?slice_id=392&form_data=%7B%22slice_id%22%3A%20392%7D"
+      },
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:37:58.047642",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "expressionType": "SQL",
+              "sqlExpression": "issued >= DATE '1994-01-01' AND issued < DATE '1999-01-01'"
+            },
+            {
+              "clause": "WHERE",
+              "comparator": "No filter",
+              "expressionType": "SIMPLE",
+              "operator": "TEMPORAL_RANGE",
+              "subject": "issued"
+            }
+          ],
+          "datasource": "33__table",
+          "granularity_sqla": "issued",
+          "groupby": [
+            "type"
+          ],
+          "metrics": [
+            {
+              "expressionType": "SQL",
+              "label": "COUNT(card_id)",
+              "sqlExpression": "COUNT(card_id)"
+            }
+          ],
+          "row_limit": 1000,
+          "show_legend": true,
+          "slice_id": 391,
+          "time_grain_sqla": "P1M",
+          "time_range": "No filter",
+          "viz_type": "echarts_timeseries_line",
+          "x_axis": "issued"
+        },
+        "id": 391,
+        "slice_name": "nl2bi-formal d03 card issuance by month and type",
+        "slice_url": "/explore/?slice_id=391&form_data=%7B%22slice_id%22%3A%20391%7D"
+      },
+      {
+        "cache_timeout": null,
+        "certification_details": null,
+        "certified_by": null,
+        "changed_on": "2026-06-10T17:38:00.624986",
+        "description": "SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.",
+        "description_markeddown": "<p>SkillGuidedAgent formal BIRD financial dashboard benchmark artifact.</p>",
+        "form_data": {
+          "adhoc_filters": [
+            {
+              "clause": "WHERE",
+              "expressionType": "SQL",
+              "sqlExpression": "trans_date >= DATE '1997-01-01' AND trans_date < DATE '1998-01-01'"
+            },
+            {
+              "clause": "WHERE",
+              "comparator": "No filter",
+              "expressionType": "SIMPLE",
+              "operator": "TEMPORAL_RANGE",
+              "subject": "trans_date"
+            }
+          ],
+          "datasource": "41__table",
+          "granularity_sqla": "trans_date",
+          "groupby": [
+            "card_type"
+          ],
+          "metrics": [
+            {
+              "expressionType": "SQL",
+              "label": "COUNT(trans_id)",
+              "sqlExpression": "COUNT(trans_id)"
+            }
+          ],
+          "row_limit": 1000,
+          "show_legend": true,
+          "slice_id": 393,
+          "time_grain_sqla": "P1M",
+          "time_range": "No filter",
+          "viz_type": "echarts_timeseries_line",
+          "x_axis": "trans_date"
+        },
+        "id": 393,
+        "slice_name": "nl2bi-formal d03 card withdrawals per month 1997",
+        "slice_url": "/explore/?slice_id=393&form_data=%7B%22slice_id%22%3A%20393%7D"
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:38:01.632Z"
+}

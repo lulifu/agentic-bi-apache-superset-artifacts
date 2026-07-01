@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_behavior_monitoring_04",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "behavior_monitoring",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 437,
+    "virtual_dataset_id": 139,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_04",
+    "superset_create_response": {
+      "id": 437,
+      "result": {
+        "datasource_id": 139,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_04. Expected visualization: Scatter.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"student_id\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_id)\",\"sqlExpression\":\"SUM(address_id)\"}],\"groupby\":[],\"datasource\":\"139__table\",\"viz_type\":\"echarts_timeseries_scatter\",\"granularity_sqla\":\"student_id\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"student_id\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":139,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"student_id\",\"label\":\"student_id\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_id)\",\"sqlExpression\":\"SUM(address_id)\"}],\"filters\":[{\"col\":\"student_id\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_id)\",\"sqlExpression\":\"SUM(address_id)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"student_id\"],\"columns\":[],\"aggregates\":{\"SUM(address_id)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_04",
+        "viz_type": "echarts_timeseries_scatter"
+      }
+    },
+    "verification": {
+      "chart_id": 437,
+      "ok": true,
+      "row_count": 14,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_04.png",
+      "screenshot_bytes": 13679,
+      "chart_url": "/superset/explore/?slice_id=437",
+      "issues": [
+        "warning: screenshot only 13.4 KB despite 14 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT student_id, address_id\nFROM bench_nvbench_behavior_monitoring.student_addresses\nORDER BY monthly_rental DESC;",
+  "chart_spec": {
+    "viz_type": "Scatter",
+    "superset_viz_type": "echarts_timeseries_scatter",
+    "dataset_id": 139,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_04",
+    "metrics": [
+      "address_id"
+    ],
+    "dimensions": [
+      "student_id"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "student_id",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(address_id)",
+          "sqlExpression": "SUM(address_id)"
+        }
+      ],
+      "groupby": []
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 139
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 437
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 14
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_behavior_monitoring_04",
+      "dataset_id": 139,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_04",
+      "dataset_id": 139,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_scatter",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_04. Expected visualization: Scatter.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "student_id",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(address_id)",
+            "sqlExpression": "SUM(address_id)"
+          }
+        ],
+        "groupby": []
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 437,
+      "result": {
+        "datasource_id": 139,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_04. Expected visualization: Scatter.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"student_id\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_id)\",\"sqlExpression\":\"SUM(address_id)\"}],\"groupby\":[],\"datasource\":\"139__table\",\"viz_type\":\"echarts_timeseries_scatter\",\"granularity_sqla\":\"student_id\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"student_id\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":139,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"student_id\",\"label\":\"student_id\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_id)\",\"sqlExpression\":\"SUM(address_id)\"}],\"filters\":[{\"col\":\"student_id\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_id)\",\"sqlExpression\":\"SUM(address_id)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"student_id\"],\"columns\":[],\"aggregates\":{\"SUM(address_id)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_04",
+        "viz_type": "echarts_timeseries_scatter"
+      }
+    },
+    "verification": {
+      "chart_id": 437,
+      "ok": true,
+      "row_count": 14,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_04.png",
+      "screenshot_bytes": 13679,
+      "chart_url": "/superset/explore/?slice_id=437",
+      "issues": [
+        "warning: screenshot only 13.4 KB despite 14 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:42:44.768Z"
+}

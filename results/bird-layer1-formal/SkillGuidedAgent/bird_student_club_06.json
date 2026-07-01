@@ -1,0 +1,30 @@
+{
+  "task_id": "bird_student_club_06",
+  "system": "SkillGuidedAgent",
+  "task_class": "query",
+  "dataset": "student_club",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Compute Advertisement budget total for Yearly Kickoff divided by October Meeting.",
+  "sql": "SELECT SUM(CASE WHEN ev.event_name = 'Yearly Kickoff' THEN bud.amount ELSE 0 END)::numeric / NULLIF(SUM(CASE WHEN ev.event_name = 'October Meeting' THEN bud.amount ELSE 0 END)::numeric, 0) AS budget_ratio FROM budget AS bud JOIN event AS ev ON bud.link_to_event = ev.event_id WHERE bud.category = 'Advertisement' AND ev.event_name IN ('Yearly Kickoff', 'October Meeting');",
+  "chart_spec": null,
+  "tool_calls": [
+    "schema_inspection"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_student_club_06",
+    "sql": "SELECT SUM(CASE WHEN ev.event_name = 'Yearly Kickoff' THEN bud.amount ELSE 0 END)::numeric / NULLIF(SUM(CASE WHEN ev.event_name = 'October Meeting' THEN bud.amount ELSE 0 END)::numeric, 0) AS budget_ratio FROM budget AS bud JOIN event AS ev ON bud.link_to_event = ev.event_id WHERE bud.category = 'Advertisement' AND ev.event_name IN ('Yearly Kickoff', 'October Meeting');",
+    "artifact": "Compute Advertisement budget total for Yearly Kickoff divided by October Meeting.",
+    "tool_calls": [
+      "schema_inspection"
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec786-e8c6-72c1-9726-9de400cc2330",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:06:50.769Z"
+}

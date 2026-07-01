@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_customers_and_invoices_01",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "customers_and_invoices",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 440,
+    "virtual_dataset_id": 142,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_01",
+    "superset_create_response": {
+      "id": 440,
+      "result": {
+        "datasource_id": 142,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_01. Expected visualization: Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"other_account_details\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"groupby\":[],\"datasource\":\"142__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"other_account_details\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"other_account_details\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":142,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"other_account_details\",\"label\":\"other_account_details\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"filters\":[{\"col\":\"other_account_details\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"other_account_details\"],\"columns\":[],\"aggregates\":{\"SUM(account_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_01",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 440,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_01.png",
+      "screenshot_bytes": 11220,
+      "chart_url": "/superset/explore/?slice_id=440",
+      "issues": [
+        "warning: screenshot only 11.0 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT other_account_details, COUNT(other_account_details) AS account_count\nFROM bench_nvbench_customers_and_invoices.accounts\nGROUP BY other_account_details\nORDER BY other_account_details;",
+  "chart_spec": {
+    "viz_type": "Bar",
+    "superset_viz_type": "echarts_timeseries_bar",
+    "dataset_id": 142,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_01",
+    "metrics": [
+      "account_count"
+    ],
+    "dimensions": [
+      "other_account_details"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "other_account_details",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(account_count)",
+          "sqlExpression": "SUM(account_count)"
+        }
+      ],
+      "groupby": []
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 142
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 440
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 2
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_customers_and_invoices_01",
+      "dataset_id": 142,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_01",
+      "dataset_id": 142,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_bar",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_01. Expected visualization: Bar.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "other_account_details",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(account_count)",
+            "sqlExpression": "SUM(account_count)"
+          }
+        ],
+        "groupby": []
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 440,
+      "result": {
+        "datasource_id": 142,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_01. Expected visualization: Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"other_account_details\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"groupby\":[],\"datasource\":\"142__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"other_account_details\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"other_account_details\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":142,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"other_account_details\",\"label\":\"other_account_details\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"filters\":[{\"col\":\"other_account_details\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"other_account_details\"],\"columns\":[],\"aggregates\":{\"SUM(account_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_01",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 440,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_01.png",
+      "screenshot_bytes": 11220,
+      "chart_url": "/superset/explore/?slice_id=440",
+      "issues": [
+        "warning: screenshot only 11.0 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:43:27.274Z"
+}

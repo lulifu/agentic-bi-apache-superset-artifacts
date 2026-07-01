@@ -1,0 +1,32 @@
+{
+  "task_id": "self_financial_rca_08",
+  "system": "NoRcaDrillPlanningAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "RCA report: inconclusive. The gold-versus-junior finished-loan default-rate gap and decomposition were not executed. The intended decomposition compares raw default rates, then reweights by client age band and loan-amount band to estimate how much of the gap is explained by composition. Any remaining gap should be reported as unexplained association, not causal effect.",
+  "sql": {
+    "raw_gap": "WITH base AS (SELECT c.type AS card_type, l.status, l.amount, cl.birth_date FROM loan l JOIN account a ON a.account_id=l.account_id JOIN disp dp ON dp.account_id=a.account_id JOIN card c ON c.disp_id=dp.disp_id JOIN client cl ON cl.client_id=dp.client_id WHERE l.status IN ('A','B') AND c.type IN ('gold','junior')) SELECT card_type, COUNT(*) AS finished_loans, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END) AS defaults, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate, AVG(amount) AS avg_amount FROM base GROUP BY 1 ORDER BY default_rate DESC;",
+    "age_amount_bands": "WITH base AS (SELECT c.type AS card_type, l.status, CASE WHEN EXTRACT(YEAR FROM AGE(CAST(l.date AS DATE), cl.birth_date)) < 30 THEN '<30' WHEN EXTRACT(YEAR FROM AGE(CAST(l.date AS DATE), cl.birth_date)) < 45 THEN '30-44' WHEN EXTRACT(YEAR FROM AGE(CAST(l.date AS DATE), cl.birth_date)) < 60 THEN '45-59' ELSE '60+' END AS age_band, NTILE(4) OVER (ORDER BY l.amount) AS amount_band FROM loan l JOIN account a ON a.account_id=l.account_id JOIN disp dp ON dp.account_id=a.account_id JOIN card c ON c.disp_id=dp.disp_id JOIN client cl ON cl.client_id=dp.client_id WHERE l.status IN ('A','B') AND c.type IN ('gold','junior')) SELECT card_type, age_band, amount_band, COUNT(*) AS n, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate FROM base GROUP BY 1,2,3 ORDER BY 1,2,3;"
+  },
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_rca_08",
+    "artifact": "RCA report: inconclusive. The gold-versus-junior finished-loan default-rate gap and decomposition were not executed. The intended decomposition compares raw default rates, then reweights by client age band and loan-amount band to estimate how much of the gap is explained by composition. Any remaining gap should be reported as unexplained association, not causal effect.",
+    "sql": {
+      "raw_gap": "WITH base AS (SELECT c.type AS card_type, l.status, l.amount, cl.birth_date FROM loan l JOIN account a ON a.account_id=l.account_id JOIN disp dp ON dp.account_id=a.account_id JOIN card c ON c.disp_id=dp.disp_id JOIN client cl ON cl.client_id=dp.client_id WHERE l.status IN ('A','B') AND c.type IN ('gold','junior')) SELECT card_type, COUNT(*) AS finished_loans, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END) AS defaults, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate, AVG(amount) AS avg_amount FROM base GROUP BY 1 ORDER BY default_rate DESC;",
+      "age_amount_bands": "WITH base AS (SELECT c.type AS card_type, l.status, CASE WHEN EXTRACT(YEAR FROM AGE(CAST(l.date AS DATE), cl.birth_date)) < 30 THEN '<30' WHEN EXTRACT(YEAR FROM AGE(CAST(l.date AS DATE), cl.birth_date)) < 45 THEN '30-44' WHEN EXTRACT(YEAR FROM AGE(CAST(l.date AS DATE), cl.birth_date)) < 60 THEN '45-59' ELSE '60+' END AS age_band, NTILE(4) OVER (ORDER BY l.amount) AS amount_band FROM loan l JOIN account a ON a.account_id=l.account_id JOIN disp dp ON dp.account_id=a.account_id JOIN card c ON c.disp_id=dp.disp_id JOIN client cl ON cl.client_id=dp.client_id WHERE l.status IN ('A','B') AND c.type IN ('gold','junior')) SELECT card_type, age_band, amount_band, COUNT(*) AS n, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate FROM base GROUP BY 1,2,3 ORDER BY 1,2,3;"
+    },
+    "tool_calls": []
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-3cf4-70a3-9ce1-411c1e4a1720",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.304Z"
+}

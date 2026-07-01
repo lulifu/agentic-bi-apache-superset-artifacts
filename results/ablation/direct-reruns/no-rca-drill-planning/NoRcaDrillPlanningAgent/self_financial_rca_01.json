@@ -1,0 +1,48 @@
+{
+  "task_id": "self_financial_rca_01",
+  "system": "NoRcaDrillPlanningAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "RCA report: inconclusive. SQL Lab could not be used in this run because the preliminary read-only probe returned HTTP 401 Missing Authorization Header, so I did not execute the drill queries or assert numeric contributors. The intended analysis compares March 1996 against the average of February and April 1996 by region, transaction type, and k_symbol. Based only on the task note, March is not a strong row-count outlier, so a true drop in total amount would most likely come from lower average amount per transaction rather than fewer transactions.",
+  "sql": {
+    "month_summary": "SELECT date_trunc('month', CAST(t.date AS DATE)) AS month, COUNT(*) AS txn_count, SUM(t.amount) AS total_amount, AVG(t.amount) AS avg_amount FROM trans t WHERE CAST(t.date AS DATE) >= DATE '1996-02-01' AND CAST(t.date AS DATE) < DATE '1996-05-01' GROUP BY 1 ORDER BY 1;",
+    "region_drill": "WITH m AS (SELECT CASE WHEN CAST(t.date AS DATE) >= DATE '1996-03-01' AND CAST(t.date AS DATE) < DATE '1996-04-01' THEN 'march' ELSE 'neighbor' END AS period, d.\"A3\" AS region, SUM(t.amount) AS amount FROM trans t JOIN account a ON a.account_id=t.account_id JOIN district d ON d.district_id=a.district_id WHERE CAST(t.date AS DATE) >= DATE '1996-02-01' AND CAST(t.date AS DATE) < DATE '1996-05-01' GROUP BY 1,2) SELECT region, SUM(CASE WHEN period='march' THEN amount ELSE 0 END) AS march_amount, SUM(CASE WHEN period='neighbor' THEN amount ELSE 0 END)/2.0 AS neighbor_avg_amount, SUM(CASE WHEN period='march' THEN amount ELSE 0 END) - SUM(CASE WHEN period='neighbor' THEN amount ELSE 0 END)/2.0 AS gap FROM m GROUP BY region ORDER BY gap ASC;",
+    "type_k_symbol_drill": "WITH m AS (SELECT CASE WHEN CAST(t.date AS DATE) >= DATE '1996-03-01' AND CAST(t.date AS DATE) < DATE '1996-04-01' THEN 'march' ELSE 'neighbor' END AS period, t.type, COALESCE(t.k_symbol,'(blank)') AS k_symbol, SUM(t.amount) AS amount FROM trans t WHERE CAST(t.date AS DATE) >= DATE '1996-02-01' AND CAST(t.date AS DATE) < DATE '1996-05-01' GROUP BY 1,2,3) SELECT type, k_symbol, SUM(CASE WHEN period='march' THEN amount ELSE 0 END) AS march_amount, SUM(CASE WHEN period='neighbor' THEN amount ELSE 0 END)/2.0 AS neighbor_avg_amount, SUM(CASE WHEN period='march' THEN amount ELSE 0 END)-SUM(CASE WHEN period='neighbor' THEN amount ELSE 0 END)/2.0 AS gap FROM m GROUP BY type,k_symbol ORDER BY gap ASC;"
+  },
+  "chart_spec": null,
+  "tool_calls": [
+    {
+      "tool": "sql_lab",
+      "sql": "SELECT 1 AS ok",
+      "status": "failed",
+      "error": "HTTP 401 Missing Authorization Header"
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_rca_01",
+    "artifact": "RCA report: inconclusive. SQL Lab could not be used in this run because the preliminary read-only probe returned HTTP 401 Missing Authorization Header, so I did not execute the drill queries or assert numeric contributors. The intended analysis compares March 1996 against the average of February and April 1996 by region, transaction type, and k_symbol. Based only on the task note, March is not a strong row-count outlier, so a true drop in total amount would most likely come from lower average amount per transaction rather than fewer transactions.",
+    "sql": {
+      "month_summary": "SELECT date_trunc('month', CAST(t.date AS DATE)) AS month, COUNT(*) AS txn_count, SUM(t.amount) AS total_amount, AVG(t.amount) AS avg_amount FROM trans t WHERE CAST(t.date AS DATE) >= DATE '1996-02-01' AND CAST(t.date AS DATE) < DATE '1996-05-01' GROUP BY 1 ORDER BY 1;",
+      "region_drill": "WITH m AS (SELECT CASE WHEN CAST(t.date AS DATE) >= DATE '1996-03-01' AND CAST(t.date AS DATE) < DATE '1996-04-01' THEN 'march' ELSE 'neighbor' END AS period, d.\"A3\" AS region, SUM(t.amount) AS amount FROM trans t JOIN account a ON a.account_id=t.account_id JOIN district d ON d.district_id=a.district_id WHERE CAST(t.date AS DATE) >= DATE '1996-02-01' AND CAST(t.date AS DATE) < DATE '1996-05-01' GROUP BY 1,2) SELECT region, SUM(CASE WHEN period='march' THEN amount ELSE 0 END) AS march_amount, SUM(CASE WHEN period='neighbor' THEN amount ELSE 0 END)/2.0 AS neighbor_avg_amount, SUM(CASE WHEN period='march' THEN amount ELSE 0 END) - SUM(CASE WHEN period='neighbor' THEN amount ELSE 0 END)/2.0 AS gap FROM m GROUP BY region ORDER BY gap ASC;",
+      "type_k_symbol_drill": "WITH m AS (SELECT CASE WHEN CAST(t.date AS DATE) >= DATE '1996-03-01' AND CAST(t.date AS DATE) < DATE '1996-04-01' THEN 'march' ELSE 'neighbor' END AS period, t.type, COALESCE(t.k_symbol,'(blank)') AS k_symbol, SUM(t.amount) AS amount FROM trans t WHERE CAST(t.date AS DATE) >= DATE '1996-02-01' AND CAST(t.date AS DATE) < DATE '1996-05-01' GROUP BY 1,2,3) SELECT type, k_symbol, SUM(CASE WHEN period='march' THEN amount ELSE 0 END) AS march_amount, SUM(CASE WHEN period='neighbor' THEN amount ELSE 0 END)/2.0 AS neighbor_avg_amount, SUM(CASE WHEN period='march' THEN amount ELSE 0 END)-SUM(CASE WHEN period='neighbor' THEN amount ELSE 0 END)/2.0 AS gap FROM m GROUP BY type,k_symbol ORDER BY gap ASC;"
+    },
+    "tool_calls": [
+      {
+        "tool": "sql_lab",
+        "sql": "SELECT 1 AS ok",
+        "status": "failed",
+        "error": "HTTP 401 Missing Authorization Header"
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-3cf4-70a3-9ce1-411c1e4a1720",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.300Z"
+}

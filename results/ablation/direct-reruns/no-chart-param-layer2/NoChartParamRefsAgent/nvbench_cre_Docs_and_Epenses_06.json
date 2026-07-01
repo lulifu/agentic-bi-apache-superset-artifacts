@@ -1,0 +1,57 @@
+{
+  "task_id": "nvbench_cre_Docs_and_Epenses_06",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "chart",
+  "dataset": "nvbench-layer2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Grouped line chart of document counts by yearly bins and document type.",
+  "sql": "",
+  "chart_spec": {
+    "viz_type": "grouping_line",
+    "metrics": [
+      "COUNT(Document_Date)"
+    ],
+    "dimensions": [
+      "Document_Date year interval",
+      "Document_Type_Name"
+    ],
+    "filters": [],
+    "time_range": "No filter; bin Document_Date by year interval"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "nvbench_cre_Docs_and_Epenses_06",
+    "viz_type": "grouping_line",
+    "metrics": [
+      "COUNT(Document_Date)"
+    ],
+    "dimensions": [
+      "Document_Date year interval",
+      "Document_Type_Name"
+    ],
+    "filters": [],
+    "time_range": "No filter; bin Document_Date by year interval",
+    "chart_spec": {
+      "viz_type": "grouping_line",
+      "metrics": [
+        "COUNT(Document_Date)"
+      ],
+      "dimensions": [
+        "Document_Date year interval",
+        "Document_Type_Name"
+      ],
+      "filters": [],
+      "time_range": "No filter; bin Document_Date by year interval"
+    },
+    "artifact": "Grouped line chart of document counts by yearly bins and document type."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc21-fd70-73f1-bfd7-eff2696ebe93",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.208Z"
+}

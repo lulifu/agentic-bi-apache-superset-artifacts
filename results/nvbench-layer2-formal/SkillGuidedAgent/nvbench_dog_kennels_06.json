@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_dog_kennels_06",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "dog_kennels",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 421,
+    "virtual_dataset_id": 124,
+    "virtual_dataset_table": "vd_l2_nvbench_dog_kennels_06",
+    "superset_create_response": {
+      "id": 421,
+      "result": {
+        "datasource_id": 124,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_dog_kennels_06. Expected visualization: Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"date_of_treatment\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(dog_count)\",\"sqlExpression\":\"SUM(dog_count)\"}],\"groupby\":[],\"datasource\":\"124__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"date_of_treatment\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"date_of_treatment\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":124,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"date_of_treatment\",\"label\":\"date_of_treatment\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(dog_count)\",\"sqlExpression\":\"SUM(dog_count)\"}],\"filters\":[{\"col\":\"date_of_treatment\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(dog_count)\",\"sqlExpression\":\"SUM(dog_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"date_of_treatment\"],\"columns\":[],\"aggregates\":{\"SUM(dog_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_dog_kennels_06",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 421,
+      "ok": true,
+      "row_count": 4,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_dog_kennels_06.png",
+      "screenshot_bytes": 11522,
+      "chart_url": "/superset/explore/?slice_id=421",
+      "issues": [
+        "warning: screenshot only 11.3 KB despite 4 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT T2.date_of_treatment::date AS date_of_treatment, COUNT(*) AS dog_count\nFROM bench_nvbench_dog_kennels.dogs AS T1\nJOIN bench_nvbench_dog_kennels.treatments AS T2 ON T1.dog_id = T2.dog_id\nWHERE T1.breed_code = (\n  SELECT breed_code\n  FROM bench_nvbench_dog_kennels.dogs\n  GROUP BY breed_code\n  ORDER BY COUNT(*) ASC, breed_code ASC\n  LIMIT 1\n)\nGROUP BY T2.date_of_treatment::date\nORDER BY date_of_treatment;",
+  "chart_spec": {
+    "viz_type": "Bar",
+    "superset_viz_type": "echarts_timeseries_bar",
+    "dataset_id": 124,
+    "virtual_dataset_table": "vd_l2_nvbench_dog_kennels_06",
+    "metrics": [
+      "dog_count"
+    ],
+    "dimensions": [
+      "date_of_treatment"
+    ],
+    "filters": "breed_code = rarest breed by dog count",
+    "time_range": "No filter; group by treatment date",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "date_of_treatment",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(dog_count)",
+          "sqlExpression": "SUM(dog_count)"
+        }
+      ],
+      "groupby": []
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 124
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 421
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 4
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_dog_kennels_06",
+      "dataset_id": 124,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_dog_kennels_06",
+      "dataset_id": 124,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_bar",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_dog_kennels_06. Expected visualization: Bar.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "date_of_treatment",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(dog_count)",
+            "sqlExpression": "SUM(dog_count)"
+          }
+        ],
+        "groupby": []
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 421,
+      "result": {
+        "datasource_id": 124,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_dog_kennels_06. Expected visualization: Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"date_of_treatment\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(dog_count)\",\"sqlExpression\":\"SUM(dog_count)\"}],\"groupby\":[],\"datasource\":\"124__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"date_of_treatment\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"date_of_treatment\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":124,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"date_of_treatment\",\"label\":\"date_of_treatment\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(dog_count)\",\"sqlExpression\":\"SUM(dog_count)\"}],\"filters\":[{\"col\":\"date_of_treatment\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(dog_count)\",\"sqlExpression\":\"SUM(dog_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"date_of_treatment\"],\"columns\":[],\"aggregates\":{\"SUM(dog_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_dog_kennels_06",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 421,
+      "ok": true,
+      "row_count": 4,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_dog_kennels_06.png",
+      "screenshot_bytes": 11522,
+      "chart_url": "/superset/explore/?slice_id=421",
+      "issues": [
+        "warning: screenshot only 11.3 KB despite 4 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:37:04.452Z"
+}

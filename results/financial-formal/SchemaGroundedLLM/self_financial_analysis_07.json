@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_07",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH stats AS (SELECT a.frequency, COUNT(*) AS finished_loan_count, SUM(CASE WHEN l.status = 'B' THEN 1 ELSE 0 END) AS defaulted_loan_count, SUM(CASE WHEN l.status = 'B' THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(*), 0) AS default_rate FROM account AS a INNER JOIN loan AS l ON l.account_id = a.account_id WHERE a.frequency IN ('POPLATEK TYDNE', 'POPLATEK MESICNE') AND l.status IN ('A', 'B') GROUP BY a.frequency), calc AS (SELECT frequency, finished_loan_count, defaulted_loan_count, default_rate, SQRT(default_rate * (1 - default_rate) / NULLIF(finished_loan_count, 0)) AS standard_error FROM stats) SELECT c.frequency, c.finished_loan_count, c.defaulted_loan_count, c.default_rate, c.standard_error, c.default_rate - m.default_rate AS difference_from_monthly, (c.default_rate - m.default_rate) / NULLIF(SQRT(POWER(c.standard_error, 2) + POWER(m.standard_error, 2)), 0) AS z_score_vs_monthly FROM calc AS c CROSS JOIN calc AS m WHERE m.frequency = 'POPLATEK MESICNE' ORDER BY c.frequency;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

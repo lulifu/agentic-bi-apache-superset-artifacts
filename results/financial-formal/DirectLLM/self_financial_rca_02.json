@@ -1,0 +1,52 @@
+{
+  "task_id": "self_financial_rca_02",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: Compare Q3 1996 to Q2 1996 only on finished loans. Attribute the default-rate increase by checking whether Q3 has a worse mix of duration, loan amount buckets, regions, or gender. The primary driver should be the drill axis whose within-axis default rates and volume shift explain most of the Q3 minus Q2 gap; stop at the first axis with dominant explanatory share and report the remaining residual.",
+  "sql": "WITH loans AS (SELECT CASE WHEN CAST(l.date AS DATE) >= DATE '1996-04-01' AND CAST(l.date AS DATE) < DATE '1996-07-01' THEN '1996_Q2' WHEN CAST(l.date AS DATE) >= DATE '1996-07-01' AND CAST(l.date AS DATE) < DATE '1996-10-01' THEN '1996_Q3' END AS quarter, l.status, l.duration, CASE WHEN l.amount < 50000 THEN 'low' WHEN l.amount < 150000 THEN 'mid' ELSE 'high' END AS amount_bucket, d.A3 AS region, c.gender, l.loan_id FROM loan l JOIN account a ON a.account_id=l.account_id JOIN disp dp ON dp.account_id=a.account_id JOIN client c ON c.client_id=dp.client_id JOIN district d ON d.district_id=c.district_id WHERE CAST(l.date AS DATE) >= DATE '1996-04-01' AND CAST(l.date AS DATE) < DATE '1996-10-01' AND l.status IN ('A','B')) SELECT quarter, duration, amount_bucket, region, gender, COUNT(*) AS finished_loans, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END) AS defaults, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::DECIMAL/NULLIF(COUNT(*),0) AS default_rate FROM loans GROUP BY quarter,duration,amount_bucket,region,gender ORDER BY quarter, default_rate DESC;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Default Rate by Q2/Q3 Drill Axis",
+        "type": "bar",
+        "metrics": [
+          "default_rate",
+          "finished_loans"
+        ],
+        "dimensions": [
+          "duration",
+          "amount bucket",
+          "region",
+          "gender"
+        ],
+        "filters": [
+          "loan.date in 1996 Q2 or Q3",
+          "status in A,B"
+        ]
+      },
+      {
+        "title": "Driver Ranking",
+        "type": "table",
+        "metrics": [
+          "gap contribution",
+          "volume share",
+          "default rate"
+        ],
+        "dimensions": [
+          "driver axis"
+        ],
+        "filters": [
+          "Q3 minus Q2"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

@@ -1,0 +1,24 @@
+{
+  "task_id": "self_financial_rca_08",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Junior-card holders have the higher finished-loan default rate: 1 default out of 7 finished loans (14.29%) versus 0 out of 8 for gold-card holders, a 14.29 percentage-point gap. The evidence is sparse. The one junior default sits in the 100-200k loan amount band; all junior finished loans are in the under-30 age band, while gold loans are spread across under-30, 30-44, and 45-59. Amount and age both describe the gap, but most of the measured difference remains sample-size-sensitive and should be treated as unexplained rather than causal.",
+  "sql": {
+    "default_rate_gold_vs_junior": "SELECT c.type AS card_type, COUNT(DISTINCT l.loan_id) AS finished_loans, COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status = 'B') AS defaults, COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status = 'B')::numeric / NULLIF(COUNT(DISTINCT l.loan_id), 0) AS default_rate FROM loan l JOIN account a ON a.account_id = l.account_id JOIN disp dp ON dp.account_id = a.account_id JOIN card c ON c.disp_id = dp.disp_id WHERE l.status IN ('A','B') AND c.type IN ('gold','junior') GROUP BY 1;",
+    "drilldown_age_amount": "WITH base AS (SELECT DISTINCT l.loan_id, l.status, l.amount, c.type AS card_type, CASE WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', cl.birth_date)) < 30 THEN '<30' WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', cl.birth_date)) < 45 THEN '30-44' WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', cl.birth_date)) < 60 THEN '45-59' ELSE '60+' END AS age_band, CASE WHEN l.amount < 50000 THEN '<50k' WHEN l.amount < 100000 THEN '50-100k' WHEN l.amount < 200000 THEN '100-200k' ELSE '200k+' END AS amount_band FROM loan l JOIN account a ON a.account_id = l.account_id JOIN disp dp ON dp.account_id = a.account_id JOIN card c ON c.disp_id = dp.disp_id JOIN client cl ON cl.client_id = dp.client_id WHERE l.status IN ('A','B') AND c.type IN ('gold','junior')) SELECT axis, segment, card_type, COUNT(*) AS finished_loans, COUNT(*) FILTER (WHERE status = 'B') AS defaults, COUNT(*) FILTER (WHERE status = 'B')::numeric / NULLIF(COUNT(*), 0) AS default_rate FROM (SELECT 'age_band' AS axis, age_band AS segment, card_type, status FROM base UNION ALL SELECT 'amount_band', amount_band, card_type, status FROM base) x GROUP BY 1, 2, 3 ORDER BY 1, 2, 3;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "gold versus junior default-rate bar",
+      "age-band and amount-band decomposition table"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

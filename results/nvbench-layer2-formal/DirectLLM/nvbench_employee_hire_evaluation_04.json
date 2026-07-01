@@ -1,0 +1,41 @@
+{
+  "task_id": "nvbench_employee_hire_evaluation_04",
+  "system": "DirectLLM",
+  "task_class": "chart",
+  "dataset": "nvbench-layer2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": null,
+  "sql": "",
+  "chart_spec": {
+    "viz_type": "Scatter",
+    "dataset_ids": null,
+    "metrics": [
+      "Shop_ID",
+      "Employee_ID"
+    ],
+    "dimensions": [],
+    "filters": [],
+    "time_range": null
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "nvbench_employee_hire_evaluation_04",
+    "viz_type": "Scatter",
+    "metrics": [
+      "Shop_ID",
+      "Employee_ID"
+    ],
+    "dimensions": [],
+    "filters": [],
+    "time_range": null
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec7cd-32b6-7a43-8993-b4b0c1c2ba09",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T20:53:13.434Z"
+}

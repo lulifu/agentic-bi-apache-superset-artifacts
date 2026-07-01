@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_03",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL compares finished-loan default rates by region for loans approved by the end of 1997, alongside male-client share and average district salary. Treat any demographic relationship as correlation only, not causal evidence.",
+  "sql": "SELECT d.A3 AS region, COUNT(*) AS finished_loan_count, 1.0 * SUM(CASE WHEN l.status = 'B' THEN 1 ELSE 0 END) / NULLIF(COUNT(*), 0) AS default_rate, 1.0 * SUM(CASE WHEN c.gender = 'M' THEN 1 ELSE 0 END) / NULLIF(COUNT(*), 0) AS male_share, AVG(d.A11) AS avg_salary FROM loan AS l JOIN account AS a ON l.account_id = a.account_id JOIN disp AS dp ON a.account_id = dp.account_id JOIN client AS c ON dp.client_id = c.client_id JOIN district AS d ON a.district_id = d.district_id WHERE l.status IN ('A', 'B') AND CAST(l.date AS DATE) <= DATE '1997-12-31' GROUP BY d.A3 ORDER BY default_rate DESC;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

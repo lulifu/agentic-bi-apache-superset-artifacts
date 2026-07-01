@@ -1,0 +1,52 @@
+{
+  "task_id": "self_financial_rca_05",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: Weekly-statement accounts should first be compared with other frequencies on 1997 finished-loan default rate. Then test whether the weekly segment is overrepresented in lower-salary districts, larger loan amount quartiles, or longer durations. Treat these as correlational drivers; a convincing explanation requires both segment concentration and elevated within-segment default rates.",
+  "sql": "WITH cohort AS (SELECT a.frequency, l.status, l.amount, l.duration, d.A11 AS avg_salary, NTILE(4) OVER (ORDER BY d.A11) AS salary_quartile, NTILE(4) OVER (ORDER BY l.amount) AS amount_quartile FROM loan l JOIN account a ON a.account_id=l.account_id JOIN district d ON d.district_id=a.district_id WHERE EXTRACT(YEAR FROM CAST(l.date AS DATE))=1997 AND l.status IN ('A','B')) SELECT frequency, salary_quartile, amount_quartile, CASE WHEN duration=12 THEN 'short_12' WHEN duration IN (24,36) THEN 'medium_24_36' ELSE 'long_48_60' END AS duration_bucket, COUNT(*) AS finished_loans, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END) AS defaults, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::DECIMAL/NULLIF(COUNT(*),0) AS default_rate, AVG(amount) AS avg_loan_amount, AVG(duration) AS avg_duration, AVG(avg_salary) AS avg_district_salary FROM cohort GROUP BY frequency,salary_quartile,amount_quartile,duration_bucket ORDER BY frequency, default_rate DESC;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "1997 Default Rate by Frequency and Driver",
+        "type": "bar",
+        "metrics": [
+          "default_rate",
+          "finished_loans"
+        ],
+        "dimensions": [
+          "frequency",
+          "salary quartile",
+          "amount quartile",
+          "duration bucket"
+        ],
+        "filters": [
+          "loan.date in 1997",
+          "status in A,B"
+        ]
+      },
+      {
+        "title": "Weekly Segment Distribution",
+        "type": "box_plot",
+        "metrics": [
+          "loan.amount",
+          "district.A11",
+          "loan.duration"
+        ],
+        "dimensions": [
+          "frequency"
+        ],
+        "filters": [
+          "1997 finished loans"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

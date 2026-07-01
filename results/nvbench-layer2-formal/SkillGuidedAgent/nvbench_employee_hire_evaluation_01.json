@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_employee_hire_evaluation_01",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "employee_hire_evaluation",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 422,
+    "virtual_dataset_id": 125,
+    "virtual_dataset_table": "vd_l2_nvbench_employee_hire_evaluation_01",
+    "superset_create_response": {
+      "id": 422,
+      "result": {
+        "datasource_id": 125,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_employee_hire_evaluation_01. Expected visualization: Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"shop_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(employee_count)\",\"sqlExpression\":\"SUM(employee_count)\"}],\"groupby\":[],\"datasource\":\"125__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"shop_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"shop_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":125,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"shop_name\",\"label\":\"shop_name\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(employee_count)\",\"sqlExpression\":\"SUM(employee_count)\"}],\"filters\":[{\"col\":\"shop_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(employee_count)\",\"sqlExpression\":\"SUM(employee_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"shop_name\"],\"columns\":[],\"aggregates\":{\"SUM(employee_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_employee_hire_evaluation_01",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 422,
+      "ok": true,
+      "row_count": 6,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_employee_hire_evaluation_01.png",
+      "screenshot_bytes": 13535,
+      "chart_url": "/superset/explore/?slice_id=422",
+      "issues": [
+        "warning: screenshot only 13.2 KB despite 6 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT t2.\"Name\" AS shop_name, COUNT(*) AS employee_count\nFROM bench_nvbench_employee_hire_evaluation.hiring AS t1\nJOIN bench_nvbench_employee_hire_evaluation.shop AS t2 ON t1.\"Shop_ID\" = t2.\"Shop_ID\"\nGROUP BY t2.\"Name\"\nORDER BY t2.\"Name\";",
+  "chart_spec": {
+    "viz_type": "Bar",
+    "superset_viz_type": "echarts_timeseries_bar",
+    "dataset_id": 125,
+    "virtual_dataset_table": "vd_l2_nvbench_employee_hire_evaluation_01",
+    "metrics": [
+      "employee_count"
+    ],
+    "dimensions": [
+      "shop_name"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "shop_name",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(employee_count)",
+          "sqlExpression": "SUM(employee_count)"
+        }
+      ],
+      "groupby": []
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 125
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 422
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 6
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_employee_hire_evaluation_01",
+      "dataset_id": 125,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_employee_hire_evaluation_01",
+      "dataset_id": 125,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_bar",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_employee_hire_evaluation_01. Expected visualization: Bar.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "shop_name",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(employee_count)",
+            "sqlExpression": "SUM(employee_count)"
+          }
+        ],
+        "groupby": []
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 422,
+      "result": {
+        "datasource_id": 125,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_employee_hire_evaluation_01. Expected visualization: Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"shop_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(employee_count)\",\"sqlExpression\":\"SUM(employee_count)\"}],\"groupby\":[],\"datasource\":\"125__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"shop_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"shop_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":125,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"shop_name\",\"label\":\"shop_name\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(employee_count)\",\"sqlExpression\":\"SUM(employee_count)\"}],\"filters\":[{\"col\":\"shop_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(employee_count)\",\"sqlExpression\":\"SUM(employee_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"shop_name\"],\"columns\":[],\"aggregates\":{\"SUM(employee_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_employee_hire_evaluation_01",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 422,
+      "ok": true,
+      "row_count": 6,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_employee_hire_evaluation_01.png",
+      "screenshot_bytes": 13535,
+      "chart_url": "/superset/explore/?slice_id=422",
+      "issues": [
+        "warning: screenshot only 13.2 KB despite 6 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:37:18.659Z"
+}

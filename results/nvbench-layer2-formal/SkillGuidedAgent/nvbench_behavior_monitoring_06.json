@@ -1,0 +1,148 @@
+{
+  "task_id": "nvbench_behavior_monitoring_06",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "behavior_monitoring",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 439,
+    "virtual_dataset_id": 141,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_06",
+    "superset_create_response": {
+      "id": 439,
+      "result": {
+        "datasource_id": 141,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_06. Expected visualization: Grouping Line.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"date_address_to\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(avg_monthly_rental)\",\"sqlExpression\":\"SUM(avg_monthly_rental)\"}],\"groupby\":[\"other_details\"],\"datasource\":\"141__table\",\"viz_type\":\"echarts_timeseries_line\",\"granularity_sqla\":\"date_address_to\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"date_address_to\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":141,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"date_address_to\",\"label\":\"date_address_to\",\"expressionType\":\"SQL\"},\"other_details\"],\"series_columns\":[\"other_details\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(avg_monthly_rental)\",\"sqlExpression\":\"SUM(avg_monthly_rental)\"}],\"filters\":[{\"col\":\"date_address_to\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(avg_monthly_rental)\",\"sqlExpression\":\"SUM(avg_monthly_rental)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"date_address_to\"],\"columns\":[\"other_details\"],\"aggregates\":{\"SUM(avg_monthly_rental)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_06",
+        "viz_type": "echarts_timeseries_line"
+      }
+    },
+    "verification": {
+      "chart_id": 439,
+      "ok": true,
+      "row_count": 14,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_06.png",
+      "screenshot_bytes": 49118,
+      "chart_url": "/superset/explore/?slice_id=439",
+      "issues": []
+    }
+  },
+  "sql": "SELECT other_details, date_address_to::date AS date_address_to, AVG(monthly_rental) AS avg_monthly_rental\nFROM bench_nvbench_behavior_monitoring.student_addresses\nGROUP BY other_details, date_address_to::date\nORDER BY other_details, date_address_to;",
+  "chart_spec": {
+    "viz_type": "Grouping Line",
+    "superset_viz_type": "echarts_timeseries_line",
+    "dataset_id": 141,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_06",
+    "metrics": [
+      "avg_monthly_rental"
+    ],
+    "dimensions": [
+      "date_address_to",
+      "other_details"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": true,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "date_address_to",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(avg_monthly_rental)",
+          "sqlExpression": "SUM(avg_monthly_rental)"
+        }
+      ],
+      "groupby": [
+        "other_details"
+      ]
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 141
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 439
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 14
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_behavior_monitoring_06",
+      "dataset_id": 141,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_06",
+      "dataset_id": 141,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_line",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_06. Expected visualization: Grouping Line.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": true,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "date_address_to",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(avg_monthly_rental)",
+            "sqlExpression": "SUM(avg_monthly_rental)"
+          }
+        ],
+        "groupby": [
+          "other_details"
+        ]
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 439,
+      "result": {
+        "datasource_id": 141,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_06. Expected visualization: Grouping Line.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"date_address_to\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(avg_monthly_rental)\",\"sqlExpression\":\"SUM(avg_monthly_rental)\"}],\"groupby\":[\"other_details\"],\"datasource\":\"141__table\",\"viz_type\":\"echarts_timeseries_line\",\"granularity_sqla\":\"date_address_to\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"date_address_to\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":141,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"date_address_to\",\"label\":\"date_address_to\",\"expressionType\":\"SQL\"},\"other_details\"],\"series_columns\":[\"other_details\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(avg_monthly_rental)\",\"sqlExpression\":\"SUM(avg_monthly_rental)\"}],\"filters\":[{\"col\":\"date_address_to\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(avg_monthly_rental)\",\"sqlExpression\":\"SUM(avg_monthly_rental)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"date_address_to\"],\"columns\":[\"other_details\"],\"aggregates\":{\"SUM(avg_monthly_rental)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_06",
+        "viz_type": "echarts_timeseries_line"
+      }
+    },
+    "verification": {
+      "chart_id": 439,
+      "ok": true,
+      "row_count": 14,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_06.png",
+      "screenshot_bytes": 49118,
+      "chart_url": "/superset/explore/?slice_id=439",
+      "issues": []
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:43:13.134Z"
+}

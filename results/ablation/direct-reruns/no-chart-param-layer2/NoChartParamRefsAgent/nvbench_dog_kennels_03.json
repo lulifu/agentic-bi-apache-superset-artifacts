@@ -1,0 +1,60 @@
+{
+  "task_id": "nvbench_dog_kennels_03",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "chart",
+  "dataset": "nvbench-layer2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Pie chart of treatment count shares by dog name for the rarest breed.",
+  "sql": "",
+  "chart_spec": {
+    "viz_type": "pie",
+    "metrics": [
+      "COUNT(name)"
+    ],
+    "dimensions": [
+      "name"
+    ],
+    "filters": [
+      "breed_code = rarest breed by dog count"
+    ],
+    "time_range": null
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "nvbench_dog_kennels_03",
+    "viz_type": "pie",
+    "metrics": [
+      "COUNT(name)"
+    ],
+    "dimensions": [
+      "name"
+    ],
+    "filters": [
+      "breed_code = rarest breed by dog count"
+    ],
+    "time_range": null,
+    "chart_spec": {
+      "viz_type": "pie",
+      "metrics": [
+        "COUNT(name)"
+      ],
+      "dimensions": [
+        "name"
+      ],
+      "filters": [
+        "breed_code = rarest breed by dog count"
+      ],
+      "time_range": null
+    },
+    "artifact": "Pie chart of treatment count shares by dog name for the rarest breed."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc21-fd70-73f1-bfd7-eff2696ebe93",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.206Z"
+}

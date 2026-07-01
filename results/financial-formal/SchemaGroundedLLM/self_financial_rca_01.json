@@ -1,0 +1,24 @@
+{
+  "task_id": "self_financial_rca_01",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "The stated March 1996 drop is not supported by the local financial data: total transaction amount was 67,670,515 in February, 76,963,029 in March, and 79,177,007 in April. March is below April but above the two-month neighbor average. The largest negative segment gaps versus the February/April average are central Bohemia PRIJEM with blank k_symbol (-363,859), north Bohemia PRIJEM with blank k_symbol (-106,892), and west Bohemia PRIJEM with blank k_symbol (-66,611), so any localized softness is mainly incoming transactions without a purpose code, not broad transaction count collapse.",
+  "sql": {
+    "month_totals": "SELECT DATE_TRUNC('month', t.date)::date AS trans_month, COUNT(*) AS transaction_count, SUM(t.amount) AS total_amount, AVG(t.amount) AS avg_amount FROM trans t WHERE t.date >= DATE '1996-02-01' AND t.date < DATE '1996-05-01' GROUP BY 1 ORDER BY 1;",
+    "drilldown_contributors": "WITH seg AS (SELECT DATE_TRUNC('month', t.date)::date AS trans_month, d.\"A3\" AS region, t.type AS trans_type, COALESCE(NULLIF(t.k_symbol, ''), '(blank)') AS k_symbol, SUM(t.amount) AS amount FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id WHERE t.date >= DATE '1996-02-01' AND t.date < DATE '1996-05-01' GROUP BY 1, 2, 3, 4), p AS (SELECT region, trans_type, k_symbol, SUM(amount) FILTER (WHERE trans_month = DATE '1996-02-01') AS feb_amount, SUM(amount) FILTER (WHERE trans_month = DATE '1996-03-01') AS mar_amount, SUM(amount) FILTER (WHERE trans_month = DATE '1996-04-01') AS apr_amount FROM seg GROUP BY 1, 2, 3) SELECT region, trans_type, k_symbol, feb_amount, mar_amount, apr_amount, mar_amount - ((feb_amount + apr_amount) / 2.0) AS gap_vs_neighbor_average FROM p ORDER BY gap_vs_neighbor_average ASC;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "monthly total line for February-April 1996",
+      "waterfall or sorted bar of segment contribution gaps by region, trans.type, and k_symbol"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

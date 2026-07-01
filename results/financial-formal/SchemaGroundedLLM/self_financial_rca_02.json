@@ -1,0 +1,24 @@
+{
+  "task_id": "self_financial_rca_02",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "The premise is not supported: finished-loan default rate fell from 50.0% in Q2 1996 (3 defaults out of 6 finished loans) to 8.3% in Q3 1996 (1 out of 12). Duration, amount bucket, region, and owner gender all show lower or non-increasing Q3 default rates. The apparent driver is therefore not a Q3 deterioration; Q2 is the anomalous quarter, especially short 12-month loans and the 50-100k amount bucket.",
+  "sql": {
+    "quarter_default_rates": "SELECT CASE WHEN l.date >= DATE '1996-04-01' AND l.date < DATE '1996-07-01' THEN 'Q2' ELSE 'Q3' END AS quarter, COUNT(*) AS finished_loans, COUNT(*) FILTER (WHERE l.status = 'B') AS defaults, COUNT(*) FILTER (WHERE l.status = 'B')::numeric / NULLIF(COUNT(*), 0) AS default_rate FROM loan l WHERE l.date >= DATE '1996-04-01' AND l.date < DATE '1996-10-01' AND l.status IN ('A','B') GROUP BY 1;",
+    "drilldown_duration_amount_region_gender": "WITH base AS (SELECT l.loan_id, l.status, CASE WHEN l.date >= DATE '1996-04-01' AND l.date < DATE '1996-07-01' THEN 'Q2' ELSE 'Q3' END AS quarter, l.duration, CASE WHEN l.amount < 50000 THEN '<50k' WHEN l.amount < 100000 THEN '50-100k' WHEN l.amount < 200000 THEN '100-200k' ELSE '200k+' END AS amount_bucket, dist.\"A3\" AS region, c.gender FROM loan l JOIN account a ON a.account_id = l.account_id JOIN district dist ON dist.district_id = a.district_id LEFT JOIN disp dp ON dp.account_id = a.account_id AND dp.type = 'OWNER' LEFT JOIN client c ON c.client_id = dp.client_id WHERE l.date >= DATE '1996-04-01' AND l.date < DATE '1996-10-01' AND l.status IN ('A','B')) SELECT axis, segment, quarter, COUNT(*) AS finished_loans, COUNT(*) FILTER (WHERE status = 'B') AS defaults, COUNT(*) FILTER (WHERE status = 'B')::numeric / NULLIF(COUNT(*), 0) AS default_rate FROM (SELECT quarter, status, 'duration' AS axis, duration::text AS segment FROM base UNION ALL SELECT quarter, status, 'amount_bucket', amount_bucket FROM base UNION ALL SELECT quarter, status, 'region', region FROM base UNION ALL SELECT quarter, status, 'gender', gender FROM base) x GROUP BY axis, segment, quarter ORDER BY axis, segment, quarter;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "Q2 versus Q3 default-rate bar",
+      "small-multiple bars by duration, amount bucket, region, and gender"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

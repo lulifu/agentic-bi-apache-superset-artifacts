@@ -1,0 +1,193 @@
+{
+  "task_id": "self_financial_rca_01",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_01.\nmarch_1996_drop_drilldown: [{\"region\":\"central Bohemia\",\"trans_type\":\"PRIJEM\",\"k_symbol\":\"<blank>\",\"march_amount\":4825540,\"neighbor_avg\":5189399,\"delta_vs_neighbor_avg\":-363859},{\"region\":\"north Bohemia\",\"trans_type\":\"PRIJEM\",\"k_symbol\":\"<blank>\",\"march_amount\":3589839,\"neighbor_avg\":3696731,\"delta_vs_neighbor_avg\":-106892},{\"region\":\"west Bohemia\",\"trans_type\":\"PRIJEM\",\"k_symbol\":\"<blank>\",\"march_amount\":3600838,\"neighbor_avg\":3667448.5,\"delta_vs_neighbor_avg\":-66610.5},{\"region\":\"south Moravia\",\"trans_type\":\"VYBER\",\"k_symbol\":\"<blank>\",\"march_amount\":326576,\"neighbor_avg\":380832,\"delta_vs_neighbor_avg\":-54256},{\"region\":\"Prague\",\"trans_type\":\"VYBER\",\"k_symbol\":\"<blank>\",\"march_amount\":265336,\"neighbor_avg\":317453,\"delta_vs_neighbor_avg\":-52117}]",
+  "sql": "WITH keyed AS (\n  SELECT d.\"A3\" AS region, t.type AS trans_type, COALESCE(NULLIF(t.k_symbol,''), '<blank>') AS k_symbol,\n         DATE_TRUNC('month', t.date)::date AS month, SUM(t.amount)::numeric AS amount\n  FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id\n  WHERE t.date >= DATE '1996-02-01' AND t.date < DATE '1996-05-01'\n  GROUP BY 1,2,3,4\n),\np AS (\n  SELECT region, trans_type, k_symbol,\n         SUM(amount) FILTER (WHERE month = DATE '1996-03-01') AS march_amount,\n         AVG(amount) FILTER (WHERE month IN (DATE '1996-02-01', DATE '1996-04-01')) AS neighbor_avg\n  FROM keyed GROUP BY 1,2,3\n)\nSELECT *, march_amount - neighbor_avg AS delta_vs_neighbor_avg\nFROM p\nORDER BY delta_vs_neighbor_avg ASC NULLS LAST\nLIMIT 20",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:march_1996_drop_drilldown"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "march_1996_drop_drilldown",
+        "sql": "WITH keyed AS (\n  SELECT d.\"A3\" AS region, t.type AS trans_type, COALESCE(NULLIF(t.k_symbol,''), '<blank>') AS k_symbol,\n         DATE_TRUNC('month', t.date)::date AS month, SUM(t.amount)::numeric AS amount\n  FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id\n  WHERE t.date >= DATE '1996-02-01' AND t.date < DATE '1996-05-01'\n  GROUP BY 1,2,3,4\n),\np AS (\n  SELECT region, trans_type, k_symbol,\n         SUM(amount) FILTER (WHERE month = DATE '1996-03-01') AS march_amount,\n         AVG(amount) FILTER (WHERE month IN (DATE '1996-02-01', DATE '1996-04-01')) AS neighbor_avg\n  FROM keyed GROUP BY 1,2,3\n)\nSELECT *, march_amount - neighbor_avg AS delta_vs_neighbor_avg\nFROM p\nORDER BY delta_vs_neighbor_avg ASC NULLS LAST\nLIMIT 20",
+        "rows": [
+          {
+            "region": "central Bohemia",
+            "trans_type": "PRIJEM",
+            "k_symbol": "<blank>",
+            "march_amount": 4825540,
+            "neighbor_avg": 5189399,
+            "delta_vs_neighbor_avg": -363859
+          },
+          {
+            "region": "north Bohemia",
+            "trans_type": "PRIJEM",
+            "k_symbol": "<blank>",
+            "march_amount": 3589839,
+            "neighbor_avg": 3696731,
+            "delta_vs_neighbor_avg": -106892
+          },
+          {
+            "region": "west Bohemia",
+            "trans_type": "PRIJEM",
+            "k_symbol": "<blank>",
+            "march_amount": 3600838,
+            "neighbor_avg": 3667448.5,
+            "delta_vs_neighbor_avg": -66610.5
+          },
+          {
+            "region": "south Moravia",
+            "trans_type": "VYBER",
+            "k_symbol": "<blank>",
+            "march_amount": 326576,
+            "neighbor_avg": 380832,
+            "delta_vs_neighbor_avg": -54256
+          },
+          {
+            "region": "Prague",
+            "trans_type": "VYBER",
+            "k_symbol": "<blank>",
+            "march_amount": 265336,
+            "neighbor_avg": 317453,
+            "delta_vs_neighbor_avg": -52117
+          },
+          {
+            "region": "north Bohemia",
+            "trans_type": "VYBER",
+            "k_symbol": "<blank>",
+            "march_amount": 130250,
+            "neighbor_avg": 179988,
+            "delta_vs_neighbor_avg": -49738
+          },
+          {
+            "region": "east Bohemia",
+            "trans_type": "VYDAJ",
+            "k_symbol": "SIPO",
+            "march_amount": 655330,
+            "neighbor_avg": 678120.5,
+            "delta_vs_neighbor_avg": -22790.5
+          },
+          {
+            "region": "Prague",
+            "trans_type": "VYDAJ",
+            "k_symbol": "SIPO",
+            "march_amount": 792115,
+            "neighbor_avg": 812299.5,
+            "delta_vs_neighbor_avg": -20184.5
+          },
+          {
+            "region": "south Bohemia",
+            "trans_type": "VYDAJ",
+            "k_symbol": "SIPO",
+            "march_amount": 505379,
+            "neighbor_avg": 521098,
+            "delta_vs_neighbor_avg": -15719
+          },
+          {
+            "region": "Prague",
+            "trans_type": "VYDAJ",
+            "k_symbol": " ",
+            "march_amount": 203924,
+            "neighbor_avg": 215176,
+            "delta_vs_neighbor_avg": -11252
+          },
+          {
+            "region": "north Moravia",
+            "trans_type": "VYDAJ",
+            "k_symbol": " ",
+            "march_amount": 218824,
+            "neighbor_avg": 229314,
+            "delta_vs_neighbor_avg": -10490
+          },
+          {
+            "region": "north Bohemia",
+            "trans_type": "VYDAJ",
+            "k_symbol": "SIPO",
+            "march_amount": 720587,
+            "neighbor_avg": 727856.5,
+            "delta_vs_neighbor_avg": -7269.5
+          },
+          {
+            "region": "central Bohemia",
+            "trans_type": "VYDAJ",
+            "k_symbol": "UVER",
+            "march_amount": 86573,
+            "neighbor_avg": 93588,
+            "delta_vs_neighbor_avg": -7015
+          },
+          {
+            "region": "west Bohemia",
+            "trans_type": "VYDAJ",
+            "k_symbol": "SIPO",
+            "march_amount": 671182,
+            "neighbor_avg": 677862,
+            "delta_vs_neighbor_avg": -6680
+          },
+          {
+            "region": "south Moravia",
+            "trans_type": "PRIJEM",
+            "k_symbol": "DUCHOD",
+            "march_amount": 354396,
+            "neighbor_avg": 359778.5,
+            "delta_vs_neighbor_avg": -5382.5
+          },
+          {
+            "region": "west Bohemia",
+            "trans_type": "VYDAJ",
+            "k_symbol": "UVER",
+            "march_amount": 69917,
+            "neighbor_avg": 72733.5,
+            "delta_vs_neighbor_avg": -2816.5
+          },
+          {
+            "region": "north Bohemia",
+            "trans_type": "PRIJEM",
+            "k_symbol": "DUCHOD",
+            "march_amount": 223644,
+            "neighbor_avg": 226265.5,
+            "delta_vs_neighbor_avg": -2621.5
+          },
+          {
+            "region": "central Bohemia",
+            "trans_type": "VYDAJ",
+            "k_symbol": "SIPO",
+            "march_amount": 754266,
+            "neighbor_avg": 756122.5,
+            "delta_vs_neighbor_avg": -1856.5
+          },
+          {
+            "region": "north Moravia",
+            "trans_type": "VYDAJ",
+            "k_symbol": "UVER",
+            "march_amount": 120737,
+            "neighbor_avg": 121744.5,
+            "delta_vs_neighbor_avg": -1007.5
+          },
+          {
+            "region": "central Bohemia",
+            "trans_type": "VYDAJ",
+            "k_symbol": " ",
+            "march_amount": 170337,
+            "neighbor_avg": 170497.5,
+            "delta_vs_neighbor_avg": -160.5
+          }
+        ],
+        "rowcount": 20
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:46.026Z"
+}

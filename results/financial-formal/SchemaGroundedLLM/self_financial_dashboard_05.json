@@ -1,0 +1,84 @@
+{
+  "task_id": "self_financial_dashboard_05",
+  "system": "SchemaGroundedLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": {
+    "age_histogram": "SELECT CASE WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', c.birth_date)) < 30 THEN '<30' WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', c.birth_date)) < 45 THEN '30-44' WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', c.birth_date)) < 60 THEN '45-59' ELSE '60+' END AS age_band, COUNT(c.client_id) AS client_count FROM client c GROUP BY 1 ORDER BY 1;",
+    "gender_breakdown": "SELECT c.gender, COUNT(c.client_id) AS client_count FROM client c GROUP BY 1 ORDER BY 1;",
+    "age_vs_loan_size": "SELECT c.client_id, EXTRACT(YEAR FROM AGE(DATE '1998-12-31', c.birth_date)) AS age_years, l.amount AS loan_amount FROM client c JOIN disp dp ON dp.client_id = c.client_id JOIN loan l ON l.account_id = dp.account_id;",
+    "top_districts_by_client_count": "SELECT d.\"A2\" AS district, COUNT(c.client_id) AS client_count FROM district d JOIN client c ON c.district_id = d.district_id GROUP BY 1 ORDER BY client_count DESC LIMIT 10;"
+  },
+  "chart_spec": {
+    "charts": [
+      {
+        "id": "age_histogram",
+        "viz_type": "histogram",
+        "dataset": "client",
+        "metrics": [
+          "COUNT(client_id)"
+        ],
+        "dimensions": [
+          "age_years computed against 1998-12-31"
+        ],
+        "filters": [],
+        "layout_intent": "client age distribution"
+      },
+      {
+        "id": "gender_breakdown",
+        "viz_type": "bar",
+        "dataset": "client",
+        "metrics": [
+          "COUNT(client_id)"
+        ],
+        "dimensions": [
+          "gender"
+        ],
+        "filters": [],
+        "layout_intent": "gender count comparison"
+      },
+      {
+        "id": "age_vs_loan_size",
+        "viz_type": "scatter",
+        "dataset": "client_loan_virtual",
+        "dataset_choice": "virtual_dataset",
+        "metrics": [
+          "loan.amount"
+        ],
+        "dimensions": [
+          "age_years",
+          "loan.amount"
+        ],
+        "filters": [
+          "clients linked to loans through disp.account_id"
+        ],
+        "layout_intent": "loan size by client age"
+      },
+      {
+        "id": "top_districts_by_client_count",
+        "viz_type": "table",
+        "dataset": "district_client_virtual",
+        "dataset_choice": "virtual_dataset",
+        "metrics": [
+          "COUNT(client.client_id)"
+        ],
+        "dimensions": [
+          "district.A2"
+        ],
+        "filters": [
+          "top 10 by client count"
+        ],
+        "layout_intent": "ranked district table"
+      }
+    ],
+    "layout_intent": "demographic distributions on top, loan scatter and district ranking below"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

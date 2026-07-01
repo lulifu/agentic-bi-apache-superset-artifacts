@@ -1,0 +1,201 @@
+{
+  "task_id": "self_financial_analysis_06",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_analysis_06.\ncard_withdrawal_share_by_region: [{\"yr\":1997,\"region\":\"west Bohemia\",\"region_share\":0.018439030288374344,\"national_share\":0.012575695117773766,\"deviation\":0.005863335170600577},{\"yr\":1998,\"region\":\"south Moravia\",\"region_share\":0.017563407125054976,\"national_share\":0.023029256245928217,\"deviation\":-0.005465849120873238},{\"yr\":1998,\"region\":\"west Bohemia\",\"region_share\":0.02786247502891389,\"national_share\":0.023029256245928217,\"deviation\":0.004833218782985674},{\"yr\":1998,\"region\":\"north Bohemia\",\"region_share\":0.027769557068166126,\"national_share\":0.023029256245928217,\"deviation\":0.004740300822237909},{\"yr\":1997,\"region\":\"north Bohemia\",\"region_share\":0.016700768677763645,\"national_share\":0.012575695117773766,\"deviation\":0.00412507355998988}]",
+  "sql": "WITH region_year AS (\n  SELECT EXTRACT(YEAR FROM t.date)::int AS yr, d.\"A3\" AS region,\n         COUNT(*) FILTER (WHERE t.operation = 'VYBER KARTOU')::numeric AS card_withdrawals,\n         COUNT(*)::numeric AS withdrawals\n  FROM trans t\n  JOIN account a ON a.account_id = t.account_id\n  JOIN district d ON d.district_id = a.district_id\n  WHERE t.type = 'VYDAJ' AND t.date >= DATE '1996-01-01' AND t.date < DATE '1999-01-01'\n  GROUP BY 1, 2\n),\nnational AS (\n  SELECT yr, SUM(card_withdrawals) / NULLIF(SUM(withdrawals), 0) AS national_share\n  FROM region_year GROUP BY 1\n)\nSELECT r.yr, r.region, r.card_withdrawals / NULLIF(r.withdrawals, 0) AS region_share,\n       n.national_share, (r.card_withdrawals / NULLIF(r.withdrawals, 0)) - n.national_share AS deviation\nFROM region_year r JOIN national n USING (yr)\nORDER BY ABS((r.card_withdrawals / NULLIF(r.withdrawals, 0)) - n.national_share) DESC",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:card_withdrawal_share_by_region"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "card_withdrawal_share_by_region",
+        "sql": "WITH region_year AS (\n  SELECT EXTRACT(YEAR FROM t.date)::int AS yr, d.\"A3\" AS region,\n         COUNT(*) FILTER (WHERE t.operation = 'VYBER KARTOU')::numeric AS card_withdrawals,\n         COUNT(*)::numeric AS withdrawals\n  FROM trans t\n  JOIN account a ON a.account_id = t.account_id\n  JOIN district d ON d.district_id = a.district_id\n  WHERE t.type = 'VYDAJ' AND t.date >= DATE '1996-01-01' AND t.date < DATE '1999-01-01'\n  GROUP BY 1, 2\n),\nnational AS (\n  SELECT yr, SUM(card_withdrawals) / NULLIF(SUM(withdrawals), 0) AS national_share\n  FROM region_year GROUP BY 1\n)\nSELECT r.yr, r.region, r.card_withdrawals / NULLIF(r.withdrawals, 0) AS region_share,\n       n.national_share, (r.card_withdrawals / NULLIF(r.withdrawals, 0)) - n.national_share AS deviation\nFROM region_year r JOIN national n USING (yr)\nORDER BY ABS((r.card_withdrawals / NULLIF(r.withdrawals, 0)) - n.national_share) DESC",
+        "rows": [
+          {
+            "yr": 1997,
+            "region": "west Bohemia",
+            "region_share": 0.018439030288374344,
+            "national_share": 0.012575695117773766,
+            "deviation": 0.005863335170600577
+          },
+          {
+            "yr": 1998,
+            "region": "south Moravia",
+            "region_share": 0.017563407125054976,
+            "national_share": 0.023029256245928217,
+            "deviation": -0.005465849120873238
+          },
+          {
+            "yr": 1998,
+            "region": "west Bohemia",
+            "region_share": 0.02786247502891389,
+            "national_share": 0.023029256245928217,
+            "deviation": 0.004833218782985674
+          },
+          {
+            "yr": 1998,
+            "region": "north Bohemia",
+            "region_share": 0.027769557068166126,
+            "national_share": 0.023029256245928217,
+            "deviation": 0.004740300822237909
+          },
+          {
+            "yr": 1997,
+            "region": "north Bohemia",
+            "region_share": 0.016700768677763645,
+            "national_share": 0.012575695117773766,
+            "deviation": 0.00412507355998988
+          },
+          {
+            "yr": 1998,
+            "region": "Prague",
+            "region_share": 0.02699866822712781,
+            "national_share": 0.023029256245928217,
+            "deviation": 0.003969411981199595
+          },
+          {
+            "yr": 1996,
+            "region": "west Bohemia",
+            "region_share": 0.011571097968629467,
+            "national_share": 0.007917304354517395,
+            "deviation": 0.0036537936141120726
+          },
+          {
+            "yr": 1997,
+            "region": "south Moravia",
+            "region_share": 0.009151470291366665,
+            "national_share": 0.012575695117773766,
+            "deviation": -0.0034242248264071008
+          },
+          {
+            "yr": 1997,
+            "region": "Prague",
+            "region_share": 0.009838998211091235,
+            "national_share": 0.012575695117773766,
+            "deviation": -0.002736696906682531
+          },
+          {
+            "yr": 1997,
+            "region": "east Bohemia",
+            "region_share": 0.014750762970498474,
+            "national_share": 0.012575695117773766,
+            "deviation": 0.0021750678527247087
+          },
+          {
+            "yr": 1996,
+            "region": "south Moravia",
+            "region_share": 0.005762000097661019,
+            "national_share": 0.007917304354517395,
+            "deviation": -0.0021553042568563763
+          },
+          {
+            "yr": 1996,
+            "region": "north Bohemia",
+            "region_share": 0.009940357852882704,
+            "national_share": 0.007917304354517395,
+            "deviation": 0.002023053498365309
+          },
+          {
+            "yr": 1996,
+            "region": "central Bohemia",
+            "region_share": 0.006111797829968411,
+            "national_share": 0.007917304354517395,
+            "deviation": -0.001805506524548984
+          },
+          {
+            "yr": 1998,
+            "region": "north Moravia",
+            "region_share": 0.021323717311678356,
+            "national_share": 0.023029256245928217,
+            "deviation": -0.00170553893424986
+          },
+          {
+            "yr": 1997,
+            "region": "central Bohemia",
+            "region_share": 0.011243029321820471,
+            "national_share": 0.012575695117773766,
+            "deviation": -0.001332665795953294
+          },
+          {
+            "yr": 1996,
+            "region": "Prague",
+            "region_share": 0.0067305023591451565,
+            "national_share": 0.007917304354517395,
+            "deviation": -0.001186801995372238
+          },
+          {
+            "yr": 1998,
+            "region": "central Bohemia",
+            "region_share": 0.021930675775336722,
+            "national_share": 0.023029256245928217,
+            "deviation": -0.0010985804705914922
+          },
+          {
+            "yr": 1998,
+            "region": "south Bohemia",
+            "region_share": 0.021969131192432163,
+            "national_share": 0.023029256245928217,
+            "deviation": -0.001060125053496052
+          },
+          {
+            "yr": 1997,
+            "region": "north Moravia",
+            "region_share": 0.011841422268362316,
+            "national_share": 0.012575695117773766,
+            "deviation": -0.0007342728494114501
+          },
+          {
+            "yr": 1996,
+            "region": "east Bohemia",
+            "region_share": 0.008633747349288094,
+            "national_share": 0.007917304354517395,
+            "deviation": 0.0007164429947706996
+          },
+          {
+            "yr": 1996,
+            "region": "north Moravia",
+            "region_share": 0.008366400535449634,
+            "national_share": 0.007917304354517395,
+            "deviation": 0.0004490961809322393
+          },
+          {
+            "yr": 1998,
+            "region": "east Bohemia",
+            "region_share": 0.023267044207383993,
+            "national_share": 0.023029256245928217,
+            "deviation": 0.00023778796145577864
+          },
+          {
+            "yr": 1996,
+            "region": "south Bohemia",
+            "region_share": 0.008086253369272238,
+            "national_share": 0.007917304354517395,
+            "deviation": 0.00016894901475484223
+          },
+          {
+            "yr": 1997,
+            "region": "south Bohemia",
+            "region_share": 0.012420130662646278,
+            "national_share": 0.012575695117773766,
+            "deviation": -0.00015556445512748766
+          }
+        ],
+        "rowcount": 24
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:43.093Z"
+}

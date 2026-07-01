@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_cre_Docs_and_Epenses_01",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "cre_Docs_and_Epenses",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 428,
+    "virtual_dataset_id": 130,
+    "virtual_dataset_table": "vd_l2_nvbench_cre_Docs_and_Epenses_01",
+    "superset_create_response": {
+      "id": 428,
+      "result": {
+        "datasource_id": 130,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_01. Expected visualization: Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"budget_type_code\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"groupby\":[],\"datasource\":\"130__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"budget_type_code\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"budget_type_code\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":130,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"budget_type_code\",\"label\":\"budget_type_code\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"filters\":[{\"col\":\"budget_type_code\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"budget_type_code\"],\"columns\":[],\"aggregates\":{\"SUM(document_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_01",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 428,
+      "ok": true,
+      "row_count": 3,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_cre_Docs_and_Epenses_01.png",
+      "screenshot_bytes": 11878,
+      "chart_url": "/superset/explore/?slice_id=428",
+      "issues": [
+        "warning: screenshot only 11.6 KB despite 3 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT \"Budget_Type_Code\" AS budget_type_code, COUNT(*) AS document_count\nFROM bench_nvbench_cre_docs_and_expenses.documents_with_expenses\nGROUP BY \"Budget_Type_Code\"\nORDER BY \"Budget_Type_Code\";",
+  "chart_spec": {
+    "viz_type": "Bar",
+    "superset_viz_type": "echarts_timeseries_bar",
+    "dataset_id": 130,
+    "virtual_dataset_table": "vd_l2_nvbench_cre_Docs_and_Epenses_01",
+    "metrics": [
+      "document_count"
+    ],
+    "dimensions": [
+      "budget_type_code"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "budget_type_code",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(document_count)",
+          "sqlExpression": "SUM(document_count)"
+        }
+      ],
+      "groupby": []
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 130
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 428
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 3
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_cre_Docs_and_Epenses_01",
+      "dataset_id": 130,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_01",
+      "dataset_id": 130,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_bar",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_01. Expected visualization: Bar.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "budget_type_code",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(document_count)",
+            "sqlExpression": "SUM(document_count)"
+          }
+        ],
+        "groupby": []
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 428,
+      "result": {
+        "datasource_id": 130,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_01. Expected visualization: Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"budget_type_code\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"groupby\":[],\"datasource\":\"130__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"budget_type_code\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"budget_type_code\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":130,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"budget_type_code\",\"label\":\"budget_type_code\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"filters\":[{\"col\":\"budget_type_code\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"budget_type_code\"],\"columns\":[],\"aggregates\":{\"SUM(document_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_01",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 428,
+      "ok": true,
+      "row_count": 3,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_cre_Docs_and_Epenses_01.png",
+      "screenshot_bytes": 11878,
+      "chart_url": "/superset/explore/?slice_id=428",
+      "issues": [
+        "warning: screenshot only 11.6 KB despite 3 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:38:43.589Z"
+}

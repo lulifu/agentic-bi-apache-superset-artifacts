@@ -1,0 +1,152 @@
+{
+  "task_id": "nvbench_cre_Docs_and_Epenses_06",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "cre_Docs_and_Epenses",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 433,
+    "virtual_dataset_id": 135,
+    "virtual_dataset_table": "vd_l2_nvbench_cre_Docs_and_Epenses_06",
+    "superset_create_response": {
+      "id": 433,
+      "result": {
+        "datasource_id": 135,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_06. Expected visualization: Grouping Line.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"document_year_start\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"groupby\":[\"document_type_name\"],\"datasource\":\"135__table\",\"viz_type\":\"echarts_timeseries_line\",\"granularity_sqla\":\"document_year_start\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"document_year_start\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":135,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"document_year_start\",\"label\":\"document_year_start\",\"expressionType\":\"SQL\"},\"document_type_name\"],\"series_columns\":[\"document_type_name\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"filters\":[{\"col\":\"document_year_start\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"document_year_start\"],\"columns\":[\"document_type_name\"],\"aggregates\":{\"SUM(document_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_06",
+        "viz_type": "echarts_timeseries_line"
+      }
+    },
+    "verification": {
+      "chart_id": 433,
+      "ok": true,
+      "row_count": 8,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_cre_Docs_and_Epenses_06.png",
+      "screenshot_bytes": 23676,
+      "chart_url": "/superset/explore/?slice_id=433",
+      "issues": [
+        "warning: screenshot only 23.1 KB despite 8 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT T1.\"Document_Type_Name\" AS document_type_name,\n       (1970 + FLOOR((EXTRACT(YEAR FROM T2.\"Document_Date\")::int - 1970) / 4.0)::int * 4) AS document_year_start,\n       COUNT(T2.\"Document_Date\") AS document_count\nFROM bench_nvbench_cre_docs_and_expenses.ref_document_types AS T1\nJOIN bench_nvbench_cre_docs_and_expenses.documents AS T2 ON T1.\"Document_Type_Code\" = T2.\"Document_Type_Code\"\nGROUP BY T1.\"Document_Type_Name\", document_year_start\nORDER BY T1.\"Document_Type_Name\", document_year_start;",
+  "chart_spec": {
+    "viz_type": "Grouping Line",
+    "superset_viz_type": "echarts_timeseries_line",
+    "dataset_id": 135,
+    "virtual_dataset_table": "vd_l2_nvbench_cre_Docs_and_Epenses_06",
+    "metrics": [
+      "document_count"
+    ],
+    "dimensions": [
+      "document_year_start",
+      "document_type_name"
+    ],
+    "filters": "",
+    "time_range": "No filter; bin Document_Date by year interval",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": true,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "document_year_start",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(document_count)",
+          "sqlExpression": "SUM(document_count)"
+        }
+      ],
+      "groupby": [
+        "document_type_name"
+      ]
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 135
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 433
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 8
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_cre_Docs_and_Epenses_06",
+      "dataset_id": 135,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_06",
+      "dataset_id": 135,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_line",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_06. Expected visualization: Grouping Line.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": true,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "document_year_start",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(document_count)",
+            "sqlExpression": "SUM(document_count)"
+          }
+        ],
+        "groupby": [
+          "document_type_name"
+        ]
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 433,
+      "result": {
+        "datasource_id": 135,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_cre_Docs_and_Epenses_06. Expected visualization: Grouping Line.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"document_year_start\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"groupby\":[\"document_type_name\"],\"datasource\":\"135__table\",\"viz_type\":\"echarts_timeseries_line\",\"granularity_sqla\":\"document_year_start\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"document_year_start\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":135,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"document_year_start\",\"label\":\"document_year_start\",\"expressionType\":\"SQL\"},\"document_type_name\"],\"series_columns\":[\"document_type_name\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"}],\"filters\":[{\"col\":\"document_year_start\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(document_count)\",\"sqlExpression\":\"SUM(document_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"document_year_start\"],\"columns\":[\"document_type_name\"],\"aggregates\":{\"SUM(document_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_cre_Docs_and_Epenses_06",
+        "viz_type": "echarts_timeseries_line"
+      }
+    },
+    "verification": {
+      "chart_id": 433,
+      "ok": true,
+      "row_count": 8,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_cre_Docs_and_Epenses_06.png",
+      "screenshot_bytes": 23676,
+      "chart_url": "/superset/explore/?slice_id=433",
+      "issues": [
+        "warning: screenshot only 23.1 KB despite 8 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:41:48.080Z"
+}

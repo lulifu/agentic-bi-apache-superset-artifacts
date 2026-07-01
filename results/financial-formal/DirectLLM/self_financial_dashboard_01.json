@@ -1,0 +1,84 @@
+{
+  "task_id": "self_financial_dashboard_01",
+  "system": "DirectLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": "SELECT SUM(amount) AS total_approved_amount_1996 FROM loan WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) = 1996; SELECT DATE_TRUNC('month', CAST(date AS DATE)) AS month, COUNT(loan_id) AS approved_loan_count FROM loan WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) = 1996 GROUP BY 1 ORDER BY 1; SELECT DATE_TRUNC('month', CAST(date AS DATE)) AS month, CASE status WHEN 'A' THEN 'finished OK' WHEN 'B' THEN 'finished default' WHEN 'C' THEN 'running OK' WHEN 'D' THEN 'running in debt' END AS loan_status, COUNT(*) AS loan_count FROM loan WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) = 1996 GROUP BY 1,2 ORDER BY 1,2; SELECT duration AS duration_bucket_months, AVG(amount) AS avg_loan_amount FROM loan WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) = 1996 GROUP BY 1 ORDER BY 1;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "1996 Total Approved Loan Amount",
+        "type": "kpi",
+        "metrics": [
+          "SUM(loan.amount)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "loan.date in 1996"
+        ]
+      },
+      {
+        "title": "Monthly Approved Loan Count",
+        "type": "line",
+        "metrics": [
+          "COUNT(loan.loan_id)"
+        ],
+        "dimensions": [
+          "loan.date month"
+        ],
+        "filters": [
+          "loan.date in 1996"
+        ]
+      },
+      {
+        "title": "Loan Status Mix by Month",
+        "type": "stacked_bar",
+        "metrics": [
+          "COUNT(loan.loan_id)"
+        ],
+        "dimensions": [
+          "loan.date month",
+          "mapped loan.status"
+        ],
+        "filters": [
+          "loan.date in 1996"
+        ]
+      },
+      {
+        "title": "Average Loan Amount by Duration",
+        "type": "bar",
+        "metrics": [
+          "AVG(loan.amount)"
+        ],
+        "dimensions": [
+          "loan.duration"
+        ],
+        "filters": [
+          "loan.date in 1996"
+        ]
+      }
+    ],
+    "metrics": [
+      "SUM(loan.amount)",
+      "COUNT(loan.loan_id)",
+      "AVG(loan.amount)"
+    ],
+    "dimensions": [
+      "loan.date month",
+      "loan.status",
+      "loan.duration"
+    ],
+    "filters": [
+      "1996-01-01 through 1996-12-31"
+    ],
+    "layout_intent": "Executive dashboard with KPI tile across the top, monthly trend and status mix side by side, and duration bar below."
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

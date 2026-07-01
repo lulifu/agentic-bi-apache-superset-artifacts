@@ -1,0 +1,25 @@
+{
+  "task_id": "bird_european_football_2_05",
+  "system": "DirectLLM",
+  "task_class": "query",
+  "dataset": "european_football_2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Ranks leagues by number of drawn matches in the 2015/2016 season.",
+  "sql": "SELECT l.name FROM Match AS m JOIN League AS l ON m.league_id = l.id WHERE m.season = '2015/2016' GROUP BY l.id, l.name ORDER BY SUM((m.home_team_goal = m.away_team_goal)::int) DESC LIMIT 1;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_european_football_2_05",
+    "sql": "SELECT l.name FROM Match AS m JOIN League AS l ON m.league_id = l.id WHERE m.season = '2015/2016' GROUP BY l.id, l.name ORDER BY SUM((m.home_team_goal = m.away_team_goal)::int) DESC LIMIT 1;",
+    "artifact": "Ranks leagues by number of drawn matches in the 2015/2016 season."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec783-f59e-76f3-b5d0-fc2f6e4191bf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:04:15.315Z"
+}

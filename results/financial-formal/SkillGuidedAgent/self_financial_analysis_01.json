@@ -1,0 +1,45 @@
+{
+  "task_id": "self_financial_analysis_01",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_analysis_01.\nyoy_decomposition: [{\"cnt_1996\":196779,\"total_1996\":1163864249,\"avg_1996\":5914.575483156231,\"cnt_1997\":284409,\"total_1997\":1688347890,\"avg_1997\":5936.3377741210725,\"total_change\":524483641,\"count_contribution\":518294249.58898056,\"avg_amount_contribution\":6189391.411019469,\"count_contribution_share\":0.9881990763349291}]",
+  "sql": "WITH yearly AS (\n  SELECT EXTRACT(YEAR FROM date)::int AS yr, COUNT(*)::numeric AS cnt,\n         SUM(amount)::numeric AS total_amount, AVG(amount)::numeric AS avg_amount\n  FROM trans\n  WHERE date >= DATE '1996-01-01' AND date < DATE '1998-01-01'\n  GROUP BY 1\n),\np AS (\n  SELECT\n    MAX(cnt) FILTER (WHERE yr = 1996) AS cnt_1996,\n    MAX(total_amount) FILTER (WHERE yr = 1996) AS total_1996,\n    MAX(avg_amount) FILTER (WHERE yr = 1996) AS avg_1996,\n    MAX(cnt) FILTER (WHERE yr = 1997) AS cnt_1997,\n    MAX(total_amount) FILTER (WHERE yr = 1997) AS total_1997,\n    MAX(avg_amount) FILTER (WHERE yr = 1997) AS avg_1997\n  FROM yearly\n)\nSELECT *, total_1997 - total_1996 AS total_change,\n       (cnt_1997 - cnt_1996) * avg_1996 AS count_contribution,\n       cnt_1997 * (avg_1997 - avg_1996) AS avg_amount_contribution,\n       ((cnt_1997 - cnt_1996) * avg_1996) / NULLIF(total_1997 - total_1996, 0) AS count_contribution_share\nFROM p",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:yoy_decomposition"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "yoy_decomposition",
+        "sql": "WITH yearly AS (\n  SELECT EXTRACT(YEAR FROM date)::int AS yr, COUNT(*)::numeric AS cnt,\n         SUM(amount)::numeric AS total_amount, AVG(amount)::numeric AS avg_amount\n  FROM trans\n  WHERE date >= DATE '1996-01-01' AND date < DATE '1998-01-01'\n  GROUP BY 1\n),\np AS (\n  SELECT\n    MAX(cnt) FILTER (WHERE yr = 1996) AS cnt_1996,\n    MAX(total_amount) FILTER (WHERE yr = 1996) AS total_1996,\n    MAX(avg_amount) FILTER (WHERE yr = 1996) AS avg_1996,\n    MAX(cnt) FILTER (WHERE yr = 1997) AS cnt_1997,\n    MAX(total_amount) FILTER (WHERE yr = 1997) AS total_1997,\n    MAX(avg_amount) FILTER (WHERE yr = 1997) AS avg_1997\n  FROM yearly\n)\nSELECT *, total_1997 - total_1996 AS total_change,\n       (cnt_1997 - cnt_1996) * avg_1996 AS count_contribution,\n       cnt_1997 * (avg_1997 - avg_1996) AS avg_amount_contribution,\n       ((cnt_1997 - cnt_1996) * avg_1996) / NULLIF(total_1997 - total_1996, 0) AS count_contribution_share\nFROM p",
+        "rows": [
+          {
+            "cnt_1996": 196779,
+            "total_1996": 1163864249,
+            "avg_1996": 5914.575483156231,
+            "cnt_1997": 284409,
+            "total_1997": 1688347890,
+            "avg_1997": 5936.3377741210725,
+            "total_change": 524483641,
+            "count_contribution": 518294249.58898056,
+            "avg_amount_contribution": 6189391.411019469,
+            "count_contribution_share": 0.9881990763349291
+          }
+        ],
+        "rowcount": 1
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:39.283Z"
+}

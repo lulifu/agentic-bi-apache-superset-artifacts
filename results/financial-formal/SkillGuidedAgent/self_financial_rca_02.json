@@ -1,0 +1,215 @@
+{
+  "task_id": "self_financial_rca_02",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_02.\nq2_q3_1996_default_drivers: [{\"axis\":\"amount_quartile\",\"value\":\"1\",\"quarter\":\"1996_Q2\",\"finished_loans\":2,\"default_rate\":1},{\"axis\":\"amount_quartile\",\"value\":\"1\",\"quarter\":\"1996_Q3\",\"finished_loans\":3,\"default_rate\":0.3333333333333333},{\"axis\":\"amount_quartile\",\"value\":\"2\",\"quarter\":\"1996_Q2\",\"finished_loans\":3,\"default_rate\":0.3333333333333333},{\"axis\":\"amount_quartile\",\"value\":\"2\",\"quarter\":\"1996_Q3\",\"finished_loans\":2,\"default_rate\":0},{\"axis\":\"amount_quartile\",\"value\":\"3\",\"quarter\":\"1996_Q3\",\"finished_loans\":5,\"default_rate\":0}]",
+  "sql": "WITH base AS (\n  SELECT CASE WHEN l.date >= DATE '1996-04-01' AND l.date < DATE '1996-07-01' THEN '1996_Q2'\n              WHEN l.date >= DATE '1996-07-01' AND l.date < DATE '1996-10-01' THEN '1996_Q3' END AS quarter,\n         l.status, l.duration, d.\"A3\" AS region, c.gender,\n         NTILE(4) OVER (ORDER BY l.amount) AS amount_quartile\n  FROM loan l\n  JOIN account a ON a.account_id = l.account_id\n  JOIN district d ON d.district_id = a.district_id\n  JOIN disp dp ON dp.account_id = a.account_id\n  JOIN client c ON c.client_id = dp.client_id\n  WHERE l.date >= DATE '1996-04-01' AND l.date < DATE '1996-10-01' AND l.status IN ('A','B')\n)\nSELECT axis, value, quarter, COUNT(*) AS finished_loans,\n       COUNT(*) FILTER (WHERE status = 'B')::numeric / NULLIF(COUNT(*), 0) AS default_rate\nFROM (\n  SELECT 'duration' AS axis, duration::text AS value, quarter, status FROM base\n  UNION ALL SELECT 'amount_quartile', amount_quartile::text, quarter, status FROM base\n  UNION ALL SELECT 'region', region, quarter, status FROM base\n  UNION ALL SELECT 'gender', gender, quarter, status FROM base\n) x\nGROUP BY 1,2,3\nORDER BY axis, value, quarter",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:q2_q3_1996_default_drivers"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "q2_q3_1996_default_drivers",
+        "sql": "WITH base AS (\n  SELECT CASE WHEN l.date >= DATE '1996-04-01' AND l.date < DATE '1996-07-01' THEN '1996_Q2'\n              WHEN l.date >= DATE '1996-07-01' AND l.date < DATE '1996-10-01' THEN '1996_Q3' END AS quarter,\n         l.status, l.duration, d.\"A3\" AS region, c.gender,\n         NTILE(4) OVER (ORDER BY l.amount) AS amount_quartile\n  FROM loan l\n  JOIN account a ON a.account_id = l.account_id\n  JOIN district d ON d.district_id = a.district_id\n  JOIN disp dp ON dp.account_id = a.account_id\n  JOIN client c ON c.client_id = dp.client_id\n  WHERE l.date >= DATE '1996-04-01' AND l.date < DATE '1996-10-01' AND l.status IN ('A','B')\n)\nSELECT axis, value, quarter, COUNT(*) AS finished_loans,\n       COUNT(*) FILTER (WHERE status = 'B')::numeric / NULLIF(COUNT(*), 0) AS default_rate\nFROM (\n  SELECT 'duration' AS axis, duration::text AS value, quarter, status FROM base\n  UNION ALL SELECT 'amount_quartile', amount_quartile::text, quarter, status FROM base\n  UNION ALL SELECT 'region', region, quarter, status FROM base\n  UNION ALL SELECT 'gender', gender, quarter, status FROM base\n) x\nGROUP BY 1,2,3\nORDER BY axis, value, quarter",
+        "rows": [
+          {
+            "axis": "amount_quartile",
+            "value": "1",
+            "quarter": "1996_Q2",
+            "finished_loans": 2,
+            "default_rate": 1
+          },
+          {
+            "axis": "amount_quartile",
+            "value": "1",
+            "quarter": "1996_Q3",
+            "finished_loans": 3,
+            "default_rate": 0.3333333333333333
+          },
+          {
+            "axis": "amount_quartile",
+            "value": "2",
+            "quarter": "1996_Q2",
+            "finished_loans": 3,
+            "default_rate": 0.3333333333333333
+          },
+          {
+            "axis": "amount_quartile",
+            "value": "2",
+            "quarter": "1996_Q3",
+            "finished_loans": 2,
+            "default_rate": 0
+          },
+          {
+            "axis": "amount_quartile",
+            "value": "3",
+            "quarter": "1996_Q3",
+            "finished_loans": 5,
+            "default_rate": 0
+          },
+          {
+            "axis": "amount_quartile",
+            "value": "4",
+            "quarter": "1996_Q2",
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "axis": "amount_quartile",
+            "value": "4",
+            "quarter": "1996_Q3",
+            "finished_loans": 4,
+            "default_rate": 0
+          },
+          {
+            "axis": "duration",
+            "value": "12",
+            "quarter": "1996_Q2",
+            "finished_loans": 3,
+            "default_rate": 0.6666666666666666
+          },
+          {
+            "axis": "duration",
+            "value": "12",
+            "quarter": "1996_Q3",
+            "finished_loans": 5,
+            "default_rate": 0.2
+          },
+          {
+            "axis": "duration",
+            "value": "24",
+            "quarter": "1996_Q2",
+            "finished_loans": 3,
+            "default_rate": 0.3333333333333333
+          },
+          {
+            "axis": "duration",
+            "value": "24",
+            "quarter": "1996_Q3",
+            "finished_loans": 9,
+            "default_rate": 0
+          },
+          {
+            "axis": "gender",
+            "value": "F",
+            "quarter": "1996_Q2",
+            "finished_loans": 3,
+            "default_rate": 0.6666666666666666
+          },
+          {
+            "axis": "gender",
+            "value": "F",
+            "quarter": "1996_Q3",
+            "finished_loans": 8,
+            "default_rate": 0
+          },
+          {
+            "axis": "gender",
+            "value": "M",
+            "quarter": "1996_Q2",
+            "finished_loans": 3,
+            "default_rate": 0.3333333333333333
+          },
+          {
+            "axis": "gender",
+            "value": "M",
+            "quarter": "1996_Q3",
+            "finished_loans": 6,
+            "default_rate": 0.16666666666666666
+          },
+          {
+            "axis": "region",
+            "value": "central Bohemia",
+            "quarter": "1996_Q2",
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "axis": "region",
+            "value": "central Bohemia",
+            "quarter": "1996_Q3",
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "axis": "region",
+            "value": "east Bohemia",
+            "quarter": "1996_Q3",
+            "finished_loans": 2,
+            "default_rate": 0
+          },
+          {
+            "axis": "region",
+            "value": "north Bohemia",
+            "quarter": "1996_Q2",
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "axis": "region",
+            "value": "north Bohemia",
+            "quarter": "1996_Q3",
+            "finished_loans": 3,
+            "default_rate": 0
+          },
+          {
+            "axis": "region",
+            "value": "north Moravia",
+            "quarter": "1996_Q2",
+            "finished_loans": 1,
+            "default_rate": 1
+          },
+          {
+            "axis": "region",
+            "value": "north Moravia",
+            "quarter": "1996_Q3",
+            "finished_loans": 3,
+            "default_rate": 0.3333333333333333
+          },
+          {
+            "axis": "region",
+            "value": "south Bohemia",
+            "quarter": "1996_Q2",
+            "finished_loans": 3,
+            "default_rate": 0.6666666666666666
+          },
+          {
+            "axis": "region",
+            "value": "south Bohemia",
+            "quarter": "1996_Q3",
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "axis": "region",
+            "value": "south Moravia",
+            "quarter": "1996_Q3",
+            "finished_loans": 3,
+            "default_rate": 0
+          },
+          {
+            "axis": "region",
+            "value": "west Bohemia",
+            "quarter": "1996_Q3",
+            "finished_loans": 1,
+            "default_rate": 0
+          }
+        ],
+        "rowcount": 26
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:46.659Z"
+}

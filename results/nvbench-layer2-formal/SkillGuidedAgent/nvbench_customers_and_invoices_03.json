@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_customers_and_invoices_03",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "customers_and_invoices",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 442,
+    "virtual_dataset_id": 144,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_03",
+    "superset_create_response": {
+      "id": 442,
+      "result": {
+        "datasource_id": 144,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},\"groupby\":[\"other_account_details\"],\"show_labels\":true,\"datasource\":\"144__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":144,\"type\":\"table\"},\"queries\":[{\"columns\":[\"other_account_details\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 442,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_03.png",
+      "screenshot_bytes": 28794,
+      "chart_url": "/superset/explore/?slice_id=442",
+      "issues": [
+        "warning: screenshot only 28.1 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT other_account_details, COUNT(other_account_details) AS account_count\nFROM bench_nvbench_customers_and_invoices.accounts\nGROUP BY other_account_details\nORDER BY other_account_details;",
+  "chart_spec": {
+    "viz_type": "Pie",
+    "superset_viz_type": "pie",
+    "dataset_id": 144,
+    "virtual_dataset_table": "vd_l2_nvbench_customers_and_invoices_03",
+    "metrics": [
+      "account_count"
+    ],
+    "dimensions": [
+      "other_account_details"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "metric": {
+        "expressionType": "SQL",
+        "label": "SUM(account_count)",
+        "sqlExpression": "SUM(account_count)"
+      },
+      "groupby": [
+        "other_account_details"
+      ],
+      "show_labels": true
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 144
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 442
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 2
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_customers_and_invoices_03",
+      "dataset_id": 144,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_03",
+      "dataset_id": 144,
+      "dataset_type": "table",
+      "viz_type": "pie",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_03. Expected visualization: Pie.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "metric": {
+          "expressionType": "SQL",
+          "label": "SUM(account_count)",
+          "sqlExpression": "SUM(account_count)"
+        },
+        "groupby": [
+          "other_account_details"
+        ],
+        "show_labels": true
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 442,
+      "result": {
+        "datasource_id": 144,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_customers_and_invoices_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},\"groupby\":[\"other_account_details\"],\"show_labels\":true,\"datasource\":\"144__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":144,\"type\":\"table\"},\"queries\":[{\"columns\":[\"other_account_details\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(account_count)\",\"sqlExpression\":\"SUM(account_count)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_customers_and_invoices_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 442,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_customers_and_invoices_03.png",
+      "screenshot_bytes": 28794,
+      "chart_url": "/superset/explore/?slice_id=442",
+      "issues": [
+        "warning: screenshot only 28.1 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:43:55.854Z"
+}

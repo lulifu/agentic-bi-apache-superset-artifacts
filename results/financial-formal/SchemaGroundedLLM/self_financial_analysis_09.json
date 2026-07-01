@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_09",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH card_clients AS (SELECT DISTINCT c.type AS card_type, dp.client_id, dp.account_id FROM card AS c INNER JOIN disp AS dp ON dp.disp_id = c.disp_id WHERE c.type IN ('gold', 'classic')), per_client AS (SELECT cc.card_type, cc.client_id, COUNT(t.trans_id) AS tx_count, AVG(t.amount) AS avg_tx_amount, SUM(t.amount) AS total_tx_amount FROM card_clients AS cc LEFT JOIN trans AS t ON t.account_id = cc.account_id AND t.date >= DATE '1998-01-01' AND t.date < DATE '1999-01-01' GROUP BY cc.card_type, cc.client_id) SELECT card_type, COUNT(client_id) AS cardholding_client_count, AVG(tx_count) AS avg_transactions_per_client, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY tx_count) AS median_transactions_per_client, AVG(avg_tx_amount) AS avg_transaction_size_per_client, SUM(total_tx_amount) / NULLIF(SUM(tx_count), 0) AS weighted_avg_transaction_size FROM per_client GROUP BY card_type ORDER BY card_type;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

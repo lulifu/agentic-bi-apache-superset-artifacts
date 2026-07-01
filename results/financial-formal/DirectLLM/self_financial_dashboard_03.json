@@ -1,0 +1,74 @@
+{
+  "task_id": "self_financial_dashboard_03",
+  "system": "DirectLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": "SELECT DATE_TRUNC('month', CAST(issued AS DATE)) AS issued_month, type AS card_type, COUNT(card_id) AS issued_cards FROM card GROUP BY 1,2 ORDER BY 1,2; SELECT type AS card_type, COUNT(card_id) AS issued_cards FROM card GROUP BY 1 ORDER BY issued_cards DESC; SELECT DATE_TRUNC('month', CAST(t.date AS DATE)) AS trans_month, COUNT(t.trans_id) AS card_withdrawal_count FROM trans t WHERE t.operation='VYBER KARTOU' AND EXTRACT(YEAR FROM CAST(t.date AS DATE))=1997 GROUP BY 1 ORDER BY 1;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Card Issuance Volume by Month and Type",
+        "type": "line",
+        "metrics": [
+          "COUNT(card.card_id)"
+        ],
+        "dimensions": [
+          "card.issued month",
+          "card.type"
+        ],
+        "filters": [
+          "all card issuance"
+        ]
+      },
+      {
+        "title": "Issued Card Mix",
+        "type": "pie",
+        "metrics": [
+          "COUNT(card.card_id)"
+        ],
+        "dimensions": [
+          "card.type"
+        ],
+        "filters": [
+          "all card issuance"
+        ]
+      },
+      {
+        "title": "1997 Card-Withdrawal Transactions",
+        "type": "line",
+        "metrics": [
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.date month"
+        ],
+        "filters": [
+          "trans.operation = VYBER KARTOU",
+          "trans.date in 1997"
+        ]
+      }
+    ],
+    "metrics": [
+      "COUNT(card.card_id)",
+      "COUNT(trans.trans_id where operation='VYBER KARTOU')"
+    ],
+    "dimensions": [
+      "card.issued month",
+      "card.type",
+      "trans.date month"
+    ],
+    "filters": [
+      "all issuance",
+      "1997 card-withdrawal transactions"
+    ],
+    "layout_intent": "Two aligned monthly line charts stacked vertically, with card mix pie as a compact side panel."
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

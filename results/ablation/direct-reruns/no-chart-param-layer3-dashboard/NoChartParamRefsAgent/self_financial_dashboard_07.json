@@ -1,0 +1,123 @@
+{
+  "task_id": "self_financial_dashboard_07",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Loan-portfolio aging dashboard slicing loans by status, duration, cohort year, and 1998 approved amount.",
+  "sql": "",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Loan Count by Status and Approval Cohort",
+        "viz_type": "stacked_bar",
+        "metrics": [
+          "COUNT(loan.loan_id)"
+        ],
+        "dimensions": [
+          "EXTRACT(YEAR FROM CAST(loan.date AS DATE))",
+          "loan.status"
+        ],
+        "filters": [
+          "all-time"
+        ]
+      },
+      {
+        "title": "Average Loan Amount by Duration and Status",
+        "viz_type": "pivot_table",
+        "metrics": [
+          "AVG(loan.amount)"
+        ],
+        "dimensions": [
+          "loan.duration",
+          "loan.status"
+        ],
+        "filters": [
+          "loan.duration IN (12,24,36,48,60)"
+        ]
+      },
+      {
+        "title": "Total Approved Amount, 1998",
+        "viz_type": "big_number",
+        "metrics": [
+          "SUM(loan.amount)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1998"
+        ]
+      }
+    ],
+    "layout_intent": "KPI at top, cohort stacked bar beside a duration/status pivot table.",
+    "chart_count": 3,
+    "chart_viz_types": [
+      "stacked_bar",
+      "pivot_table",
+      "big_number"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_dashboard_07",
+    "artifact": "Loan-portfolio aging dashboard slicing loans by status, duration, cohort year, and 1998 approved amount.",
+    "chart_spec": {
+      "charts": [
+        {
+          "title": "Loan Count by Status and Approval Cohort",
+          "viz_type": "stacked_bar",
+          "metrics": [
+            "COUNT(loan.loan_id)"
+          ],
+          "dimensions": [
+            "EXTRACT(YEAR FROM CAST(loan.date AS DATE))",
+            "loan.status"
+          ],
+          "filters": [
+            "all-time"
+          ]
+        },
+        {
+          "title": "Average Loan Amount by Duration and Status",
+          "viz_type": "pivot_table",
+          "metrics": [
+            "AVG(loan.amount)"
+          ],
+          "dimensions": [
+            "loan.duration",
+            "loan.status"
+          ],
+          "filters": [
+            "loan.duration IN (12,24,36,48,60)"
+          ]
+        },
+        {
+          "title": "Total Approved Amount, 1998",
+          "viz_type": "big_number",
+          "metrics": [
+            "SUM(loan.amount)"
+          ],
+          "dimensions": [],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1998"
+          ]
+        }
+      ],
+      "layout_intent": "KPI at top, cohort stacked bar beside a duration/status pivot table.",
+      "chart_count": 3,
+      "chart_viz_types": [
+        "stacked_bar",
+        "pivot_table",
+        "big_number"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-1fcf-7070-a2df-21c498fb4cbf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.286Z"
+}

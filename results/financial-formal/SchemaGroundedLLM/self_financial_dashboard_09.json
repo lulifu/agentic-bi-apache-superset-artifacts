@@ -1,0 +1,74 @@
+{
+  "task_id": "self_financial_dashboard_09",
+  "system": "SchemaGroundedLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": {
+    "monthly_sipo_outflow": "SELECT DATE_TRUNC('month', t.date)::date AS trans_month, SUM(t.amount) AS household_payment_outflow FROM trans t WHERE t.k_symbol = 'SIPO' AND t.date >= DATE '1997-01-01' AND t.date < DATE '1999-01-01' GROUP BY 1 ORDER BY 1;",
+    "accounts_above_2x_1996_baseline": "WITH monthly AS (SELECT t.account_id, DATE_TRUNC('month', t.date)::date AS trans_month, SUM(t.amount) AS monthly_sipo_amount FROM trans t WHERE t.k_symbol = 'SIPO' GROUP BY 1, 2), baseline AS (SELECT account_id, AVG(monthly_sipo_amount) AS avg_1996_monthly_sipo FROM monthly WHERE trans_month >= DATE '1996-01-01' AND trans_month < DATE '1997-01-01' GROUP BY account_id), later AS (SELECT account_id, trans_month, monthly_sipo_amount FROM monthly WHERE trans_month >= DATE '1997-01-01' AND trans_month < DATE '1999-01-01') SELECT later.account_id, later.trans_month, later.monthly_sipo_amount, baseline.avg_1996_monthly_sipo, later.monthly_sipo_amount / NULLIF(baseline.avg_1996_monthly_sipo, 0) AS ratio_to_1996_baseline FROM later JOIN baseline ON baseline.account_id = later.account_id WHERE later.monthly_sipo_amount > 2 * baseline.avg_1996_monthly_sipo ORDER BY ratio_to_1996_baseline DESC;",
+    "regional_sipo_volume": "SELECT d.\"A3\" AS region, SUM(t.amount) AS household_payment_volume FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id WHERE t.k_symbol = 'SIPO' GROUP BY 1 ORDER BY household_payment_volume DESC;"
+  },
+  "chart_spec": {
+    "charts": [
+      {
+        "id": "monthly_sipo_outflow",
+        "viz_type": "line",
+        "dataset": "trans",
+        "metrics": [
+          "SUM(amount)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('month', date)"
+        ],
+        "filters": [
+          "k_symbol = 'SIPO'",
+          "trans.date in 1997-1998"
+        ],
+        "layout_intent": "monthly household-payment trend"
+      },
+      {
+        "id": "accounts_above_2x_1996_baseline",
+        "viz_type": "table",
+        "dataset": "sipo_baseline_virtual",
+        "dataset_choice": "virtual_dataset",
+        "metrics": [
+          "monthly_sipo_amount / avg_1996_monthly_sipo"
+        ],
+        "dimensions": [
+          "account_id",
+          "trans_month"
+        ],
+        "filters": [
+          "k_symbol = 'SIPO'",
+          "ratio > 2"
+        ],
+        "layout_intent": "exception account table"
+      },
+      {
+        "id": "regional_sipo_volume",
+        "viz_type": "bar",
+        "dataset": "account_district_trans_virtual",
+        "dataset_choice": "virtual_dataset",
+        "metrics": [
+          "SUM(trans.amount)"
+        ],
+        "dimensions": [
+          "district.A3"
+        ],
+        "filters": [
+          "k_symbol = 'SIPO'"
+        ],
+        "layout_intent": "regional household-payment volume"
+      }
+    ],
+    "layout_intent": "trend, exception table, and regional volume view"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

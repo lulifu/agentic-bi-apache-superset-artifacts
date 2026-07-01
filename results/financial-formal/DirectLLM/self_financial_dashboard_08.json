@@ -1,0 +1,74 @@
+{
+  "task_id": "self_financial_dashboard_08",
+  "system": "DirectLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": "SELECT DATE_TRUNC('quarter', CAST(issued AS DATE)) AS issued_quarter, type AS card_type, COUNT(*) AS issued_cards FROM card WHERE EXTRACT(YEAR FROM CAST(issued AS DATE)) BETWEEN 1994 AND 1998 GROUP BY 1,2 ORDER BY 1,2; WITH first_card_tx AS (SELECT dp.client_id, MIN(CAST(t.date AS DATE)) AS first_card_trans_date FROM disp dp JOIN trans t ON t.account_id=dp.account_id WHERE t.operation='VYBER KARTOU' GROUP BY dp.client_id), card_clients AS (SELECT dp.client_id, MIN(CAST(c.issued AS DATE)) AS first_card_issued FROM card c JOIN disp dp ON dp.disp_id=c.disp_id WHERE EXTRACT(YEAR FROM CAST(c.issued AS DATE)) BETWEEN 1994 AND 1998 GROUP BY dp.client_id) SELECT 'issued_card' AS stage, COUNT(*) AS clients FROM card_clients UNION ALL SELECT 'first_card_withdrawal', COUNT(*) FROM card_clients cc JOIN first_card_tx ft ON ft.client_id=cc.client_id AND ft.first_card_trans_date >= cc.first_card_issued; WITH first_card_tx AS (SELECT dp.client_id, MIN(CAST(t.date AS DATE)) AS first_card_trans_date FROM disp dp JOIN trans t ON t.account_id=dp.account_id WHERE t.operation='VYBER KARTOU' GROUP BY dp.client_id), card_clients AS (SELECT dp.client_id, MIN(CAST(c.issued AS DATE)) AS first_card_issued FROM card c JOIN disp dp ON dp.disp_id=c.disp_id WHERE EXTRACT(YEAR FROM CAST(c.issued AS DATE)) BETWEEN 1994 AND 1998 GROUP BY dp.client_id) SELECT AVG(first_card_trans_date - first_card_issued) AS avg_days_to_first_card_transaction FROM card_clients cc JOIN first_card_tx ft ON ft.client_id=cc.client_id WHERE ft.first_card_trans_date >= cc.first_card_issued;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Quarterly Card Issuance by Type",
+        "type": "line",
+        "metrics": [
+          "COUNT(card.card_id)"
+        ],
+        "dimensions": [
+          "card.issued quarter",
+          "card.type"
+        ],
+        "filters": [
+          "issued 1994-1998"
+        ]
+      },
+      {
+        "title": "Card Issuance to First Card Withdrawal Funnel",
+        "type": "funnel",
+        "metrics": [
+          "client count at each stage"
+        ],
+        "dimensions": [
+          "stage"
+        ],
+        "filters": [
+          "issued 1994-1998",
+          "first transaction operation VYBER KARTOU"
+        ]
+      },
+      {
+        "title": "Average Days to First Card Transaction",
+        "type": "big_number",
+        "metrics": [
+          "AVG(first_card_trans_date - card.issued)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "issued 1994-1998",
+          "card-withdrawal after issuance"
+        ]
+      }
+    ],
+    "metrics": [
+      "COUNT(card.card_id)",
+      "funnel stage counts",
+      "AVG(days_to_first_transaction)"
+    ],
+    "dimensions": [
+      "card.issued quarter",
+      "card.type",
+      "funnel stage"
+    ],
+    "filters": [
+      "card.issued between 1994 and 1998",
+      "trans.operation = VYBER KARTOU"
+    ],
+    "layout_intent": "Acquisition dashboard with quarterly trend across the top, funnel and latency KPI below."
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

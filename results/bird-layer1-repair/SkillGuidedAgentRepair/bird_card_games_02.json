@@ -1,0 +1,43 @@
+{
+  "task_id": "bird_card_games_02",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "card_games",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Kept first-pass SQL; it executed successfully and returns the card names together with the maximum face converted mana cost value.",
+  "sql": "SELECT c.name, c.faceconvertedmanacost FROM cards AS c WHERE c.faceconvertedmanacost = (SELECT MAX(faceconvertedmanacost) FROM cards) ORDER BY c.name;",
+  "chart_spec": null,
+  "tool_calls": [
+    {
+      "query_id": 427,
+      "status": "success"
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_card_games_02",
+    "sql": "SELECT c.name, c.faceconvertedmanacost FROM cards AS c WHERE c.faceconvertedmanacost = (SELECT MAX(faceconvertedmanacost) FROM cards) ORDER BY c.name;",
+    "artifact": "Kept first-pass SQL; it executed successfully and returns the card names together with the maximum face converted mana cost value.",
+    "tool_calls": [
+      {
+        "query_id": 427,
+        "status": "success"
+      }
+    ],
+    "repair_attempts": [
+      {
+        "sql": "SELECT c.name, c.faceconvertedmanacost FROM cards AS c WHERE c.faceconvertedmanacost = (SELECT MAX(faceconvertedmanacost) FROM cards) ORDER BY c.name;",
+        "status": "executed",
+        "feedback": "Executed successfully; output columns: name, faceconvertedmanacost."
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec794-b3b1-76d2-a8c2-4605fda21ce2",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:22:26.753Z"
+}

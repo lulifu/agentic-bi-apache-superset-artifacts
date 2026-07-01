@@ -1,0 +1,154 @@
+{
+  "task_id": "nvbench_behavior_monitoring_05",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "behavior_monitoring",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 438,
+    "virtual_dataset_id": 140,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_05",
+    "superset_create_response": {
+      "id": 438,
+      "result": {
+        "datasource_id": 140,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_05. Expected visualization: Stacked Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"address_to_month_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_to_count)\",\"sqlExpression\":\"SUM(address_to_count)\"}],\"groupby\":[\"other_details\"],\"stack\":\"Stack\",\"datasource\":\"140__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"address_to_month_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"address_to_month_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":140,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"address_to_month_name\",\"label\":\"address_to_month_name\",\"expressionType\":\"SQL\"},\"other_details\"],\"series_columns\":[\"other_details\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_to_count)\",\"sqlExpression\":\"SUM(address_to_count)\"}],\"filters\":[{\"col\":\"address_to_month_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_to_count)\",\"sqlExpression\":\"SUM(address_to_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"address_to_month_name\"],\"columns\":[\"other_details\"],\"aggregates\":{\"SUM(address_to_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_05",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 438,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_05.png",
+      "screenshot_bytes": 14504,
+      "chart_url": "/superset/explore/?slice_id=438",
+      "issues": [
+        "warning: screenshot only 14.2 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT other_details,\n       EXTRACT(MONTH FROM date_address_to)::int AS address_to_month,\n       TO_CHAR(date_address_to, 'Mon') AS address_to_month_name,\n       COUNT(date_address_to) AS address_to_count\nFROM bench_nvbench_behavior_monitoring.student_addresses\nGROUP BY other_details, EXTRACT(MONTH FROM date_address_to)::int, TO_CHAR(date_address_to, 'Mon')\nORDER BY other_details, address_to_month;",
+  "chart_spec": {
+    "viz_type": "Stacked Bar",
+    "superset_viz_type": "echarts_timeseries_bar",
+    "dataset_id": 140,
+    "virtual_dataset_table": "vd_l2_nvbench_behavior_monitoring_05",
+    "metrics": [
+      "address_to_count"
+    ],
+    "dimensions": [
+      "address_to_month_name",
+      "other_details"
+    ],
+    "filters": "",
+    "time_range": "No filter; bin date_address_to by month",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": true,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "address_to_month_name",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(address_to_count)",
+          "sqlExpression": "SUM(address_to_count)"
+        }
+      ],
+      "groupby": [
+        "other_details"
+      ],
+      "stack": "Stack"
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 140
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 438
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 2
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_behavior_monitoring_05",
+      "dataset_id": 140,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_05",
+      "dataset_id": 140,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_bar",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_05. Expected visualization: Stacked Bar.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": true,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "address_to_month_name",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(address_to_count)",
+            "sqlExpression": "SUM(address_to_count)"
+          }
+        ],
+        "groupby": [
+          "other_details"
+        ],
+        "stack": "Stack"
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 438,
+      "result": {
+        "datasource_id": 140,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_behavior_monitoring_05. Expected visualization: Stacked Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"address_to_month_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_to_count)\",\"sqlExpression\":\"SUM(address_to_count)\"}],\"groupby\":[\"other_details\"],\"stack\":\"Stack\",\"datasource\":\"140__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"address_to_month_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"address_to_month_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":140,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"address_to_month_name\",\"label\":\"address_to_month_name\",\"expressionType\":\"SQL\"},\"other_details\"],\"series_columns\":[\"other_details\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_to_count)\",\"sqlExpression\":\"SUM(address_to_count)\"}],\"filters\":[{\"col\":\"address_to_month_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(address_to_count)\",\"sqlExpression\":\"SUM(address_to_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"address_to_month_name\"],\"columns\":[\"other_details\"],\"aggregates\":{\"SUM(address_to_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_behavior_monitoring_05",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 438,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_behavior_monitoring_05.png",
+      "screenshot_bytes": 14504,
+      "chart_url": "/superset/explore/?slice_id=438",
+      "issues": [
+        "warning: screenshot only 14.2 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:42:58.971Z"
+}

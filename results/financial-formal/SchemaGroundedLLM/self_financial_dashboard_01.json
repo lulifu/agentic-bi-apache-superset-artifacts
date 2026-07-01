@@ -1,0 +1,84 @@
+{
+  "task_id": "self_financial_dashboard_01",
+  "system": "SchemaGroundedLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": {
+    "kpi_total_approved_amount_1996": "SELECT SUM(l.amount) AS total_approved_loan_amount FROM loan l WHERE l.date >= DATE '1996-01-01' AND l.date < DATE '1997-01-01';",
+    "monthly_approved_loan_count": "SELECT DATE_TRUNC('month', l.date)::date AS loan_month, COUNT(l.loan_id) AS approved_loan_count FROM loan l WHERE l.date >= DATE '1996-01-01' AND l.date < DATE '1997-01-01' GROUP BY 1 ORDER BY 1;",
+    "monthly_status_mix": "SELECT DATE_TRUNC('month', l.date)::date AS loan_month, CASE l.status WHEN 'A' THEN 'finished OK' WHEN 'B' THEN 'finished default' WHEN 'C' THEN 'running OK' WHEN 'D' THEN 'running in debt' END AS status_label, COUNT(l.loan_id) AS loan_count FROM loan l WHERE l.date >= DATE '1996-01-01' AND l.date < DATE '1997-01-01' GROUP BY 1, 2 ORDER BY 1, 2;",
+    "avg_amount_by_duration": "SELECT l.duration AS duration_months, AVG(l.amount) AS avg_loan_amount FROM loan l WHERE l.date >= DATE '1996-01-01' AND l.date < DATE '1997-01-01' GROUP BY 1 ORDER BY 1;"
+  },
+  "chart_spec": {
+    "charts": [
+      {
+        "id": "kpi_total_approved_amount_1996",
+        "viz_type": "kpi",
+        "dataset": "loan",
+        "metrics": [
+          "SUM(amount)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "loan.date in 1996"
+        ],
+        "layout_intent": "top-left KPI tile"
+      },
+      {
+        "id": "monthly_approved_loan_count",
+        "viz_type": "line",
+        "dataset": "loan",
+        "metrics": [
+          "COUNT(loan_id)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('month', date)"
+        ],
+        "filters": [
+          "loan.date in 1996"
+        ],
+        "layout_intent": "wide monthly trend below KPI"
+      },
+      {
+        "id": "monthly_status_mix",
+        "viz_type": "stacked_bar",
+        "dataset": "loan",
+        "metrics": [
+          "COUNT(loan_id)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('month', date)",
+          "status"
+        ],
+        "filters": [
+          "loan.date in 1996"
+        ],
+        "layout_intent": "monthly stacked status mix"
+      },
+      {
+        "id": "avg_amount_by_duration",
+        "viz_type": "bar",
+        "dataset": "loan",
+        "metrics": [
+          "AVG(amount)"
+        ],
+        "dimensions": [
+          "duration"
+        ],
+        "filters": [
+          "loan.date in 1996"
+        ],
+        "layout_intent": "duration bucket comparison"
+      }
+    ],
+    "layout_intent": "executive dashboard with KPI row and three analytic charts underneath"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

@@ -1,0 +1,32 @@
+{
+  "task_id": "self_financial_rca_10",
+  "system": "NoRcaDrillPlanningAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "RCA report: inconclusive. The status-D district concentration query was not executed, so no top-three districts or feature comparison is claimed. The intended RCA ranks districts by count of running-in-debt loans, compares the top three to the bottom three, and reports whether unemployment A13, crime A16, or salary A11 differ descriptively from low-D districts.",
+  "sql": {
+    "rank_districts": "WITH district_d AS (SELECT d.district_id, d.\"A2\" AS district, d.\"A3\" AS region, CAST(d.\"A11\" AS numeric) AS avg_salary, CAST(d.\"A13\" AS numeric) AS unemployment_1996, CAST(d.\"A16\" AS numeric) AS crime_rate, COUNT(l.loan_id) FILTER (WHERE l.status='D') AS status_d_count FROM district d LEFT JOIN account a ON a.district_id=d.district_id LEFT JOIN loan l ON l.account_id=a.account_id GROUP BY 1,2,3,4,5,6), ranked AS (SELECT *, ROW_NUMBER() OVER (ORDER BY status_d_count DESC, district_id) AS high_rank, ROW_NUMBER() OVER (ORDER BY status_d_count ASC, district_id) AS low_rank FROM district_d) SELECT CASE WHEN high_rank<=3 THEN 'top_3_D' WHEN low_rank<=3 THEN 'bottom_3_D' END AS comparison_group, * FROM ranked WHERE high_rank<=3 OR low_rank<=3 ORDER BY comparison_group DESC, status_d_count DESC;",
+    "feature_summary": "WITH district_d AS (SELECT d.district_id, CAST(d.\"A11\" AS numeric) AS avg_salary, CAST(d.\"A13\" AS numeric) AS unemployment_1996, CAST(d.\"A16\" AS numeric) AS crime_rate, COUNT(l.loan_id) FILTER (WHERE l.status='D') AS status_d_count FROM district d LEFT JOIN account a ON a.district_id=d.district_id LEFT JOIN loan l ON l.account_id=a.account_id GROUP BY 1,2,3,4), ranked AS (SELECT *, ROW_NUMBER() OVER (ORDER BY status_d_count DESC, district_id) AS high_rank, ROW_NUMBER() OVER (ORDER BY status_d_count ASC, district_id) AS low_rank FROM district_d) SELECT CASE WHEN high_rank<=3 THEN 'top_3_D' WHEN low_rank<=3 THEN 'bottom_3_D' ELSE 'middle' END AS group_name, COUNT(*) AS districts, AVG(status_d_count) AS avg_status_d_count, AVG(avg_salary) AS avg_salary, AVG(unemployment_1996) AS avg_unemployment_1996, AVG(crime_rate) AS avg_crime_rate FROM ranked GROUP BY 1 ORDER BY 1;"
+  },
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_rca_10",
+    "artifact": "RCA report: inconclusive. The status-D district concentration query was not executed, so no top-three districts or feature comparison is claimed. The intended RCA ranks districts by count of running-in-debt loans, compares the top three to the bottom three, and reports whether unemployment A13, crime A16, or salary A11 differ descriptively from low-D districts.",
+    "sql": {
+      "rank_districts": "WITH district_d AS (SELECT d.district_id, d.\"A2\" AS district, d.\"A3\" AS region, CAST(d.\"A11\" AS numeric) AS avg_salary, CAST(d.\"A13\" AS numeric) AS unemployment_1996, CAST(d.\"A16\" AS numeric) AS crime_rate, COUNT(l.loan_id) FILTER (WHERE l.status='D') AS status_d_count FROM district d LEFT JOIN account a ON a.district_id=d.district_id LEFT JOIN loan l ON l.account_id=a.account_id GROUP BY 1,2,3,4,5,6), ranked AS (SELECT *, ROW_NUMBER() OVER (ORDER BY status_d_count DESC, district_id) AS high_rank, ROW_NUMBER() OVER (ORDER BY status_d_count ASC, district_id) AS low_rank FROM district_d) SELECT CASE WHEN high_rank<=3 THEN 'top_3_D' WHEN low_rank<=3 THEN 'bottom_3_D' END AS comparison_group, * FROM ranked WHERE high_rank<=3 OR low_rank<=3 ORDER BY comparison_group DESC, status_d_count DESC;",
+      "feature_summary": "WITH district_d AS (SELECT d.district_id, CAST(d.\"A11\" AS numeric) AS avg_salary, CAST(d.\"A13\" AS numeric) AS unemployment_1996, CAST(d.\"A16\" AS numeric) AS crime_rate, COUNT(l.loan_id) FILTER (WHERE l.status='D') AS status_d_count FROM district d LEFT JOIN account a ON a.district_id=d.district_id LEFT JOIN loan l ON l.account_id=a.account_id GROUP BY 1,2,3,4), ranked AS (SELECT *, ROW_NUMBER() OVER (ORDER BY status_d_count DESC, district_id) AS high_rank, ROW_NUMBER() OVER (ORDER BY status_d_count ASC, district_id) AS low_rank FROM district_d) SELECT CASE WHEN high_rank<=3 THEN 'top_3_D' WHEN low_rank<=3 THEN 'bottom_3_D' ELSE 'middle' END AS group_name, COUNT(*) AS districts, AVG(status_d_count) AS avg_status_d_count, AVG(avg_salary) AS avg_salary, AVG(unemployment_1996) AS avg_unemployment_1996, AVG(crime_rate) AS avg_crime_rate FROM ranked GROUP BY 1 ORDER BY 1;"
+    },
+    "tool_calls": []
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-3cf4-70a3-9ce1-411c1e4a1720",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.304Z"
+}

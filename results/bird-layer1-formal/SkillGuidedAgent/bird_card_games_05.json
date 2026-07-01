@@ -1,0 +1,30 @@
+{
+  "task_id": "bird_card_games_05",
+  "system": "SkillGuidedAgent",
+  "task_class": "query",
+  "dataset": "card_games",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Computes Chinese Simplified foreign-data rows as a percentage of all joined card foreign-data rows.",
+  "sql": "SELECT 100.0 * COUNT(*) FILTER (WHERE fd.language = 'Chinese Simplified') / NULLIF(COUNT(*), 0) AS percentage_chinese_simplified\nFROM cards AS c\nJOIN foreign_data AS fd\n  ON fd.uuid = c.uuid;",
+  "chart_spec": null,
+  "tool_calls": [
+    "schema_inspection"
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_card_games_05",
+    "sql": "SELECT 100.0 * COUNT(*) FILTER (WHERE fd.language = 'Chinese Simplified') / NULLIF(COUNT(*), 0) AS percentage_chinese_simplified\nFROM cards AS c\nJOIN foreign_data AS fd\n  ON fd.uuid = c.uuid;",
+    "artifact": "Computes Chinese Simplified foreign-data rows as a percentage of all joined card foreign-data rows.",
+    "tool_calls": [
+      "schema_inspection"
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec786-9f32-7db2-bce7-380fddd47e5c",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:06:35.306Z"
+}

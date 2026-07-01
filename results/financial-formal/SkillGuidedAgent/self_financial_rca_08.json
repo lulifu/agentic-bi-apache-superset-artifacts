@@ -1,0 +1,103 @@
+{
+  "task_id": "self_financial_rca_08",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_08.\ngold_junior_default_decomposition: [{\"card_type\":\"gold\",\"age_band\":\"<30\",\"amount_quartile\":1,\"finished_loans\":1,\"default_rate\":0},{\"card_type\":\"gold\",\"age_band\":\"<30\",\"amount_quartile\":3,\"finished_loans\":1,\"default_rate\":0},{\"card_type\":\"gold\",\"age_band\":\"30-49\",\"amount_quartile\":1,\"finished_loans\":1,\"default_rate\":0},{\"card_type\":\"gold\",\"age_band\":\"30-49\",\"amount_quartile\":2,\"finished_loans\":1,\"default_rate\":0},{\"card_type\":\"gold\",\"age_band\":\"30-49\",\"amount_quartile\":3,\"finished_loans\":2,\"default_rate\":0}]",
+  "sql": "WITH base AS (\n  SELECT c.type AS card_type, l.status,\n         CASE WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', cl.birth_date)) < 30 THEN '<30'\n              WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', cl.birth_date)) < 50 THEN '30-49'\n              ELSE '50+' END AS age_band,\n         NTILE(4) OVER (ORDER BY l.amount) AS amount_quartile\n  FROM card c\n  JOIN disp dp ON dp.disp_id = c.disp_id\n  JOIN client cl ON cl.client_id = dp.client_id\n  JOIN loan l ON l.account_id = dp.account_id\n  WHERE c.type IN ('gold','junior') AND l.status IN ('A','B')\n)\nSELECT card_type, age_band, amount_quartile, COUNT(*) AS finished_loans,\n       COUNT(*) FILTER (WHERE status = 'B')::numeric / NULLIF(COUNT(*), 0) AS default_rate\nFROM base\nGROUP BY 1,2,3\nORDER BY card_type, age_band, amount_quartile",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:gold_junior_default_decomposition"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "gold_junior_default_decomposition",
+        "sql": "WITH base AS (\n  SELECT c.type AS card_type, l.status,\n         CASE WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', cl.birth_date)) < 30 THEN '<30'\n              WHEN EXTRACT(YEAR FROM AGE(DATE '1998-12-31', cl.birth_date)) < 50 THEN '30-49'\n              ELSE '50+' END AS age_band,\n         NTILE(4) OVER (ORDER BY l.amount) AS amount_quartile\n  FROM card c\n  JOIN disp dp ON dp.disp_id = c.disp_id\n  JOIN client cl ON cl.client_id = dp.client_id\n  JOIN loan l ON l.account_id = dp.account_id\n  WHERE c.type IN ('gold','junior') AND l.status IN ('A','B')\n)\nSELECT card_type, age_band, amount_quartile, COUNT(*) AS finished_loans,\n       COUNT(*) FILTER (WHERE status = 'B')::numeric / NULLIF(COUNT(*), 0) AS default_rate\nFROM base\nGROUP BY 1,2,3\nORDER BY card_type, age_band, amount_quartile",
+        "rows": [
+          {
+            "card_type": "gold",
+            "age_band": "<30",
+            "amount_quartile": 1,
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "card_type": "gold",
+            "age_band": "<30",
+            "amount_quartile": 3,
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "card_type": "gold",
+            "age_band": "30-49",
+            "amount_quartile": 1,
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "card_type": "gold",
+            "age_band": "30-49",
+            "amount_quartile": 2,
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "card_type": "gold",
+            "age_band": "30-49",
+            "amount_quartile": 3,
+            "finished_loans": 2,
+            "default_rate": 0
+          },
+          {
+            "card_type": "gold",
+            "age_band": "50+",
+            "amount_quartile": 1,
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "card_type": "gold",
+            "age_band": "50+",
+            "amount_quartile": 3,
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "card_type": "junior",
+            "age_band": "<30",
+            "amount_quartile": 1,
+            "finished_loans": 1,
+            "default_rate": 0
+          },
+          {
+            "card_type": "junior",
+            "age_band": "<30",
+            "amount_quartile": 2,
+            "finished_loans": 3,
+            "default_rate": 0
+          },
+          {
+            "card_type": "junior",
+            "age_band": "<30",
+            "amount_quartile": 4,
+            "finished_loans": 3,
+            "default_rate": 0.3333333333333333
+          }
+        ],
+        "rowcount": 10
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:49.052Z"
+}

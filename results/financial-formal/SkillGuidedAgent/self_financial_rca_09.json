@@ -1,0 +1,161 @@
+{
+  "task_id": "self_financial_rca_09",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_09.\nuver_east_bohemia_drivers: [{\"region\":\"central Bohemia\",\"yr\":1996,\"uver_outflow\":1200950,\"loan_count\":75,\"avg_loan_amount\":161695.43503808486,\"tx_per_account\":53.41304347826087},{\"region\":\"central Bohemia\",\"yr\":1997,\"uver_outflow\":2040026,\"loan_count\":90,\"avg_loan_amount\":160241.48023255813,\"tx_per_account\":63.92160278745644},{\"region\":\"east Bohemia\",\"yr\":1996,\"uver_outflow\":998826,\"loan_count\":67,\"avg_loan_amount\":138957.2358422939,\"tx_per_account\":51.92201834862385},{\"region\":\"east Bohemia\",\"yr\":1997,\"uver_outflow\":1593156,\"loan_count\":84,\"avg_loan_amount\":159388.24506683642,\"tx_per_account\":60.50367647058823},{\"region\":\"north Bohemia\",\"yr\":1996,\"uver_outflow\":707444,\"loan_count\":50,\"avg_loan_amount\":112396.52962123665,\"tx_per_account\":53.983914209115284}]",
+  "sql": "SELECT d.\"A3\" AS region, EXTRACT(YEAR FROM t.date)::int AS yr,\n       SUM(t.amount) FILTER (WHERE t.k_symbol = 'UVER') AS uver_outflow,\n       COUNT(DISTINCT l.loan_id) AS loan_count,\n       AVG(l.amount) AS avg_loan_amount,\n       COUNT(t.trans_id)::numeric / NULLIF(COUNT(DISTINCT a.account_id), 0) AS tx_per_account\nFROM trans t\nJOIN account a ON a.account_id = t.account_id\nJOIN district d ON d.district_id = a.district_id\nLEFT JOIN loan l ON l.account_id = a.account_id\nWHERE t.date >= DATE '1996-01-01' AND t.date < DATE '1998-01-01'\nGROUP BY 1,2\nORDER BY region, yr",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:uver_east_bohemia_drivers"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "uver_east_bohemia_drivers",
+        "sql": "SELECT d.\"A3\" AS region, EXTRACT(YEAR FROM t.date)::int AS yr,\n       SUM(t.amount) FILTER (WHERE t.k_symbol = 'UVER') AS uver_outflow,\n       COUNT(DISTINCT l.loan_id) AS loan_count,\n       AVG(l.amount) AS avg_loan_amount,\n       COUNT(t.trans_id)::numeric / NULLIF(COUNT(DISTINCT a.account_id), 0) AS tx_per_account\nFROM trans t\nJOIN account a ON a.account_id = t.account_id\nJOIN district d ON d.district_id = a.district_id\nLEFT JOIN loan l ON l.account_id = a.account_id\nWHERE t.date >= DATE '1996-01-01' AND t.date < DATE '1998-01-01'\nGROUP BY 1,2\nORDER BY region, yr",
+        "rows": [
+          {
+            "region": "central Bohemia",
+            "yr": 1996,
+            "uver_outflow": 1200950,
+            "loan_count": 75,
+            "avg_loan_amount": 161695.43503808486,
+            "tx_per_account": 53.41304347826087
+          },
+          {
+            "region": "central Bohemia",
+            "yr": 1997,
+            "uver_outflow": 2040026,
+            "loan_count": 90,
+            "avg_loan_amount": 160241.48023255813,
+            "tx_per_account": 63.92160278745644
+          },
+          {
+            "region": "east Bohemia",
+            "yr": 1996,
+            "uver_outflow": 998826,
+            "loan_count": 67,
+            "avg_loan_amount": 138957.2358422939,
+            "tx_per_account": 51.92201834862385
+          },
+          {
+            "region": "east Bohemia",
+            "yr": 1997,
+            "uver_outflow": 1593156,
+            "loan_count": 84,
+            "avg_loan_amount": 159388.24506683642,
+            "tx_per_account": 60.50367647058823
+          },
+          {
+            "region": "north Bohemia",
+            "yr": 1996,
+            "uver_outflow": 707444,
+            "loan_count": 50,
+            "avg_loan_amount": 112396.52962123665,
+            "tx_per_account": 53.983914209115284
+          },
+          {
+            "region": "north Bohemia",
+            "yr": 1997,
+            "uver_outflow": 1242821,
+            "loan_count": 61,
+            "avg_loan_amount": 120707.76494845361,
+            "tx_per_account": 64.59429824561404
+          },
+          {
+            "region": "north Moravia",
+            "yr": 1996,
+            "uver_outflow": 1628421,
+            "loan_count": 97,
+            "avg_loan_amount": 152130.87568717857,
+            "tx_per_account": 55.372854914196566
+          },
+          {
+            "region": "north Moravia",
+            "yr": 1997,
+            "uver_outflow": 2632211,
+            "loan_count": 117,
+            "avg_loan_amount": 148789.89735945486,
+            "tx_per_account": 63.962168978562424
+          },
+          {
+            "region": "Prague",
+            "yr": 1996,
+            "uver_outflow": 1398941,
+            "loan_count": 70,
+            "avg_loan_amount": 143143.81887129156,
+            "tx_per_account": 55.29223744292237
+          },
+          {
+            "region": "Prague",
+            "yr": 1997,
+            "uver_outflow": 1802137,
+            "loan_count": 84,
+            "avg_loan_amount": 152705.04502437625,
+            "tx_per_account": 64.06137184115524
+          },
+          {
+            "region": "south Bohemia",
+            "yr": 1996,
+            "uver_outflow": 847294,
+            "loan_count": 46,
+            "avg_loan_amount": 146982.23352742873,
+            "tx_per_account": 55.13945578231292
+          },
+          {
+            "region": "south Bohemia",
+            "yr": 1997,
+            "uver_outflow": 1456593,
+            "loan_count": 60,
+            "avg_loan_amount": 154587.4418805262,
+            "tx_per_account": 62.65945945945946
+          },
+          {
+            "region": "south Moravia",
+            "yr": 1996,
+            "uver_outflow": 1752608,
+            "loan_count": 106,
+            "avg_loan_amount": 154009.53253424657,
+            "tx_per_account": 55.20418006430868
+          },
+          {
+            "region": "south Moravia",
+            "yr": 1997,
+            "uver_outflow": 2860121,
+            "loan_count": 129,
+            "avg_loan_amount": 152737.4285433651,
+            "tx_per_account": 63.18298969072165
+          },
+          {
+            "region": "west Bohemia",
+            "yr": 1996,
+            "uver_outflow": 948725,
+            "loan_count": 49,
+            "avg_loan_amount": 131347.1604197901,
+            "tx_per_account": 56.73076923076923
+          },
+          {
+            "region": "west Bohemia",
+            "yr": 1997,
+            "uver_outflow": 1227551,
+            "loan_count": 57,
+            "avg_loan_amount": 132989.5098663272,
+            "tx_per_account": 62.75757575757576
+          }
+        ],
+        "rowcount": 16
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:49.818Z"
+}

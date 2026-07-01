@@ -1,0 +1,48 @@
+{
+  "task_id": "nvbench_behavior_monitoring_04",
+  "system": "SchemaGroundedLLM",
+  "task_class": "chart",
+  "dataset": "nvbench-layer2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": null,
+  "sql": "",
+  "chart_spec": {
+    "viz_type": "Scatter",
+    "dataset_ids": [
+      105
+    ],
+    "metrics": [
+      "student_addresses.address_id"
+    ],
+    "dimensions": [
+      "student_addresses.student_id"
+    ],
+    "filters": [],
+    "time_range": null
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "nvbench_behavior_monitoring_04",
+    "viz_type": "Scatter",
+    "metrics": [
+      "student_addresses.address_id"
+    ],
+    "dimensions": [
+      "student_addresses.student_id"
+    ],
+    "filters": [],
+    "time_range": null,
+    "dataset_ids": [
+      105
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec7cd-6afe-7423-9697-2c49ea0b5d86",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T20:53:31.973Z"
+}

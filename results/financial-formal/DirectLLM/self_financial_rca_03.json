@@ -1,0 +1,49 @@
+{
+  "task_id": "self_financial_rca_03",
+  "system": "DirectLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "DirectLLM RCA: January 1998 card-withdrawal count should be compared with the 1997 monthly average of 180.5, not total January transactions. Drill January 1998 by card type, district, and Q4-1997 issuance cohort. The likely explanation is a broad step-up in card usage amplified by recently issued late-1997 cards if that cohort contributes a disproportionate share; otherwise classify it as activation/usage expansion rather than issuance alone.",
+  "sql": "WITH card_tx AS (SELECT t.trans_id, CAST(t.date AS DATE) AS trans_date, DATE_TRUNC('month', CAST(t.date AS DATE)) AS month, ca.type AS card_type, d.A2 AS district, CASE WHEN CAST(ca.issued AS DATE) >= DATE '1997-10-01' AND CAST(ca.issued AS DATE) < DATE '1998-01-01' THEN 'issued_1997_Q4' ELSE 'other_issued' END AS issuance_cohort FROM trans t JOIN account a ON a.account_id=t.account_id JOIN district d ON d.district_id=a.district_id JOIN disp dp ON dp.account_id=a.account_id JOIN card ca ON ca.disp_id=dp.disp_id WHERE t.operation='VYBER KARTOU' AND CAST(t.date AS DATE) >= DATE '1997-01-01' AND CAST(t.date AS DATE) < DATE '1998-02-01') SELECT month, card_type, district, issuance_cohort, COUNT(*) AS card_withdrawal_count, COUNT(*)::DECIMAL / NULLIF(SUM(COUNT(*)) OVER (PARTITION BY month),0) AS share_of_month FROM card_tx GROUP BY month, card_type, district, issuance_cohort ORDER BY month, card_withdrawal_count DESC;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Card Withdrawals: 1997 Monthly Average vs Jan 1998",
+        "type": "line",
+        "metrics": [
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "month"
+        ],
+        "filters": [
+          "operation = VYBER KARTOU",
+          "1997-01 through 1998-01"
+        ]
+      },
+      {
+        "title": "January 1998 Attribution",
+        "type": "bar",
+        "metrics": [
+          "card_withdrawal_count",
+          "share_of_month"
+        ],
+        "dimensions": [
+          "card.type",
+          "district.A2",
+          "issuance cohort"
+        ],
+        "filters": [
+          "January 1998"
+        ]
+      }
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

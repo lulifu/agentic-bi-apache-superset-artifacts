@@ -1,0 +1,267 @@
+{
+  "task_id": "self_financial_rca_05",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_05.\nweekly_default_1997_drivers: [{\"frequency\":\"POPLATEK MESICNE\",\"salary_quartile\":2,\"duration_band\":\"short_12\",\"finished_loans\":6,\"defaulted_loans\":2,\"default_rate\":0.3333333333333333,\"avg_amount\":43564},{\"frequency\":\"POPLATEK MESICNE\",\"salary_quartile\":4,\"duration_band\":\"short_12\",\"finished_loans\":18,\"defaulted_loans\":1,\"default_rate\":0.05555555555555555,\"avg_amount\":61175.333333333336},{\"frequency\":\"POPLATEK MESICNE\",\"salary_quartile\":3,\"duration_band\":\"short_12\",\"finished_loans\":6,\"defaulted_loans\":0,\"default_rate\":0,\"avg_amount\":63026},{\"frequency\":\"POPLATEK MESICNE\",\"salary_quartile\":1,\"duration_band\":\"short_12\",\"finished_loans\":9,\"defaulted_loans\":0,\"default_rate\":0,\"avg_amount\":55060},{\"frequency\":\"POPLATEK TYDNE\",\"salary_quartile\":4,\"duration_band\":\"short_12\",\"finished_loans\":1,\"defaulted_loans\":0,\"default_rate\":0,\"avg_amount\":44940}]",
+  "sql": "WITH salary_q AS (\n  SELECT district_id, NTILE(4) OVER (ORDER BY \"A11\") AS salary_quartile FROM district\n)\nSELECT a.frequency, sq.salary_quartile,\n       CASE WHEN l.duration = 12 THEN 'short_12' WHEN l.duration IN (24,36) THEN 'medium_24_36' ELSE 'long_48_60' END AS duration_band,\n       COUNT(*) FILTER (WHERE l.status IN ('A','B')) AS finished_loans,\n       COUNT(*) FILTER (WHERE l.status = 'B') AS defaulted_loans,\n       COUNT(*) FILTER (WHERE l.status = 'B')::numeric / NULLIF(COUNT(*) FILTER (WHERE l.status IN ('A','B')), 0) AS default_rate,\n       AVG(l.amount) AS avg_amount\nFROM loan l JOIN account a ON a.account_id = l.account_id JOIN salary_q sq ON sq.district_id = a.district_id\nWHERE l.date >= DATE '1997-01-01' AND l.date < DATE '1998-01-01'\nGROUP BY 1,2,3\nORDER BY default_rate DESC NULLS LAST",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:weekly_default_1997_drivers"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "weekly_default_1997_drivers",
+        "sql": "WITH salary_q AS (\n  SELECT district_id, NTILE(4) OVER (ORDER BY \"A11\") AS salary_quartile FROM district\n)\nSELECT a.frequency, sq.salary_quartile,\n       CASE WHEN l.duration = 12 THEN 'short_12' WHEN l.duration IN (24,36) THEN 'medium_24_36' ELSE 'long_48_60' END AS duration_band,\n       COUNT(*) FILTER (WHERE l.status IN ('A','B')) AS finished_loans,\n       COUNT(*) FILTER (WHERE l.status = 'B') AS defaulted_loans,\n       COUNT(*) FILTER (WHERE l.status = 'B')::numeric / NULLIF(COUNT(*) FILTER (WHERE l.status IN ('A','B')), 0) AS default_rate,\n       AVG(l.amount) AS avg_amount\nFROM loan l JOIN account a ON a.account_id = l.account_id JOIN salary_q sq ON sq.district_id = a.district_id\nWHERE l.date >= DATE '1997-01-01' AND l.date < DATE '1998-01-01'\nGROUP BY 1,2,3\nORDER BY default_rate DESC NULLS LAST",
+        "rows": [
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 2,
+            "duration_band": "short_12",
+            "finished_loans": 6,
+            "defaulted_loans": 2,
+            "default_rate": 0.3333333333333333,
+            "avg_amount": 43564
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 4,
+            "duration_band": "short_12",
+            "finished_loans": 18,
+            "defaulted_loans": 1,
+            "default_rate": 0.05555555555555555,
+            "avg_amount": 61175.333333333336
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 3,
+            "duration_band": "short_12",
+            "finished_loans": 6,
+            "defaulted_loans": 0,
+            "default_rate": 0,
+            "avg_amount": 63026
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 1,
+            "duration_band": "short_12",
+            "finished_loans": 9,
+            "defaulted_loans": 0,
+            "default_rate": 0,
+            "avg_amount": 55060
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "salary_quartile": 4,
+            "duration_band": "short_12",
+            "finished_loans": 1,
+            "defaulted_loans": 0,
+            "default_rate": 0,
+            "avg_amount": 44940
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "salary_quartile": 3,
+            "duration_band": "short_12",
+            "finished_loans": 1,
+            "defaulted_loans": 0,
+            "default_rate": 0,
+            "avg_amount": 53472
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "salary_quartile": 2,
+            "duration_band": "short_12",
+            "finished_loans": 2,
+            "defaulted_loans": 0,
+            "default_rate": 0,
+            "avg_amount": 53640
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 4,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 109129.63636363637
+          },
+          {
+            "frequency": "POPLATEK PO OBRATU",
+            "salary_quartile": 1,
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 192384
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 1,
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 236106
+          },
+          {
+            "frequency": "POPLATEK PO OBRATU",
+            "salary_quartile": 3,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 77184
+          },
+          {
+            "frequency": "POPLATEK PO OBRATU",
+            "salary_quartile": 4,
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 232560
+          },
+          {
+            "frequency": "POPLATEK PO OBRATU",
+            "salary_quartile": 4,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 121572
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "salary_quartile": 1,
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 251847
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "salary_quartile": 2,
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 348072
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "salary_quartile": 2,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 108052
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "salary_quartile": 3,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 130980
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "salary_quartile": 4,
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 331440
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "salary_quartile": 4,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 233424
+          },
+          {
+            "frequency": "POPLATEK PO OBRATU",
+            "salary_quartile": 2,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 69372
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 1,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 112214.76923076923
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 2,
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 238397.25
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 2,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 146154.85714285713
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 3,
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 220451.14285714287
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 3,
+            "duration_band": "medium_24_36",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 91173.6
+          },
+          {
+            "frequency": "POPLATEK MESICNE",
+            "salary_quartile": 4,
+            "duration_band": "long_48_60",
+            "finished_loans": 0,
+            "defaulted_loans": 0,
+            "default_rate": null,
+            "avg_amount": 240817.2
+          }
+        ],
+        "rowcount": 26
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:48.119Z"
+}

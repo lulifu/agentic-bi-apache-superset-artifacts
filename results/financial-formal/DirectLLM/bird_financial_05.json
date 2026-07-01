@@ -1,0 +1,16 @@
+{
+  "task_id": "bird_financial_05",
+  "system": "DirectLLM",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "artifact": null,
+  "sql": "SELECT 100.0 * SUM(CASE WHEN status = 'A' THEN amount ELSE 0 END) / NULLIF(SUM(amount), 0) AS pct_amount_fully_paid_no_issue FROM loan;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

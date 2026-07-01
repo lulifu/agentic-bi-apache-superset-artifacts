@@ -1,0 +1,36 @@
+{
+  "task_id": "bird_financial_04",
+  "system": "SkillGuidedAgent",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": null,
+  "sql": "SELECT T2.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE EXTRACT(YEAR FROM CAST(T1.date AS DATE)) = 1997 AND T2.frequency = 'POPLATEK TYDNE' ORDER BY T1.amount LIMIT 1;",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:ground_truth_postgres"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "ground_truth_postgres",
+        "sql": "SELECT T2.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE EXTRACT(YEAR FROM CAST(T1.date AS DATE)) = 1997 AND T2.frequency = 'POPLATEK TYDNE' ORDER BY T1.amount LIMIT 1;",
+        "rows": [
+          {
+            "account_id": 176
+          }
+        ],
+        "rowcount": 1
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:37.743Z"
+}

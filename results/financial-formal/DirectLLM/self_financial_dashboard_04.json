@@ -1,0 +1,73 @@
+{
+  "task_id": "self_financial_dashboard_04",
+  "system": "DirectLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": "SELECT DATE_TRUNC('month', CAST(date AS DATE)) AS month, type AS transaction_type, SUM(amount) AS total_amount FROM trans WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) IN (1997,1998) GROUP BY 1,2 ORDER BY 1,2; SELECT COALESCE(k_symbol,'UNKNOWN') AS purpose_code, COUNT(trans_id) AS transaction_count FROM trans WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) IN (1997,1998) GROUP BY 1 ORDER BY transaction_count DESC; SELECT DATE_TRUNC('month', CAST(date AS DATE)) AS month, AVG(balance) AS avg_post_transaction_balance FROM trans WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) IN (1997,1998) GROUP BY 1 ORDER BY 1;",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Monthly Transaction Amount by Type",
+        "type": "stacked_bar",
+        "metrics": [
+          "SUM(trans.amount)"
+        ],
+        "dimensions": [
+          "trans.date month",
+          "trans.type"
+        ],
+        "filters": [
+          "1997-1998"
+        ]
+      },
+      {
+        "title": "Transaction Purpose Mix",
+        "type": "pie",
+        "metrics": [
+          "COUNT(trans.trans_id)"
+        ],
+        "dimensions": [
+          "trans.k_symbol"
+        ],
+        "filters": [
+          "1997-1998"
+        ]
+      },
+      {
+        "title": "Average Balance After Transaction",
+        "type": "line",
+        "metrics": [
+          "AVG(trans.balance)"
+        ],
+        "dimensions": [
+          "trans.date month"
+        ],
+        "filters": [
+          "1997-1998"
+        ]
+      }
+    ],
+    "metrics": [
+      "SUM(trans.amount)",
+      "COUNT(trans.trans_id)",
+      "AVG(trans.balance)"
+    ],
+    "dimensions": [
+      "trans.date month",
+      "trans.type",
+      "trans.k_symbol"
+    ],
+    "filters": [
+      "trans.date in 1997 or 1998"
+    ],
+    "layout_intent": "Primary stacked monthly amount chart on top, with purpose mix and balance trend below."
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

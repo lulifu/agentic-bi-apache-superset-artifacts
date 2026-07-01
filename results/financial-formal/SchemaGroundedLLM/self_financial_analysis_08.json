@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_08",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH monthly AS (SELECT DATE_TRUNC('month', t.date)::date AS month, AVG(t.balance) AS avg_balance FROM trans AS t INNER JOIN account AS a ON a.account_id = t.account_id INNER JOIN district AS dist ON dist.district_id = a.district_id WHERE dist.\"A3\" = 'south Bohemia' AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01' GROUP BY 1), changes AS (SELECT month, avg_balance, LAG(avg_balance) OVER (ORDER BY month) AS prior_avg_balance FROM monthly) SELECT month, avg_balance, prior_avg_balance, (avg_balance - prior_avg_balance) * 100.0 / NULLIF(prior_avg_balance, 0) AS mom_pct_change, ((avg_balance - prior_avg_balance) * 100.0 / NULLIF(prior_avg_balance, 0)) < -5 AS dropped_more_than_5_pct FROM changes ORDER BY month;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

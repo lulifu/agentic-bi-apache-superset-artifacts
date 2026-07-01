@@ -1,0 +1,24 @@
+{
+  "task_id": "self_financial_rca_07",
+  "system": "SchemaGroundedLLM",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "The stated February 1994 drop in new-account openings is not supported: account openings increased from 24 in January to 34 in February. Several individual district/frequency slices fell by one account, but the aggregate movement is a February increase, led by gains in Prague, north Moravia, south Moravia, and west Bohemia monthly statement accounts. This is not evidence of a one-time January spike.",
+  "sql": {
+    "jan_feb_opening_totals": "SELECT DATE_TRUNC('month', a.date)::date AS opened_month, COUNT(a.account_id) AS openings FROM account a WHERE a.date >= DATE '1994-01-01' AND a.date < DATE '1994-03-01' GROUP BY 1 ORDER BY 1;",
+    "drilldown_district_frequency_region": "WITH x AS (SELECT d.\"A2\" AS district, d.\"A3\" AS region, a.frequency, DATE_TRUNC('month', a.date)::date AS opened_month, COUNT(a.account_id) AS openings FROM account a JOIN district d ON d.district_id = a.district_id WHERE a.date >= DATE '1994-01-01' AND a.date < DATE '1994-03-01' GROUP BY 1, 2, 3, 4), p AS (SELECT district, region, frequency, SUM(openings) FILTER (WHERE opened_month = DATE '1994-01-01') AS jan_openings, SUM(openings) FILTER (WHERE opened_month = DATE '1994-02-01') AS feb_openings FROM x GROUP BY 1, 2, 3) SELECT district, region, frequency, COALESCE(jan_openings, 0) AS jan_openings, COALESCE(feb_openings, 0) AS feb_openings, COALESCE(feb_openings, 0) - COALESCE(jan_openings, 0) AS feb_minus_jan FROM p ORDER BY feb_minus_jan ASC, jan_openings DESC NULLS LAST;"
+  },
+  "chart_spec": {
+    "recommended_views": [
+      "January versus February opening count bar",
+      "district, frequency, and region contribution table"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

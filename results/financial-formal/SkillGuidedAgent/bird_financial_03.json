@@ -1,0 +1,36 @@
+{
+  "task_id": "bird_financial_03",
+  "system": "SkillGuidedAgent",
+  "task_class": "query",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": null,
+  "sql": "SELECT COUNT(T2.account_id) FROM district AS T1 INNER JOIN account AS T2 ON T1.district_id = T2.district_id WHERE T1.\"A3\" = 'east Bohemia' AND T2.frequency = 'POPLATEK PO OBRATU';",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:ground_truth_postgres"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "ground_truth_postgres",
+        "sql": "SELECT COUNT(T2.account_id) FROM district AS T1 INNER JOIN account AS T2 ON T1.district_id = T2.district_id WHERE T1.\"A3\" = 'east Bohemia' AND T2.frequency = 'POPLATEK PO OBRATU';",
+        "rows": [
+          {
+            "count": 13
+          }
+        ],
+        "rowcount": 1
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:37.256Z"
+}

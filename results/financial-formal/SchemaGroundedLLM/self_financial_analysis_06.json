@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_06",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH base AS (SELECT EXTRACT(YEAR FROM t.date)::int AS year, dist.\"A3\" AS region, t.trans_id, t.operation FROM trans AS t INNER JOIN account AS a ON a.account_id = t.account_id INNER JOIN district AS dist ON dist.district_id = a.district_id WHERE t.type = 'VYDAJ' AND t.date >= DATE '1996-01-01' AND t.date < DATE '1999-01-01'), regional AS (SELECT year, region, COUNT(trans_id) AS withdrawal_count, SUM(CASE WHEN operation = 'VYBER KARTOU' THEN 1 ELSE 0 END) AS card_withdrawal_count, SUM(CASE WHEN operation = 'VYBER KARTOU' THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(trans_id), 0) AS card_withdrawal_share FROM base GROUP BY year, region), national AS (SELECT year, COUNT(trans_id) AS national_withdrawal_count, SUM(CASE WHEN operation = 'VYBER KARTOU' THEN 1 ELSE 0 END) AS national_card_withdrawal_count, SUM(CASE WHEN operation = 'VYBER KARTOU' THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(trans_id), 0) AS national_card_withdrawal_share FROM base GROUP BY year) SELECT r.year, r.region, r.withdrawal_count, r.card_withdrawal_count, r.card_withdrawal_share, n.national_card_withdrawal_share, r.card_withdrawal_share - n.national_card_withdrawal_share AS deviation_from_national, RANK() OVER (PARTITION BY r.year ORDER BY ABS(r.card_withdrawal_share - n.national_card_withdrawal_share) DESC) AS outlier_rank FROM regional AS r INNER JOIN national AS n ON n.year = r.year ORDER BY r.year, outlier_rank;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

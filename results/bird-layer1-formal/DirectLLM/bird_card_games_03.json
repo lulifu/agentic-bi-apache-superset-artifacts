@@ -1,0 +1,25 @@
+{
+  "task_id": "bird_card_games_03",
+  "system": "DirectLLM",
+  "task_class": "query",
+  "dataset": "card_games",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Filters mythic card printings banned in Gladiator.",
+  "sql": "SELECT c.name FROM cards AS c JOIN legalities AS l ON c.uuid = l.uuid WHERE c.rarity = 'mythic' AND l.status = 'Banned' AND l.format = 'gladiator';",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_card_games_03",
+    "sql": "SELECT c.name FROM cards AS c JOIN legalities AS l ON c.uuid = l.uuid WHERE c.rarity = 'mythic' AND l.status = 'Banned' AND l.format = 'gladiator';",
+    "artifact": "Filters mythic card printings banned in Gladiator."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec783-d1b8-73c3-b9f8-20134d53582c",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:04:15.322Z"
+}

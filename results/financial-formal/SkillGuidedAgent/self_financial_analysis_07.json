@@ -1,0 +1,45 @@
+{
+  "task_id": "self_financial_analysis_07",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_analysis_07.\nfrequency_default_comparison: [{\"frequency\":\"POPLATEK MESICNE\",\"finished_loans\":190,\"defaulted_loans\":22,\"default_rate\":0.11578947368421053},{\"frequency\":\"POPLATEK TYDNE\",\"finished_loans\":33,\"defaulted_loans\":6,\"default_rate\":0.18181818181818182}]",
+  "sql": "SELECT a.frequency, COUNT(*) FILTER (WHERE l.status IN ('A','B')) AS finished_loans,\n       COUNT(*) FILTER (WHERE l.status = 'B') AS defaulted_loans,\n       COUNT(*) FILTER (WHERE l.status = 'B')::numeric / NULLIF(COUNT(*) FILTER (WHERE l.status IN ('A','B')), 0) AS default_rate\nFROM loan l JOIN account a ON a.account_id = l.account_id\nWHERE a.frequency IN ('POPLATEK TYDNE', 'POPLATEK MESICNE')\nGROUP BY 1",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:frequency_default_comparison"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "frequency_default_comparison",
+        "sql": "SELECT a.frequency, COUNT(*) FILTER (WHERE l.status IN ('A','B')) AS finished_loans,\n       COUNT(*) FILTER (WHERE l.status = 'B') AS defaulted_loans,\n       COUNT(*) FILTER (WHERE l.status = 'B')::numeric / NULLIF(COUNT(*) FILTER (WHERE l.status IN ('A','B')), 0) AS default_rate\nFROM loan l JOIN account a ON a.account_id = l.account_id\nWHERE a.frequency IN ('POPLATEK TYDNE', 'POPLATEK MESICNE')\nGROUP BY 1",
+        "rows": [
+          {
+            "frequency": "POPLATEK MESICNE",
+            "finished_loans": 190,
+            "defaulted_loans": 22,
+            "default_rate": 0.11578947368421053
+          },
+          {
+            "frequency": "POPLATEK TYDNE",
+            "finished_loans": 33,
+            "defaulted_loans": 6,
+            "default_rate": 0.18181818181818182
+          }
+        ],
+        "rowcount": 2
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:43.489Z"
+}

@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_02",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL flags 1997 months where card-withdrawal amount is at least 1.30 times the 1997 monthly average, then attributes flagged volume by district and card type. The unusual months are the flagged_month rows; the largest SUM(amount) contributors indicate the dominant districts and card types.",
+  "sql": "WITH monthly AS (SELECT DATE_TRUNC('month', CAST(t.date AS DATE)) AS month, SUM(t.amount) AS month_amount FROM trans AS t WHERE t.operation = 'VYBER KARTOU' AND EXTRACT(YEAR FROM CAST(t.date AS DATE)) = 1997 GROUP BY 1), flagged AS (SELECT month, month_amount, AVG(month_amount) OVER () AS avg_1997_month_amount FROM monthly WHERE month_amount >= 1.30 * (SELECT AVG(month_amount) FROM monthly)) SELECT f.month AS flagged_month, d.A2 AS district, c.type AS card_type, SUM(t.amount) AS attributed_amount FROM flagged AS f JOIN trans AS t ON DATE_TRUNC('month', CAST(t.date AS DATE)) = f.month JOIN account AS a ON t.account_id = a.account_id JOIN district AS d ON a.district_id = d.district_id LEFT JOIN disp AS disp ON a.account_id = disp.account_id LEFT JOIN card AS c ON disp.disp_id = c.disp_id WHERE t.operation = 'VYBER KARTOU' AND EXTRACT(YEAR FROM CAST(t.date AS DATE)) = 1997 GROUP BY 1, 2, 3 ORDER BY 1, 4 DESC;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

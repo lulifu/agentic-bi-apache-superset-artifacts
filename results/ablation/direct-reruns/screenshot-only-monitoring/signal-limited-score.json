@@ -1,0 +1,193 @@
+{
+  "arm": "ScreenshotOnlyMonitoringAgent",
+  "evidence_status": "direct",
+  "evidence_scope": {
+    "allowed_inputs_used": [
+      "tasks/nl2bi-benchmark.csv",
+      "10 permitted financial dashboard screenshots"
+    ],
+    "excluded_inputs": [
+      "prior grade sheets",
+      "auto-grade summaries",
+      "dashboard-evidence markdown",
+      "result JSON files",
+      "ablation summary files"
+    ],
+    "scoring_constraint": "Dataset/query correctness is capped at 1 because screenshots expose only visible titles, labels, chart types, and rendered values, not SQL or dataset definitions."
+  },
+  "task_scores": [
+    {
+      "task_id": "self_financial_dashboard_01",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 2,
+        "expected_charts_present": 2,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 2,
+        "layout_legibility": 2,
+        "render_and_screenshot": 2
+      },
+      "avg_2pt": 1.8333,
+      "notes": "All requested lending-portfolio components are visible, but SQL correctness is not verifiable from the screenshot."
+    },
+    {
+      "task_id": "self_financial_dashboard_02",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 2,
+        "expected_charts_present": 2,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 2,
+        "layout_legibility": 2,
+        "render_and_screenshot": 2
+      },
+      "avg_2pt": 1.8333,
+      "notes": "Regional table and horizontal default-rate bar are visible; formulas and joins are not verifiable screenshot-only."
+    },
+    {
+      "task_id": "self_financial_dashboard_03",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 2,
+        "expected_charts_present": 2,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 2,
+        "layout_legibility": 2,
+        "render_and_screenshot": 2
+      },
+      "avg_2pt": 1.8333,
+      "notes": "Card issuance, card mix, and withdrawal trend panels are visible and label-aligned."
+    },
+    {
+      "task_id": "self_financial_dashboard_04",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 2,
+        "expected_charts_present": 2,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 2,
+        "layout_legibility": 2,
+        "render_and_screenshot": 2
+      },
+      "avg_2pt": 1.8333,
+      "notes": "Transaction amount, purpose share, and average balance charts are visible for the requested time frame."
+    },
+    {
+      "task_id": "self_financial_dashboard_05",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 1,
+        "expected_charts_present": 1,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 1,
+        "layout_legibility": 1,
+        "render_and_screenshot": 1
+      },
+      "avg_2pt": 1.0,
+      "notes": "Three requested components render, but the requested age histogram panel shows a visible DB-engine error."
+    },
+    {
+      "task_id": "self_financial_dashboard_06",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 2,
+        "expected_charts_present": 2,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 2,
+        "layout_legibility": 2,
+        "render_and_screenshot": 2
+      },
+      "avg_2pt": 1.8333,
+      "notes": "Six-panel quarterly district layout is visible and structurally matches the request."
+    },
+    {
+      "task_id": "self_financial_dashboard_07",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 2,
+        "expected_charts_present": 2,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 2,
+        "layout_legibility": 2,
+        "render_and_screenshot": 2
+      },
+      "avg_2pt": 1.8333,
+      "notes": "Loan status/cohort, duration/status table, and KPI are visible."
+    },
+    {
+      "task_id": "self_financial_dashboard_08",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 2,
+        "expected_charts_present": 2,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 2,
+        "layout_legibility": 2,
+        "render_and_screenshot": 2
+      },
+      "avg_2pt": 1.8333,
+      "notes": "Card issuance trend, funnel, and average-days KPI are visible."
+    },
+    {
+      "task_id": "self_financial_dashboard_09",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 2,
+        "expected_charts_present": 2,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 2,
+        "layout_legibility": 2,
+        "render_and_screenshot": 2
+      },
+      "avg_2pt": 1.8333,
+      "notes": "Household-payment line, baseline-ratio table, and regional bar are visible; baseline math is not auditable from the screenshot."
+    },
+    {
+      "task_id": "self_financial_dashboard_10",
+      "class": "dashboard",
+      "dimension_scores": {
+        "dashboard_create_success": 2,
+        "expected_charts_present": 2,
+        "dataset_metric_correctness": 1,
+        "viz_type_appropriateness": 2,
+        "layout_legibility": 2,
+        "render_and_screenshot": 2
+      },
+      "avg_2pt": 1.8333,
+      "notes": "Account-opening line, frequency pie, district-quarter heatmap, and active-account KPI are visible."
+    }
+  ],
+  "class_scores": {
+    "dashboard": {
+      "entries": 10,
+      "dimensions": {
+        "dashboard_create_success": 1.9,
+        "expected_charts_present": 1.9,
+        "dataset_metric_correctness": 1.0,
+        "viz_type_appropriateness": 1.9,
+        "layout_legibility": 1.9,
+        "render_and_screenshot": 1.9
+      },
+      "avg_2pt": 1.75,
+      "normalized_pct": 87.5
+    },
+    "analysis": {
+      "entries": 10,
+      "avg_2pt": 0.0,
+      "normalized_pct": 0.0,
+      "notes": "No analysis-report screenshots or numeric SQL evidence were available in the permitted evidence scope."
+    },
+    "rca": {
+      "entries": 10,
+      "avg_2pt": 0.0,
+      "normalized_pct": 0.0,
+      "notes": "No RCA-report screenshots or numeric SQL evidence were available in the permitted evidence scope."
+    }
+  },
+  "caveats": [
+    "Scores are based only on visible screenshots and task text from the benchmark CSV.",
+    "No hidden standard answers, existing score sheets, result JSON, or ablation summaries were used.",
+    "Dashboard screenshots can show rendered chart presence and label alignment, but cannot establish exact result-set correctness.",
+    "Analysis and RCA classes are scored conservatively at class level because this ablation provided no permitted artifacts for those classes."
+  ]
+}

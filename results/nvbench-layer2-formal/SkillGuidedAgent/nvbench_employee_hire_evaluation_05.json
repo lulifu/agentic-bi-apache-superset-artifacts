@@ -1,0 +1,154 @@
+{
+  "task_id": "nvbench_employee_hire_evaluation_05",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "employee_hire_evaluation",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 426,
+    "virtual_dataset_id": 128,
+    "virtual_dataset_table": "vd_l2_nvbench_employee_hire_evaluation_05",
+    "superset_create_response": {
+      "id": 426,
+      "result": {
+        "datasource_id": 128,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_employee_hire_evaluation_05. Expected visualization: Stacked Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"start_weekday_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(start_count)\",\"sqlExpression\":\"SUM(start_count)\"}],\"groupby\":[\"is_full_time\"],\"stack\":\"Stack\",\"datasource\":\"128__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"start_weekday_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"start_weekday_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":128,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"start_weekday_name\",\"label\":\"start_weekday_name\",\"expressionType\":\"SQL\"},\"is_full_time\"],\"series_columns\":[\"is_full_time\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(start_count)\",\"sqlExpression\":\"SUM(start_count)\"}],\"filters\":[{\"col\":\"start_weekday_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(start_count)\",\"sqlExpression\":\"SUM(start_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"start_weekday_name\"],\"columns\":[\"is_full_time\"],\"aggregates\":{\"SUM(start_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_employee_hire_evaluation_05",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 426,
+      "ok": true,
+      "row_count": 6,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_employee_hire_evaluation_05.png",
+      "screenshot_bytes": 13893,
+      "chart_url": "/superset/explore/?slice_id=426",
+      "issues": [
+        "warning: screenshot only 13.6 KB despite 6 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT CASE WHEN \"Is_full_time\" THEN 'T' ELSE 'F' END AS is_full_time,\n       EXTRACT(ISODOW FROM MAKE_DATE(\"Start_from\"::int, 1, 1))::int AS start_weekday,\n       TO_CHAR(MAKE_DATE(\"Start_from\"::int, 1, 1), 'Dy') AS start_weekday_name,\n       COUNT(\"Start_from\") AS start_count\nFROM bench_nvbench_employee_hire_evaluation.hiring\nGROUP BY \"Is_full_time\",\n         EXTRACT(ISODOW FROM MAKE_DATE(\"Start_from\"::int, 1, 1))::int,\n         TO_CHAR(MAKE_DATE(\"Start_from\"::int, 1, 1), 'Dy')\nORDER BY is_full_time, start_weekday;",
+  "chart_spec": {
+    "viz_type": "Stacked Bar",
+    "superset_viz_type": "echarts_timeseries_bar",
+    "dataset_id": 128,
+    "virtual_dataset_table": "vd_l2_nvbench_employee_hire_evaluation_05",
+    "metrics": [
+      "start_count"
+    ],
+    "dimensions": [
+      "start_weekday_name",
+      "is_full_time"
+    ],
+    "filters": "",
+    "time_range": "No filter; bin Start_from by weekday",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": true,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "start_weekday_name",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(start_count)",
+          "sqlExpression": "SUM(start_count)"
+        }
+      ],
+      "groupby": [
+        "is_full_time"
+      ],
+      "stack": "Stack"
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 128
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 426
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 6
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_employee_hire_evaluation_05",
+      "dataset_id": 128,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_employee_hire_evaluation_05",
+      "dataset_id": 128,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_bar",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_employee_hire_evaluation_05. Expected visualization: Stacked Bar.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": true,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "start_weekday_name",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(start_count)",
+            "sqlExpression": "SUM(start_count)"
+          }
+        ],
+        "groupby": [
+          "is_full_time"
+        ],
+        "stack": "Stack"
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 426,
+      "result": {
+        "datasource_id": 128,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_employee_hire_evaluation_05. Expected visualization: Stacked Bar.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":true,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"start_weekday_name\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(start_count)\",\"sqlExpression\":\"SUM(start_count)\"}],\"groupby\":[\"is_full_time\"],\"stack\":\"Stack\",\"datasource\":\"128__table\",\"viz_type\":\"echarts_timeseries_bar\",\"granularity_sqla\":\"start_weekday_name\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"start_weekday_name\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":128,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"start_weekday_name\",\"label\":\"start_weekday_name\",\"expressionType\":\"SQL\"},\"is_full_time\"],\"series_columns\":[\"is_full_time\"],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(start_count)\",\"sqlExpression\":\"SUM(start_count)\"}],\"filters\":[{\"col\":\"start_weekday_name\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(start_count)\",\"sqlExpression\":\"SUM(start_count)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"start_weekday_name\"],\"columns\":[\"is_full_time\"],\"aggregates\":{\"SUM(start_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_employee_hire_evaluation_05",
+        "viz_type": "echarts_timeseries_bar"
+      }
+    },
+    "verification": {
+      "chart_id": 426,
+      "ok": true,
+      "row_count": 6,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_employee_hire_evaluation_05.png",
+      "screenshot_bytes": 13893,
+      "chart_url": "/superset/explore/?slice_id=426",
+      "issues": [
+        "warning: screenshot only 13.6 KB despite 6 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:38:15.326Z"
+}

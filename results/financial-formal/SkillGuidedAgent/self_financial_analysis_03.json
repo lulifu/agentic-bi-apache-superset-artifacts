@@ -1,0 +1,97 @@
+{
+  "task_id": "self_financial_analysis_03",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_analysis_03.\nregional_loan_quality_1997: [{\"region\":\"west Bohemia\",\"finished_loans\":22,\"defaulted_finished_loans\":5,\"default_rate\":0.22727272727272727,\"avg_salary\":9061.666666666666,\"male_share\":0.4},{\"region\":\"south Bohemia\",\"finished_loans\":23,\"defaulted_finished_loans\":5,\"default_rate\":0.21739130434782608,\"avg_salary\":8824.38,\"male_share\":0.48},{\"region\":\"central Bohemia\",\"finished_loans\":31,\"defaulted_finished_loans\":5,\"default_rate\":0.16129032258064516,\"avg_salary\":9304.493506493507,\"male_share\":0.42857142857142855},{\"region\":\"north Moravia\",\"finished_loans\":41,\"defaulted_finished_loans\":6,\"default_rate\":0.14634146341463414,\"avg_salary\":9589.29357798165,\"male_share\":0.4954128440366973},{\"region\":\"south Moravia\",\"finished_loans\":41,\"defaulted_finished_loans\":6,\"default_rate\":0.14634146341463414,\"avg_salary\":8947.725190839694,\"male_share\":0.4961832061068702}]",
+  "sql": "SELECT d.\"A3\" AS region,\n       COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status IN ('A','B')) AS finished_loans,\n       COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status = 'B') AS defaulted_finished_loans,\n       COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status = 'B')::numeric /\n         NULLIF(COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status IN ('A','B')), 0) AS default_rate,\n       AVG(d.\"A11\")::numeric AS avg_salary,\n       COUNT(DISTINCT c.client_id) FILTER (WHERE c.gender = 'M')::numeric /\n         NULLIF(COUNT(DISTINCT c.client_id), 0) AS male_share\nFROM loan l\nJOIN account a ON a.account_id = l.account_id\nJOIN district d ON d.district_id = a.district_id\nJOIN disp dp ON dp.account_id = a.account_id\nJOIN client c ON c.client_id = dp.client_id\nWHERE l.date <= DATE '1997-12-31'\nGROUP BY 1\nORDER BY default_rate DESC NULLS LAST",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:regional_loan_quality_1997"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "regional_loan_quality_1997",
+        "sql": "SELECT d.\"A3\" AS region,\n       COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status IN ('A','B')) AS finished_loans,\n       COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status = 'B') AS defaulted_finished_loans,\n       COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status = 'B')::numeric /\n         NULLIF(COUNT(DISTINCT l.loan_id) FILTER (WHERE l.status IN ('A','B')), 0) AS default_rate,\n       AVG(d.\"A11\")::numeric AS avg_salary,\n       COUNT(DISTINCT c.client_id) FILTER (WHERE c.gender = 'M')::numeric /\n         NULLIF(COUNT(DISTINCT c.client_id), 0) AS male_share\nFROM loan l\nJOIN account a ON a.account_id = l.account_id\nJOIN district d ON d.district_id = a.district_id\nJOIN disp dp ON dp.account_id = a.account_id\nJOIN client c ON c.client_id = dp.client_id\nWHERE l.date <= DATE '1997-12-31'\nGROUP BY 1\nORDER BY default_rate DESC NULLS LAST",
+        "rows": [
+          {
+            "region": "west Bohemia",
+            "finished_loans": 22,
+            "defaulted_finished_loans": 5,
+            "default_rate": 0.22727272727272727,
+            "avg_salary": 9061.666666666666,
+            "male_share": 0.4
+          },
+          {
+            "region": "south Bohemia",
+            "finished_loans": 23,
+            "defaulted_finished_loans": 5,
+            "default_rate": 0.21739130434782608,
+            "avg_salary": 8824.38,
+            "male_share": 0.48
+          },
+          {
+            "region": "central Bohemia",
+            "finished_loans": 31,
+            "defaulted_finished_loans": 5,
+            "default_rate": 0.16129032258064516,
+            "avg_salary": 9304.493506493507,
+            "male_share": 0.42857142857142855
+          },
+          {
+            "region": "north Moravia",
+            "finished_loans": 41,
+            "defaulted_finished_loans": 6,
+            "default_rate": 0.14634146341463414,
+            "avg_salary": 9589.29357798165,
+            "male_share": 0.4954128440366973
+          },
+          {
+            "region": "south Moravia",
+            "finished_loans": 41,
+            "defaulted_finished_loans": 6,
+            "default_rate": 0.14634146341463414,
+            "avg_salary": 8947.725190839694,
+            "male_share": 0.4961832061068702
+          },
+          {
+            "region": "Prague",
+            "finished_loans": 37,
+            "defaulted_finished_loans": 3,
+            "default_rate": 0.08108108108108109,
+            "avg_salary": 12541,
+            "male_share": 0.4935064935064935
+          },
+          {
+            "region": "north Bohemia",
+            "finished_loans": 20,
+            "defaulted_finished_loans": 1,
+            "default_rate": 0.05,
+            "avg_salary": 9330.375,
+            "male_share": 0.5714285714285714
+          },
+          {
+            "region": "east Bohemia",
+            "finished_loans": 19,
+            "defaulted_finished_loans": 0,
+            "default_rate": 0,
+            "avg_salary": 8585.155844155845,
+            "male_share": 0.6753246753246753
+          }
+        ],
+        "rowcount": 8
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:41.295Z"
+}

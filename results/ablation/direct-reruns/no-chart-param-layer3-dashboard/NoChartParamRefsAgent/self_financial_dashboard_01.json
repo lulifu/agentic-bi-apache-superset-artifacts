@@ -1,0 +1,149 @@
+{
+  "task_id": "self_financial_dashboard_01",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "1996 lending portfolio executive dashboard with KPI, monthly loan activity, status composition, and duration-based loan-size view.",
+  "sql": "",
+  "chart_spec": {
+    "charts": [
+      {
+        "title": "Total Approved Loan Amount, 1996",
+        "viz_type": "big_number",
+        "metrics": [
+          "SUM(loan.amount)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1996"
+        ]
+      },
+      {
+        "title": "Monthly Approved Loan Count, 1996",
+        "viz_type": "line",
+        "metrics": [
+          "COUNT(loan.loan_id)"
+        ],
+        "dimensions": [
+          "loan.date month"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1996"
+        ]
+      },
+      {
+        "title": "Loan Status Mix by Month, 1996",
+        "viz_type": "stacked_bar",
+        "metrics": [
+          "COUNT(loan.loan_id)"
+        ],
+        "dimensions": [
+          "loan.date month",
+          "loan.status"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1996"
+        ]
+      },
+      {
+        "title": "Average Loan Amount by Duration",
+        "viz_type": "bar",
+        "metrics": [
+          "AVG(loan.amount)"
+        ],
+        "dimensions": [
+          "loan.duration"
+        ],
+        "filters": [
+          "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1996"
+        ]
+      }
+    ],
+    "layout_intent": "Top row KPI full width, middle row monthly line and stacked status bar, bottom row duration bar.",
+    "chart_count": 4,
+    "chart_viz_types": [
+      "big_number",
+      "line",
+      "stacked_bar",
+      "bar"
+    ]
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_dashboard_01",
+    "artifact": "1996 lending portfolio executive dashboard with KPI, monthly loan activity, status composition, and duration-based loan-size view.",
+    "chart_spec": {
+      "charts": [
+        {
+          "title": "Total Approved Loan Amount, 1996",
+          "viz_type": "big_number",
+          "metrics": [
+            "SUM(loan.amount)"
+          ],
+          "dimensions": [],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1996"
+          ]
+        },
+        {
+          "title": "Monthly Approved Loan Count, 1996",
+          "viz_type": "line",
+          "metrics": [
+            "COUNT(loan.loan_id)"
+          ],
+          "dimensions": [
+            "loan.date month"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1996"
+          ]
+        },
+        {
+          "title": "Loan Status Mix by Month, 1996",
+          "viz_type": "stacked_bar",
+          "metrics": [
+            "COUNT(loan.loan_id)"
+          ],
+          "dimensions": [
+            "loan.date month",
+            "loan.status"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1996"
+          ]
+        },
+        {
+          "title": "Average Loan Amount by Duration",
+          "viz_type": "bar",
+          "metrics": [
+            "AVG(loan.amount)"
+          ],
+          "dimensions": [
+            "loan.duration"
+          ],
+          "filters": [
+            "EXTRACT(YEAR FROM CAST(loan.date AS DATE)) = 1996"
+          ]
+        }
+      ],
+      "layout_intent": "Top row KPI full width, middle row monthly line and stacked status bar, bottom row duration bar.",
+      "chart_count": 4,
+      "chart_viz_types": [
+        "big_number",
+        "line",
+        "stacked_bar",
+        "bar"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-1fcf-7070-a2df-21c498fb4cbf",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.285Z"
+}

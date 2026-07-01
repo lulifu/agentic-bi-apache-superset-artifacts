@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_05",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH cohort AS (SELECT CASE WHEN duration = 12 THEN 'short' WHEN duration IN (24, 36) THEN 'medium' WHEN duration IN (48, 60) THEN 'long' END AS duration_band, status, amount, payments FROM loan WHERE date >= DATE '1996-01-01' AND date < DATE '1997-01-01' AND status IN ('A', 'B') AND duration IN (12, 24, 36, 48, 60)) SELECT duration_band, COUNT(*) AS finished_loan_count, SUM(CASE WHEN status = 'B' THEN 1 ELSE 0 END) AS defaulted_loan_count, SUM(CASE WHEN status = 'B' THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(*), 0) AS default_rate, AVG(amount) AS avg_loan_amount, AVG(payments) AS avg_payments FROM cohort GROUP BY duration_band ORDER BY CASE duration_band WHEN 'short' THEN 1 WHEN 'medium' THEN 2 WHEN 'long' THEN 3 END;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

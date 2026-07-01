@@ -1,0 +1,70 @@
+{
+  "task_id": "self_financial_dashboard_08",
+  "system": "SchemaGroundedLLM",
+  "task_class": "dashboard",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "dashboard_spec",
+  "sql": {
+    "quarterly_issuance_by_type": "SELECT DATE_TRUNC('quarter', c.issued)::date AS issued_quarter, c.type AS card_type, COUNT(c.card_id) AS issued_cards FROM card c WHERE c.issued >= DATE '1994-01-01' AND c.issued < DATE '1999-01-01' GROUP BY 1, 2 ORDER BY 1, 2;",
+    "issuance_to_first_withdrawal_funnel": "WITH first_card_tx AS (SELECT c.card_id, MIN(t.date) AS first_card_tx_date FROM card c JOIN disp dp ON dp.disp_id = c.disp_id LEFT JOIN trans t ON t.account_id = dp.account_id AND t.operation = 'VYBER KARTOU' GROUP BY c.card_id) SELECT 'issued_cards' AS stage, COUNT(c.card_id) AS clients_or_cards FROM card c WHERE c.issued >= DATE '1994-01-01' AND c.issued < DATE '1999-01-01' UNION ALL SELECT 'first_card_withdrawal' AS stage, COUNT(card_id) FROM first_card_tx WHERE first_card_tx_date IS NOT NULL;",
+    "avg_days_to_first_card_tx": "WITH first_card_tx AS (SELECT c.card_id, c.issued, MIN(t.date) AS first_card_tx_date FROM card c JOIN disp dp ON dp.disp_id = c.disp_id LEFT JOIN trans t ON t.account_id = dp.account_id AND t.operation = 'VYBER KARTOU' GROUP BY c.card_id, c.issued) SELECT AVG(first_card_tx_date - issued) AS avg_days_to_first_card_transaction FROM first_card_tx WHERE first_card_tx_date IS NOT NULL;"
+  },
+  "chart_spec": {
+    "charts": [
+      {
+        "id": "quarterly_issuance_by_type",
+        "viz_type": "line",
+        "dataset": "card",
+        "metrics": [
+          "COUNT(card_id)"
+        ],
+        "dimensions": [
+          "DATE_TRUNC('quarter', issued)",
+          "type"
+        ],
+        "filters": [
+          "card.issued from 1994 through 1998"
+        ],
+        "layout_intent": "quarterly issuance by card type"
+      },
+      {
+        "id": "issuance_to_first_withdrawal_funnel",
+        "viz_type": "funnel",
+        "dataset": "card_first_tx_virtual",
+        "dataset_choice": "virtual_dataset",
+        "metrics": [
+          "COUNT(card_id)"
+        ],
+        "dimensions": [
+          "funnel_stage"
+        ],
+        "filters": [
+          "first withdrawal operation = 'VYBER KARTOU'"
+        ],
+        "layout_intent": "issued to first-card-withdrawal funnel"
+      },
+      {
+        "id": "avg_days_to_first_card_tx",
+        "viz_type": "big_number",
+        "dataset": "card_first_tx_virtual",
+        "dataset_choice": "virtual_dataset",
+        "metrics": [
+          "AVG(first_card_tx_date - issued)"
+        ],
+        "dimensions": [],
+        "filters": [
+          "first_card_tx_date IS NOT NULL"
+        ],
+        "layout_intent": "average days KPI"
+      }
+    ],
+    "layout_intent": "acquisition trend, conversion funnel, and latency KPI"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

@@ -1,0 +1,25 @@
+{
+  "task_id": "bird_formula_1_04",
+  "system": "DirectLLM",
+  "task_class": "query",
+  "dataset": "formula_1",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Counts 2010 races whose circuit countries are outside Asia and Europe.",
+  "sql": "SELECT COUNT(*) AS race_count FROM races r JOIN circuits c ON c.circuitId = r.circuitId WHERE r.year = 2010 AND c.country IN ('Australia', 'Brazil', 'Canada', 'USA', 'Mexico', 'Argentina', 'South Africa', 'Morocco');",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_formula_1_04",
+    "sql": "SELECT COUNT(*) AS race_count FROM races r JOIN circuits c ON c.circuitId = r.circuitId WHERE r.year = 2010 AND c.country IN ('Australia', 'Brazil', 'Canada', 'USA', 'Mexico', 'Argentina', 'South Africa', 'Morocco');",
+    "artifact": "Counts 2010 races whose circuit countries are outside Asia and Europe."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec783-b17b-74b0-bf8f-b8014b4d18c8",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:04:15.256Z"
+}

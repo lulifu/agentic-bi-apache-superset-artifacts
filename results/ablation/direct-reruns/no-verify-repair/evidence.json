@@ -1,0 +1,54 @@
+{
+  "arm": "SkillNoVerifyRepair",
+  "evidence_status": "direct",
+  "evidence_scope": {
+    "basis": "Archived first-pass/no-retry outputs already frozen before repair scoring.",
+    "included": [
+      "results/bird-layer1-formal/SkillGuidedAgent/*.json",
+      "results/nvbench-layer2-formal/SkillGuidedAgent/*.json",
+      "results/financial-formal/SkillGuidedAgent/*.json"
+    ],
+    "excluded": [
+      "results/bird-layer1-repair/SkillGuidedAgentRepair/*.json",
+      "any oracle-blind SQL repair outputs",
+      "any post-verdict LLM retry outputs"
+    ]
+  },
+  "class_scores": {
+    "query": {
+      "entries": 30,
+      "source": "results/bird-layer1-formal/summary.md, SkillGuidedAgent Avg / 2",
+      "avg_2pt": 1.5,
+      "normalized_pct": 75.0
+    },
+    "chart": {
+      "entries": 30,
+      "source": "results/nvbench-layer2-formal/summary.md, SkillGuidedAgent spec-only mean of viz/metric/dimension",
+      "avg_2pt": 1.6067,
+      "normalized_pct": 80.3
+    },
+    "dashboard": {
+      "entries": 10,
+      "source": "results/financial-formal/auto-grade-summary.md, SkillGuidedAgent dashboard first-pass artifact batch",
+      "avg_2pt": 1.9833,
+      "normalized_pct": 99.2
+    },
+    "analysis": {
+      "entries": 10,
+      "source": "results/financial-formal/auto-grade-summary.md, SkillGuidedAgent analysis first-pass SQL batch",
+      "avg_2pt": 1.6667,
+      "normalized_pct": 83.3
+    },
+    "rca": {
+      "entries": 10,
+      "source": "results/financial-formal/auto-grade-summary.md, SkillGuidedAgent RCA first-pass SQL batch",
+      "avg_2pt": 1.6,
+      "normalized_pct": 80.0
+    }
+  },
+  "caveats": [
+    "This arm is direct archived evidence, not a fresh rerun. It is direct because the first-pass/no-retry outputs are committed as raw JSON and are not inferred from the repaired arm.",
+    "Layer-3 financial SkillGuided outputs were created as one-shot parent-controlled executions with no separate LLM repair loop archived; therefore their no-verify-repair values equal the full-system Layer-3 values.",
+    "The measured verify-repair effect is strongest and cleanest on Layer-1, where oracle-blind SQL Lab repair is explicitly separated from the first-pass output."
+  ]
+}

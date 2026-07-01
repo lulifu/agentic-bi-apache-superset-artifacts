@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_dog_kennels_04",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "dog_kennels",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 419,
+    "virtual_dataset_id": 122,
+    "virtual_dataset_table": "vd_l2_nvbench_dog_kennels_04",
+    "superset_create_response": {
+      "id": 419,
+      "result": {
+        "datasource_id": 122,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_dog_kennels_04. Expected visualization: Scatter.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"age\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(weight)\",\"sqlExpression\":\"SUM(weight)\"}],\"groupby\":[],\"datasource\":\"122__table\",\"viz_type\":\"echarts_timeseries_scatter\",\"granularity_sqla\":\"age\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"age\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":122,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"age\",\"label\":\"age\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(weight)\",\"sqlExpression\":\"SUM(weight)\"}],\"filters\":[{\"col\":\"age\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(weight)\",\"sqlExpression\":\"SUM(weight)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"age\"],\"columns\":[],\"aggregates\":{\"SUM(weight)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_dog_kennels_04",
+        "viz_type": "echarts_timeseries_scatter"
+      }
+    },
+    "verification": {
+      "chart_id": 419,
+      "ok": true,
+      "row_count": 3,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_dog_kennels_04.png",
+      "screenshot_bytes": 11560,
+      "chart_url": "/superset/explore/?slice_id=419",
+      "issues": [
+        "warning: screenshot only 11.3 KB despite 3 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT age::numeric AS age, weight::numeric AS weight\nFROM bench_nvbench_dog_kennels.dogs\nWHERE abandoned_yn = '1'\nORDER BY dog_id;",
+  "chart_spec": {
+    "viz_type": "Scatter",
+    "superset_viz_type": "echarts_timeseries_scatter",
+    "dataset_id": 122,
+    "virtual_dataset_table": "vd_l2_nvbench_dog_kennels_04",
+    "metrics": [
+      "weight"
+    ],
+    "dimensions": [
+      "age"
+    ],
+    "filters": "abandoned_yn = '1'",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "x_axis": "age",
+      "metrics": [
+        {
+          "expressionType": "SQL",
+          "label": "SUM(weight)",
+          "sqlExpression": "SUM(weight)"
+        }
+      ],
+      "groupby": []
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "created",
+      "dataset_id": 122
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 419
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 3
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_dog_kennels_04",
+      "dataset_id": 122,
+      "created": true,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_dog_kennels_04",
+      "dataset_id": 122,
+      "dataset_type": "table",
+      "viz_type": "echarts_timeseries_scatter",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_dog_kennels_04. Expected visualization: Scatter.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "x_axis": "age",
+        "metrics": [
+          {
+            "expressionType": "SQL",
+            "label": "SUM(weight)",
+            "sqlExpression": "SUM(weight)"
+          }
+        ],
+        "groupby": []
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 419,
+      "result": {
+        "datasource_id": 122,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_dog_kennels_04. Expected visualization: Scatter.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"x_axis\":\"age\",\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(weight)\",\"sqlExpression\":\"SUM(weight)\"}],\"groupby\":[],\"datasource\":\"122__table\",\"viz_type\":\"echarts_timeseries_scatter\",\"granularity_sqla\":\"age\",\"adhoc_filters\":[{\"clause\":\"WHERE\",\"subject\":\"age\",\"operator\":\"TEMPORAL_RANGE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\"}]}",
+        "query_context": "{\"datasource\":{\"id\":122,\"type\":\"table\"},\"queries\":[{\"columns\":[{\"timeGrain\":null,\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"age\",\"label\":\"age\",\"expressionType\":\"SQL\"}],\"series_columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(weight)\",\"sqlExpression\":\"SUM(weight)\"}],\"filters\":[{\"col\":\"age\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(weight)\",\"sqlExpression\":\"SUM(weight)\"},false]],\"row_limit\":1000,\"extras\":{\"time_grain_sqla\":null,\"having\":\"\",\"where\":\"\"},\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"age\"],\"columns\":[],\"aggregates\":{\"SUM(weight)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":true}},{\"operation\":\"flatten\"}]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_dog_kennels_04",
+        "viz_type": "echarts_timeseries_scatter"
+      }
+    },
+    "verification": {
+      "chart_id": 419,
+      "ok": true,
+      "row_count": 3,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_dog_kennels_04.png",
+      "screenshot_bytes": 11560,
+      "chart_url": "/superset/explore/?slice_id=419",
+      "issues": [
+        "warning: screenshot only 11.3 KB despite 3 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:36:36.087Z"
+}

@@ -1,0 +1,60 @@
+{
+  "task_id": "bird_european_football_2_05",
+  "system": "SkillGuidedAgentRepair",
+  "task_class": "query",
+  "dataset": "european_football_2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Removed draw_matches from projection because the NL asks only for the league name; retained count for ordering.",
+  "sql": "SELECT l.name AS league_name FROM \"Match\" AS m JOIN league AS l ON l.id = m.league_id WHERE m.season = '2015/2016' AND m.home_team_goal = m.away_team_goal GROUP BY l.id, l.name ORDER BY COUNT(*) DESC LIMIT 1;",
+  "chart_spec": null,
+  "tool_calls": [
+    {
+      "query_id": 452,
+      "status": "success",
+      "purpose": "first_pass"
+    },
+    {
+      "query_id": 454,
+      "status": "success",
+      "purpose": "shape_fix"
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_european_football_2_05",
+    "sql": "SELECT l.name AS league_name FROM \"Match\" AS m JOIN league AS l ON l.id = m.league_id WHERE m.season = '2015/2016' AND m.home_team_goal = m.away_team_goal GROUP BY l.id, l.name ORDER BY COUNT(*) DESC LIMIT 1;",
+    "artifact": "Removed draw_matches from projection because the NL asks only for the league name; retained count for ordering.",
+    "tool_calls": [
+      {
+        "query_id": 452,
+        "status": "success",
+        "purpose": "first_pass"
+      },
+      {
+        "query_id": 454,
+        "status": "success",
+        "purpose": "shape_fix"
+      }
+    ],
+    "repair_attempts": [
+      {
+        "sql": "SELECT l.name AS league_name, COUNT(*) AS draw_matches FROM \"Match\" AS m JOIN league AS l ON l.id = m.league_id WHERE m.season = '2015/2016' AND m.home_team_goal = m.away_team_goal GROUP BY l.id, l.name ORDER BY draw_matches DESC LIMIT 1;",
+        "status": "shape_fix",
+        "feedback": "Executed successfully but returned draw_matches in addition to the requested league name."
+      },
+      {
+        "sql": "SELECT l.name AS league_name FROM \"Match\" AS m JOIN league AS l ON l.id = m.league_id WHERE m.season = '2015/2016' AND m.home_team_goal = m.away_team_goal GROUP BY l.id, l.name ORDER BY COUNT(*) DESC LIMIT 1;",
+        "status": "executed",
+        "feedback": "Executed successfully with only league_name returned."
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec794-e67e-74c1-82cc-39c94ec3d335",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:23:24.193Z"
+}

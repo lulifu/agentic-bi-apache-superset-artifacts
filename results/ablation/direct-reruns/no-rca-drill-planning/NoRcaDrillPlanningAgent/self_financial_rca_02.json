@@ -1,0 +1,34 @@
+{
+  "task_id": "self_financial_rca_02",
+  "system": "NoRcaDrillPlanningAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "RCA report: inconclusive. The required Q2 versus Q3 1996 loan-default drill was not executed because SQL Lab was unavailable. The planned root-cause test computes the default-rate gap first, then compares whether the increase is explained by duration mix, loan-amount bucket, geography, or gender. Without result rows, no primary driver is claimed.",
+  "sql": {
+    "quarter_summary": "SELECT CASE WHEN CAST(date AS DATE) >= DATE '1996-04-01' AND CAST(date AS DATE) < DATE '1996-07-01' THEN '1996Q2' WHEN CAST(date AS DATE) >= DATE '1996-07-01' AND CAST(date AS DATE) < DATE '1996-10-01' THEN '1996Q3' END AS quarter, COUNT(*) AS finished_loans, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END) AS defaults, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::double precision / COUNT(*) AS default_rate, AVG(amount) AS avg_amount, AVG(duration) AS avg_duration FROM loan WHERE status IN ('A','B') AND CAST(date AS DATE) >= DATE '1996-04-01' AND CAST(date AS DATE) < DATE '1996-10-01' GROUP BY 1 ORDER BY 1;",
+    "duration_drill": "SELECT CASE WHEN CAST(l.date AS DATE) < DATE '1996-07-01' THEN '1996Q2' ELSE '1996Q3' END AS quarter, l.duration, COUNT(*) AS n, SUM(CASE WHEN l.status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate FROM loan l WHERE l.status IN ('A','B') AND CAST(l.date AS DATE) >= DATE '1996-04-01' AND CAST(l.date AS DATE) < DATE '1996-10-01' GROUP BY 1,2 ORDER BY 1,2;",
+    "amount_region_gender_drill": "SELECT CASE WHEN CAST(l.date AS DATE) < DATE '1996-07-01' THEN '1996Q2' ELSE '1996Q3' END AS quarter, NTILE(4) OVER (PARTITION BY CASE WHEN CAST(l.date AS DATE) < DATE '1996-07-01' THEN '1996Q2' ELSE '1996Q3' END ORDER BY l.amount) AS amount_quartile, d.\"A3\" AS region, c.gender, COUNT(*) AS n, SUM(CASE WHEN l.status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate FROM loan l JOIN account a ON a.account_id=l.account_id JOIN disp dp ON dp.account_id=a.account_id JOIN client c ON c.client_id=dp.client_id JOIN district d ON d.district_id=a.district_id WHERE dp.type='OWNER' AND l.status IN ('A','B') AND CAST(l.date AS DATE) >= DATE '1996-04-01' AND CAST(l.date AS DATE) < DATE '1996-10-01' GROUP BY 1,d.\"A3\",c.gender,l.amount ORDER BY quarter,n DESC;"
+  },
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "self_financial_rca_02",
+    "artifact": "RCA report: inconclusive. The required Q2 versus Q3 1996 loan-default drill was not executed because SQL Lab was unavailable. The planned root-cause test computes the default-rate gap first, then compares whether the increase is explained by duration mix, loan-amount bucket, geography, or gender. Without result rows, no primary driver is claimed.",
+    "sql": {
+      "quarter_summary": "SELECT CASE WHEN CAST(date AS DATE) >= DATE '1996-04-01' AND CAST(date AS DATE) < DATE '1996-07-01' THEN '1996Q2' WHEN CAST(date AS DATE) >= DATE '1996-07-01' AND CAST(date AS DATE) < DATE '1996-10-01' THEN '1996Q3' END AS quarter, COUNT(*) AS finished_loans, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END) AS defaults, SUM(CASE WHEN status='B' THEN 1 ELSE 0 END)::double precision / COUNT(*) AS default_rate, AVG(amount) AS avg_amount, AVG(duration) AS avg_duration FROM loan WHERE status IN ('A','B') AND CAST(date AS DATE) >= DATE '1996-04-01' AND CAST(date AS DATE) < DATE '1996-10-01' GROUP BY 1 ORDER BY 1;",
+      "duration_drill": "SELECT CASE WHEN CAST(l.date AS DATE) < DATE '1996-07-01' THEN '1996Q2' ELSE '1996Q3' END AS quarter, l.duration, COUNT(*) AS n, SUM(CASE WHEN l.status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate FROM loan l WHERE l.status IN ('A','B') AND CAST(l.date AS DATE) >= DATE '1996-04-01' AND CAST(l.date AS DATE) < DATE '1996-10-01' GROUP BY 1,2 ORDER BY 1,2;",
+      "amount_region_gender_drill": "SELECT CASE WHEN CAST(l.date AS DATE) < DATE '1996-07-01' THEN '1996Q2' ELSE '1996Q3' END AS quarter, NTILE(4) OVER (PARTITION BY CASE WHEN CAST(l.date AS DATE) < DATE '1996-07-01' THEN '1996Q2' ELSE '1996Q3' END ORDER BY l.amount) AS amount_quartile, d.\"A3\" AS region, c.gender, COUNT(*) AS n, SUM(CASE WHEN l.status='B' THEN 1 ELSE 0 END)::double precision/COUNT(*) AS default_rate FROM loan l JOIN account a ON a.account_id=l.account_id JOIN disp dp ON dp.account_id=a.account_id JOIN client c ON c.client_id=dp.client_id JOIN district d ON d.district_id=a.district_id WHERE dp.type='OWNER' AND l.status IN ('A','B') AND CAST(l.date AS DATE) >= DATE '1996-04-01' AND CAST(l.date AS DATE) < DATE '1996-10-01' GROUP BY 1,d.\"A3\",c.gender,l.amount ORDER BY quarter,n DESC;"
+    },
+    "tool_calls": []
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc22-3cf4-70a3-9ce1-411c1e4a1720",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.303Z"
+}

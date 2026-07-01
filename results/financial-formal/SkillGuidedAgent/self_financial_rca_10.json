@@ -1,0 +1,105 @@
+{
+  "task_id": "self_financial_rca_10",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_10.\nstatus_d_top_bottom_districts: [{\"comparison_group\":\"top_3\",\"district_id\":1,\"district_name\":\"Hl.m. Praha\",\"region\":\"Prague\",\"avg_salary\":12541,\"unemployment_1996\":0.43,\"crimes_1996\":99107,\"status_d_count\":4,\"high_rank\":1,\"low_rank\":77},{\"comparison_group\":\"top_3\",\"district_id\":50,\"district_name\":\"Svitavy\",\"region\":\"east Bohemia\",\"avg_salary\":8187,\"unemployment_1996\":5.45,\"crimes_1996\":2134,\"status_d_count\":3,\"high_rank\":2,\"low_rank\":74},{\"comparison_group\":\"top_3\",\"district_id\":54,\"district_name\":\"Brno - mesto\",\"region\":\"south Moravia\",\"avg_salary\":9897,\"unemployment_1996\":1.96,\"crimes_1996\":18696,\"status_d_count\":3,\"high_rank\":3,\"low_rank\":75},{\"comparison_group\":\"bottom_3\",\"district_id\":2,\"district_name\":\"Benesov\",\"region\":\"central Bohemia\",\"avg_salary\":8507,\"unemployment_1996\":1.85,\"crimes_1996\":2674,\"status_d_count\":0,\"high_rank\":31,\"low_rank\":1},{\"comparison_group\":\"bottom_3\",\"district_id\":5,\"district_name\":\"Kolin\",\"region\":\"central Bohemia\",\"avg_salary\":9307,\"unemployment_1996\":4.43,\"crimes_1996\":3040,\"status_d_count\":0,\"high_rank\":32,\"low_rank\":2}]",
+  "sql": "WITH by_district AS (\n  SELECT d.district_id, d.\"A2\" AS district_name, d.\"A3\" AS region, d.\"A11\" AS avg_salary,\n         d.\"A13\" AS unemployment_1996, d.\"A16\" AS crimes_1996,\n         COUNT(l.loan_id) FILTER (WHERE l.status = 'D') AS status_d_count\n  FROM district d\n  JOIN account a ON a.district_id = d.district_id\n  LEFT JOIN loan l ON l.account_id = a.account_id\n  GROUP BY 1,2,3,4,5,6\n),\nranked AS (\n  SELECT *, ROW_NUMBER() OVER (ORDER BY status_d_count DESC, district_id) AS high_rank,\n            ROW_NUMBER() OVER (ORDER BY status_d_count ASC, district_id) AS low_rank\n  FROM by_district\n)\nSELECT CASE WHEN high_rank <= 3 THEN 'top_3' ELSE 'bottom_3' END AS comparison_group, *\nFROM ranked\nWHERE high_rank <= 3 OR low_rank <= 3\nORDER BY comparison_group DESC, status_d_count DESC",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:status_d_top_bottom_districts"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "status_d_top_bottom_districts",
+        "sql": "WITH by_district AS (\n  SELECT d.district_id, d.\"A2\" AS district_name, d.\"A3\" AS region, d.\"A11\" AS avg_salary,\n         d.\"A13\" AS unemployment_1996, d.\"A16\" AS crimes_1996,\n         COUNT(l.loan_id) FILTER (WHERE l.status = 'D') AS status_d_count\n  FROM district d\n  JOIN account a ON a.district_id = d.district_id\n  LEFT JOIN loan l ON l.account_id = a.account_id\n  GROUP BY 1,2,3,4,5,6\n),\nranked AS (\n  SELECT *, ROW_NUMBER() OVER (ORDER BY status_d_count DESC, district_id) AS high_rank,\n            ROW_NUMBER() OVER (ORDER BY status_d_count ASC, district_id) AS low_rank\n  FROM by_district\n)\nSELECT CASE WHEN high_rank <= 3 THEN 'top_3' ELSE 'bottom_3' END AS comparison_group, *\nFROM ranked\nWHERE high_rank <= 3 OR low_rank <= 3\nORDER BY comparison_group DESC, status_d_count DESC",
+        "rows": [
+          {
+            "comparison_group": "top_3",
+            "district_id": 1,
+            "district_name": "Hl.m. Praha",
+            "region": "Prague",
+            "avg_salary": 12541,
+            "unemployment_1996": 0.43,
+            "crimes_1996": 99107,
+            "status_d_count": 4,
+            "high_rank": 1,
+            "low_rank": 77
+          },
+          {
+            "comparison_group": "top_3",
+            "district_id": 50,
+            "district_name": "Svitavy",
+            "region": "east Bohemia",
+            "avg_salary": 8187,
+            "unemployment_1996": 5.45,
+            "crimes_1996": 2134,
+            "status_d_count": 3,
+            "high_rank": 2,
+            "low_rank": 74
+          },
+          {
+            "comparison_group": "top_3",
+            "district_id": 54,
+            "district_name": "Brno - mesto",
+            "region": "south Moravia",
+            "avg_salary": 9897,
+            "unemployment_1996": 1.96,
+            "crimes_1996": 18696,
+            "status_d_count": 3,
+            "high_rank": 3,
+            "low_rank": 75
+          },
+          {
+            "comparison_group": "bottom_3",
+            "district_id": 2,
+            "district_name": "Benesov",
+            "region": "central Bohemia",
+            "avg_salary": 8507,
+            "unemployment_1996": 1.85,
+            "crimes_1996": 2674,
+            "status_d_count": 0,
+            "high_rank": 31,
+            "low_rank": 1
+          },
+          {
+            "comparison_group": "bottom_3",
+            "district_id": 5,
+            "district_name": "Kolin",
+            "region": "central Bohemia",
+            "avg_salary": 9307,
+            "unemployment_1996": 4.43,
+            "crimes_1996": 3040,
+            "status_d_count": 0,
+            "high_rank": 32,
+            "low_rank": 2
+          },
+          {
+            "comparison_group": "bottom_3",
+            "district_id": 7,
+            "district_name": "Melnik",
+            "region": "central Bohemia",
+            "avg_salary": 9920,
+            "unemployment_1996": 2.87,
+            "crimes_1996": 4846,
+            "status_d_count": 0,
+            "high_rank": 33,
+            "low_rank": 3
+          }
+        ],
+        "rowcount": 6
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:50.095Z"
+}

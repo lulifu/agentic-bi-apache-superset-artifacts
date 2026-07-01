@@ -1,0 +1,147 @@
+{
+  "task_id": "nvbench_employee_hire_evaluation_03",
+  "system": "SkillGuidedAgent",
+  "task_class": "chart",
+  "dataset": "employee_hire_evaluation",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": {
+    "chart_id": 424,
+    "virtual_dataset_id": 118,
+    "virtual_dataset_table": "vd_l2_nvbench_employee_hire_evaluation_03",
+    "superset_create_response": {
+      "id": 424,
+      "result": {
+        "datasource_id": 118,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_employee_hire_evaluation_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(shop_id_sum)\",\"sqlExpression\":\"SUM(shop_id_sum)\"},\"groupby\":[\"is_full_time\"],\"show_labels\":true,\"datasource\":\"118__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":118,\"type\":\"table\"},\"queries\":[{\"columns\":[\"is_full_time\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(shop_id_sum)\",\"sqlExpression\":\"SUM(shop_id_sum)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(shop_id_sum)\",\"sqlExpression\":\"SUM(shop_id_sum)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_employee_hire_evaluation_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 424,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_employee_hire_evaluation_03.png",
+      "screenshot_bytes": 28149,
+      "chart_url": "/superset/explore/?slice_id=424",
+      "issues": [
+        "warning: screenshot only 27.5 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "sql": "SELECT CASE WHEN \"Is_full_time\" THEN 'T' ELSE 'F' END AS is_full_time,\n       SUM(\"Shop_ID\") AS shop_id_sum\nFROM bench_nvbench_employee_hire_evaluation.hiring\nGROUP BY \"Is_full_time\"\nORDER BY is_full_time;",
+  "chart_spec": {
+    "viz_type": "Pie",
+    "superset_viz_type": "pie",
+    "dataset_id": 118,
+    "virtual_dataset_table": "vd_l2_nvbench_employee_hire_evaluation_03",
+    "metrics": [
+      "shop_id_sum"
+    ],
+    "dimensions": [
+      "is_full_time"
+    ],
+    "filters": "",
+    "time_range": "",
+    "params": {
+      "row_limit": 1000,
+      "time_range": "No filter",
+      "show_legend": false,
+      "y_axis_format": "SMART_NUMBER",
+      "metric": {
+        "expressionType": "SQL",
+        "label": "SUM(shop_id_sum)",
+        "sqlExpression": "SUM(shop_id_sum)"
+      },
+      "groupby": [
+        "is_full_time"
+      ],
+      "show_labels": true
+    }
+  },
+  "tool_calls": [
+    {
+      "name": "dataset_admin.ensureVirtualDataset",
+      "status": "updated",
+      "dataset_id": 118
+    },
+    {
+      "name": "query_chart.createChart",
+      "status": "created",
+      "chart_id": 424
+    },
+    {
+      "name": "verify_chart.verifyChart",
+      "status": "ok",
+      "row_count": 2
+    }
+  ],
+  "error": null,
+  "raw_response": {
+    "virtual": {
+      "table": "vd_l2_nvbench_employee_hire_evaluation_03",
+      "dataset_id": 118,
+      "created": false,
+      "updated": true
+    },
+    "config": {
+      "slice_name": "nl2bi-layer2 nvbench_employee_hire_evaluation_03",
+      "dataset_id": 118,
+      "dataset_type": "table",
+      "viz_type": "pie",
+      "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_employee_hire_evaluation_03. Expected visualization: Pie.",
+      "params": {
+        "row_limit": 1000,
+        "time_range": "No filter",
+        "show_legend": false,
+        "y_axis_format": "SMART_NUMBER",
+        "metric": {
+          "expressionType": "SQL",
+          "label": "SUM(shop_id_sum)",
+          "sqlExpression": "SUM(shop_id_sum)"
+        },
+        "groupby": [
+          "is_full_time"
+        ],
+        "show_labels": true
+      }
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "created": {
+      "id": 424,
+      "result": {
+        "datasource_id": 118,
+        "datasource_type": "table",
+        "description": "SkillGuidedAgent NVBench Layer-2 chart artifact. Task: nvbench_employee_hire_evaluation_03. Expected visualization: Pie.",
+        "params": "{\"row_limit\":1000,\"time_range\":\"No filter\",\"show_legend\":false,\"y_axis_format\":\"SMART_NUMBER\",\"metric\":{\"expressionType\":\"SQL\",\"label\":\"SUM(shop_id_sum)\",\"sqlExpression\":\"SUM(shop_id_sum)\"},\"groupby\":[\"is_full_time\"],\"show_labels\":true,\"datasource\":\"118__table\",\"viz_type\":\"pie\"}",
+        "query_context": "{\"datasource\":{\"id\":118,\"type\":\"table\"},\"queries\":[{\"columns\":[\"is_full_time\"],\"filters\":[],\"row_limit\":1000,\"extras\":{},\"metrics\":[{\"expressionType\":\"SQL\",\"label\":\"SUM(shop_id_sum)\",\"sqlExpression\":\"SUM(shop_id_sum)\"}],\"orderby\":[[{\"expressionType\":\"SQL\",\"label\":\"SUM(shop_id_sum)\",\"sqlExpression\":\"SUM(shop_id_sum)\"},false]]}],\"result_type\":\"full\",\"result_format\":\"json\",\"custom_cache_timeout\":null}",
+        "slice_name": "nl2bi-layer2 nvbench_employee_hire_evaluation_03",
+        "viz_type": "pie"
+      }
+    },
+    "verification": {
+      "chart_id": 424,
+      "ok": true,
+      "row_count": 2,
+      "screenshot_path": "results/nvbench-layer2-formal/chart-evidence/screenshots/nvbench_employee_hire_evaluation_03.png",
+      "screenshot_bytes": 28149,
+      "chart_url": "/superset/explore/?slice_id=424",
+      "issues": [
+        "warning: screenshot only 27.5 KB despite 2 rows — may be a frontend render-error card; inspect the image"
+      ]
+    }
+  },
+  "dry_run": false,
+  "executor": "codex_skillguided_layer2_chart_runner",
+  "created_at": "2026-06-14T20:37:46.870Z"
+}

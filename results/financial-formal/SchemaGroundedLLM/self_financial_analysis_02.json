@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_02",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH filtered AS (SELECT t.trans_id, t.account_id, DATE_TRUNC('month', t.date)::date AS month, t.amount FROM trans AS t WHERE t.operation = 'VYBER KARTOU' AND t.date >= DATE '1997-01-01' AND t.date < DATE '1998-01-01'), monthly AS (SELECT month, SUM(amount) AS monthly_total FROM filtered GROUP BY month), threshold AS (SELECT AVG(monthly_total) AS avg_monthly_total FROM monthly), flagged AS (SELECT m.month, m.monthly_total, th.avg_monthly_total, m.monthly_total / NULLIF(th.avg_monthly_total, 0) AS ratio_to_average FROM monthly AS m CROSS JOIN threshold AS th WHERE m.monthly_total >= th.avg_monthly_total * 1.30), card_accounts AS (SELECT dp.account_id, MIN(c.type) AS card_type FROM disp AS dp INNER JOIN card AS c ON c.disp_id = dp.disp_id GROUP BY dp.account_id) SELECT f.month, fl.monthly_total, fl.avg_monthly_total, fl.ratio_to_average, dist.\"A2\" AS district_name, dist.\"A3\" AS region, COALESCE(ca.card_type, 'unknown') AS card_type, SUM(f.amount) AS contribution_amount, COUNT(f.trans_id) AS contribution_count, SUM(f.amount) * 1.0 / NULLIF(fl.monthly_total, 0) AS contribution_share FROM filtered AS f INNER JOIN flagged AS fl ON f.month = fl.month INNER JOIN account AS a ON a.account_id = f.account_id INNER JOIN district AS dist ON dist.district_id = a.district_id LEFT JOIN card_accounts AS ca ON ca.account_id = f.account_id GROUP BY f.month, fl.monthly_total, fl.avg_monthly_total, fl.ratio_to_average, dist.\"A2\", dist.\"A3\", ca.card_type ORDER BY f.month, contribution_amount DESC;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

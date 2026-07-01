@@ -1,0 +1,25 @@
+{
+  "task_id": "bird_student_club_04",
+  "system": "SchemaGroundedLLM",
+  "task_class": "query",
+  "dataset": "student_club",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Join event to budget to expense for the specified October Meeting and list approval flags.",
+  "sql": "SELECT ex.expense_id, ex.expense_description, ex.expense_date, ex.approved FROM event AS e JOIN budget AS b ON e.event_id = b.link_to_event JOIN expense AS ex ON b.budget_id = ex.link_to_budget WHERE e.event_name = 'October Meeting' AND e.event_date = DATE '2019-10-08';",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "bird_student_club_04",
+    "sql": "SELECT ex.expense_id, ex.expense_description, ex.expense_date, ex.approved FROM event AS e JOIN budget AS b ON e.event_id = b.link_to_event JOIN expense AS ex ON b.budget_id = ex.link_to_budget WHERE e.event_name = 'October Meeting' AND e.event_date = DATE '2019-10-08';",
+    "artifact": "Join event to budget to expense for the specified October Meeting and list approval flags."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec786-4bd7-77a1-b324-4f51283058df",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T19:06:35.200Z"
+}

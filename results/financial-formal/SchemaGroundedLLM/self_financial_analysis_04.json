@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_04",
+  "system": "SchemaGroundedLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "analysis_report",
+  "sql": "WITH yearly_month AS (SELECT EXTRACT(YEAR FROM t.date)::int AS year, EXTRACT(MONTH FROM t.date)::int AS month_of_year, COUNT(*) AS tx_count FROM trans AS t WHERE t.date >= DATE '1994-01-01' AND t.date < DATE '1999-01-01' GROUP BY 1, 2), seasonal AS (SELECT month_of_year, AVG(tx_count)::numeric AS avg_tx_count, MIN(tx_count) AS min_year_count, MAX(tx_count) AS max_year_count, STDDEV_SAMP(tx_count) / NULLIF(AVG(tx_count), 0) AS coefficient_of_variation FROM yearly_month GROUP BY month_of_year) SELECT month_of_year, avg_tx_count, min_year_count, max_year_count, coefficient_of_variation, RANK() OVER (ORDER BY avg_tx_count DESC) AS high_month_rank, RANK() OVER (ORDER BY avg_tx_count ASC) AS low_month_rank, avg_tx_count - MIN(avg_tx_count) OVER () AS gap_vs_lowest_avg FROM seasonal ORDER BY month_of_year;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}

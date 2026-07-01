@@ -1,0 +1,117 @@
+{
+  "task_id": "self_financial_analysis_04",
+  "system": "SkillGuidedAgent",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_analysis_04.\nseasonality_1994_1998: [{\"month_no\":1,\"avg_count\":24407.4,\"min_count\":9139,\"max_count\":42940,\"cv\":0.4984122585240542},{\"month_no\":12,\"avg_count\":19370.2,\"min_count\":9795,\"max_count\":28269,\"cv\":0.3455865932024116},{\"month_no\":11,\"avg_count\":17493.6,\"min_count\":8275,\"max_count\":25341,\"cv\":0.38295988594238256},{\"month_no\":10,\"avg_count\":17370,\"min_count\":8197,\"max_count\":25689,\"cv\":0.39261262085328463},{\"month_no\":6,\"avg_count\":17279.2,\"min_count\":7916,\"max_count\":27833,\"cv\":0.43635475889596526}]",
+  "sql": "WITH ym AS (\n  SELECT EXTRACT(YEAR FROM date)::int AS yr, EXTRACT(MONTH FROM date)::int AS month_no, COUNT(*)::numeric AS tx_count\n  FROM trans\n  WHERE date >= DATE '1994-01-01' AND date < DATE '1999-01-01'\n  GROUP BY 1, 2\n)\nSELECT month_no, AVG(tx_count) AS avg_count, MIN(tx_count) AS min_count, MAX(tx_count) AS max_count,\n       STDDEV_POP(tx_count) / NULLIF(AVG(tx_count), 0) AS cv\nFROM ym\nGROUP BY 1\nORDER BY avg_count DESC",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:seasonality_1994_1998"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "seasonality_1994_1998",
+        "sql": "WITH ym AS (\n  SELECT EXTRACT(YEAR FROM date)::int AS yr, EXTRACT(MONTH FROM date)::int AS month_no, COUNT(*)::numeric AS tx_count\n  FROM trans\n  WHERE date >= DATE '1994-01-01' AND date < DATE '1999-01-01'\n  GROUP BY 1, 2\n)\nSELECT month_no, AVG(tx_count) AS avg_count, MIN(tx_count) AS min_count, MAX(tx_count) AS max_count,\n       STDDEV_POP(tx_count) / NULLIF(AVG(tx_count), 0) AS cv\nFROM ym\nGROUP BY 1\nORDER BY avg_count DESC",
+        "rows": [
+          {
+            "month_no": 1,
+            "avg_count": 24407.4,
+            "min_count": 9139,
+            "max_count": 42940,
+            "cv": 0.4984122585240542
+          },
+          {
+            "month_no": 12,
+            "avg_count": 19370.2,
+            "min_count": 9795,
+            "max_count": 28269,
+            "cv": 0.3455865932024116
+          },
+          {
+            "month_no": 11,
+            "avg_count": 17493.6,
+            "min_count": 8275,
+            "max_count": 25341,
+            "cv": 0.38295988594238256
+          },
+          {
+            "month_no": 10,
+            "avg_count": 17370,
+            "min_count": 8197,
+            "max_count": 25689,
+            "cv": 0.39261262085328463
+          },
+          {
+            "month_no": 6,
+            "avg_count": 17279.2,
+            "min_count": 7916,
+            "max_count": 27833,
+            "cv": 0.43635475889596526
+          },
+          {
+            "month_no": 9,
+            "avg_count": 16902.8,
+            "min_count": 7844,
+            "max_count": 25450,
+            "cv": 0.4021596165783474
+          },
+          {
+            "month_no": 8,
+            "avg_count": 16653.2,
+            "min_count": 7600,
+            "max_count": 25622,
+            "cv": 0.4135945068896314
+          },
+          {
+            "month_no": 7,
+            "avg_count": 16278.4,
+            "min_count": 7398,
+            "max_count": 25582,
+            "cv": 0.42444285495313344
+          },
+          {
+            "month_no": 5,
+            "avg_count": 15725,
+            "min_count": 7059,
+            "max_count": 25634,
+            "cv": 0.4445315844476132
+          },
+          {
+            "month_no": 4,
+            "avg_count": 15208.2,
+            "min_count": 6549,
+            "max_count": 25297,
+            "cv": 0.4592387054959173
+          },
+          {
+            "month_no": 3,
+            "avg_count": 14937.6,
+            "min_count": 6255,
+            "max_count": 25341,
+            "cv": 0.472319365636555
+          },
+          {
+            "month_no": 2,
+            "avg_count": 13997.4,
+            "min_count": 5601,
+            "max_count": 23995,
+            "cv": 0.4824458135751464
+          }
+        ],
+        "rowcount": 12
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:42.151Z"
+}

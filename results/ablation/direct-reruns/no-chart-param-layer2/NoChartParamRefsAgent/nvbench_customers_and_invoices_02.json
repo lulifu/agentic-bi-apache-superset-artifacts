@@ -1,0 +1,54 @@
+{
+  "task_id": "nvbench_customers_and_invoices_02",
+  "system": "NoChartParamRefsAgent",
+  "task_class": "chart",
+  "dataset": "nvbench-layer2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Line chart of account-open counts by year.",
+  "sql": "",
+  "chart_spec": {
+    "viz_type": "line",
+    "metrics": [
+      "COUNT(date_account_opened)"
+    ],
+    "dimensions": [
+      "date_account_opened year"
+    ],
+    "filters": [],
+    "time_range": "No filter; bin date_account_opened by year"
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "nvbench_customers_and_invoices_02",
+    "viz_type": "line",
+    "metrics": [
+      "COUNT(date_account_opened)"
+    ],
+    "dimensions": [
+      "date_account_opened year"
+    ],
+    "filters": [],
+    "time_range": "No filter; bin date_account_opened by year",
+    "chart_spec": {
+      "viz_type": "line",
+      "metrics": [
+        "COUNT(date_account_opened)"
+      ],
+      "dimensions": [
+        "date_account_opened year"
+      ],
+      "filters": [],
+      "time_range": "No filter; bin date_account_opened by year"
+    },
+    "artifact": "Line chart of account-open counts by year."
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ecc21-fd70-73f1-bfd7-eff2696ebe93",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-15T16:39:23.208Z"
+}

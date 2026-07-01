@@ -1,0 +1,143 @@
+{
+  "task_id": "self_financial_rca_06",
+  "system": "SkillGuidedAgent",
+  "task_class": "rca",
+  "dataset": "financial",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": "Executed 1 data-backed Superset SQL Lab query/queries for self_financial_rca_06.\nsipo_share_extreme_district_1996: [{\"district_id\":22,\"district_name\":\"Domazlice\",\"region\":\"west Bohemia\",\"avg_salary\":8620,\"unemployment_1995\":1.1,\"unemployment_1996\":1.25,\"sipo_share\":0.14020857473928158,\"national_share\":0.10779097363031624,\"deviation\":0.032417601108965334},{\"district_id\":49,\"district_name\":\"Semily\",\"region\":\"east Bohemia\",\"avg_salary\":8208,\"unemployment_1995\":1.8,\"unemployment_1996\":2.26,\"sipo_share\":0.07797537619699042,\"national_share\":0.10779097363031624,\"deviation\":-0.02981559743332582},{\"district_id\":69,\"district_name\":\"Jesenik\",\"region\":\"north Moravia\",\"avg_salary\":8173,\"unemployment_1995\":null,\"unemployment_1996\":7.01,\"sipo_share\":0.0811561978877154,\"national_share\":0.10779097363031624,\"deviation\":-0.026634775742600845},{\"district_id\":37,\"district_name\":\"Litomerice\",\"region\":\"north Bohemia\",\"avg_salary\":9065,\"unemployment_1995\":4.4,\"unemployment_1996\":5.39,\"sipo_share\":0.08237327188940093,\"national_share\":0.10779097363031624,\"deviation\":-0.025417701740915323},{\"district_id\":14,\"district_name\":\"Ceske Budejovice\",\"region\":\"south Bohemia\",\"avg_salary\":10045,\"unemployment_1995\":1.4,\"unemployment_1996\":1.71,\"sipo_share\":0.0832870627429206,\"national_share\":0.10779097363031624,\"deviation\":-0.024503910887395643}]",
+  "sql": "WITH district_share AS (\n  SELECT d.district_id, d.\"A2\" AS district_name, d.\"A3\" AS region, d.\"A11\" AS avg_salary,\n         d.\"A12\" AS unemployment_1995, d.\"A13\" AS unemployment_1996,\n         COUNT(*) FILTER (WHERE t.k_symbol = 'SIPO')::numeric / NULLIF(COUNT(*), 0) AS sipo_share\n  FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id\n  WHERE t.date >= DATE '1996-01-01' AND t.date < DATE '1997-01-01'\n  GROUP BY 1,2,3,4,5,6\n),\nnat AS (\n  SELECT COUNT(*) FILTER (WHERE k_symbol = 'SIPO')::numeric / COUNT(*) AS national_share\n  FROM trans WHERE date >= DATE '1996-01-01' AND date < DATE '1997-01-01'\n)\nSELECT d.*, n.national_share, d.sipo_share - n.national_share AS deviation\nFROM district_share d CROSS JOIN nat n\nORDER BY ABS(d.sipo_share - n.national_share) DESC\nLIMIT 10",
+  "chart_spec": null,
+  "tool_calls": [
+    "sql_lab.mjs:sipo_share_extreme_district_1996"
+  ],
+  "error": null,
+  "raw_response": {
+    "query_results": [
+      {
+        "name": "sipo_share_extreme_district_1996",
+        "sql": "WITH district_share AS (\n  SELECT d.district_id, d.\"A2\" AS district_name, d.\"A3\" AS region, d.\"A11\" AS avg_salary,\n         d.\"A12\" AS unemployment_1995, d.\"A13\" AS unemployment_1996,\n         COUNT(*) FILTER (WHERE t.k_symbol = 'SIPO')::numeric / NULLIF(COUNT(*), 0) AS sipo_share\n  FROM trans t JOIN account a ON a.account_id = t.account_id JOIN district d ON d.district_id = a.district_id\n  WHERE t.date >= DATE '1996-01-01' AND t.date < DATE '1997-01-01'\n  GROUP BY 1,2,3,4,5,6\n),\nnat AS (\n  SELECT COUNT(*) FILTER (WHERE k_symbol = 'SIPO')::numeric / COUNT(*) AS national_share\n  FROM trans WHERE date >= DATE '1996-01-01' AND date < DATE '1997-01-01'\n)\nSELECT d.*, n.national_share, d.sipo_share - n.national_share AS deviation\nFROM district_share d CROSS JOIN nat n\nORDER BY ABS(d.sipo_share - n.national_share) DESC\nLIMIT 10",
+        "rows": [
+          {
+            "district_id": 22,
+            "district_name": "Domazlice",
+            "region": "west Bohemia",
+            "avg_salary": 8620,
+            "unemployment_1995": 1.1,
+            "unemployment_1996": 1.25,
+            "sipo_share": 0.14020857473928158,
+            "national_share": 0.10779097363031624,
+            "deviation": 0.032417601108965334
+          },
+          {
+            "district_id": 49,
+            "district_name": "Semily",
+            "region": "east Bohemia",
+            "avg_salary": 8208,
+            "unemployment_1995": 1.8,
+            "unemployment_1996": 2.26,
+            "sipo_share": 0.07797537619699042,
+            "national_share": 0.10779097363031624,
+            "deviation": -0.02981559743332582
+          },
+          {
+            "district_id": 69,
+            "district_name": "Jesenik",
+            "region": "north Moravia",
+            "avg_salary": 8173,
+            "unemployment_1995": null,
+            "unemployment_1996": 7.01,
+            "sipo_share": 0.0811561978877154,
+            "national_share": 0.10779097363031624,
+            "deviation": -0.026634775742600845
+          },
+          {
+            "district_id": 37,
+            "district_name": "Litomerice",
+            "region": "north Bohemia",
+            "avg_salary": 9065,
+            "unemployment_1995": 4.4,
+            "unemployment_1996": 5.39,
+            "sipo_share": 0.08237327188940093,
+            "national_share": 0.10779097363031624,
+            "deviation": -0.025417701740915323
+          },
+          {
+            "district_id": 14,
+            "district_name": "Ceske Budejovice",
+            "region": "south Bohemia",
+            "avg_salary": 10045,
+            "unemployment_1995": 1.4,
+            "unemployment_1996": 1.71,
+            "sipo_share": 0.0832870627429206,
+            "national_share": 0.10779097363031624,
+            "deviation": -0.024503910887395643
+          },
+          {
+            "district_id": 27,
+            "district_name": "Plzen - jih",
+            "region": "west Bohemia",
+            "avg_salary": 8561,
+            "unemployment_1995": 0.6,
+            "unemployment_1996": 1.29,
+            "sipo_share": 0.13124199743918052,
+            "national_share": 0.10779097363031624,
+            "deviation": 0.023451023808864296
+          },
+          {
+            "district_id": 29,
+            "district_name": "Rokycany",
+            "region": "west Bohemia",
+            "avg_salary": 8843,
+            "unemployment_1995": 2.8,
+            "unemployment_1996": 3.6,
+            "sipo_share": 0.08501814411612234,
+            "national_share": 0.10779097363031624,
+            "deviation": -0.0227728295141939
+          },
+          {
+            "district_id": 11,
+            "district_name": "Praha - zapad",
+            "region": "central Bohemia",
+            "avg_salary": 9622,
+            "unemployment_1995": 0.4,
+            "unemployment_1996": 0.59,
+            "sipo_share": 0.08604407135362015,
+            "national_share": 0.10779097363031624,
+            "deviation": -0.021746902276696095
+          },
+          {
+            "district_id": 18,
+            "district_name": "Pisek",
+            "region": "south Bohemia",
+            "avg_salary": 8968,
+            "unemployment_1995": 2.8,
+            "unemployment_1996": 3.35,
+            "sipo_share": 0.08735110606920023,
+            "national_share": 0.10779097363031624,
+            "deviation": -0.020439867561116015
+          },
+          {
+            "district_id": 7,
+            "district_name": "Melnik",
+            "region": "central Bohemia",
+            "avg_salary": 9920,
+            "unemployment_1995": 2.2,
+            "unemployment_1996": 2.87,
+            "sipo_share": 0.12767066180302242,
+            "national_share": 0.10779097363031624,
+            "deviation": 0.019879688172706165
+          }
+        ],
+        "rowcount": 10
+      }
+    ]
+  },
+  "dry_run": false,
+  "executor": "parent_controlled_skill_call",
+  "agent_id": "parent-controlled",
+  "token_notes": "No sub-agent token usage for this parent-controlled Superset execution.",
+  "created_at": "2026-06-10T17:07:48.533Z"
+}

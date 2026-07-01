@@ -1,0 +1,54 @@
+{
+  "task_id": "nvbench_dog_kennels_01",
+  "system": "SchemaGroundedLLM",
+  "task_class": "chart",
+  "dataset": "nvbench-layer2",
+  "success": true,
+  "latency_ms": null,
+  "tokens_input": null,
+  "tokens_output": null,
+  "artifact": null,
+  "sql": "",
+  "chart_spec": {
+    "viz_type": "Bar",
+    "dataset_ids": [
+      81,
+      86
+    ],
+    "metrics": [
+      "COUNT(treatments.treatment_id)"
+    ],
+    "dimensions": [
+      "dogs.name"
+    ],
+    "filters": [
+      "dogs.breed_code equals the breed_code with the lowest COUNT(*) in dogs"
+    ],
+    "time_range": null
+  },
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {
+    "task_id": "nvbench_dog_kennels_01",
+    "viz_type": "Bar",
+    "metrics": [
+      "COUNT(treatments.treatment_id)"
+    ],
+    "dimensions": [
+      "dogs.name"
+    ],
+    "filters": [
+      "dogs.breed_code equals the breed_code with the lowest COUNT(*) in dogs"
+    ],
+    "time_range": null,
+    "dataset_ids": [
+      81,
+      86
+    ]
+  },
+  "dry_run": false,
+  "executor": "codex_subagent_batch",
+  "agent_id": "019ec7cd-6afe-7423-9697-2c49ea0b5d86",
+  "token_notes": "Codex sub-agent token usage is visible to the Codex product, not to this local Node runner.",
+  "created_at": "2026-06-14T20:53:31.969Z"
+}

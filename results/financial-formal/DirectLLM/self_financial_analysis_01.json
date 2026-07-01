@@ -1,0 +1,16 @@
+{
+  "task_id": "self_financial_analysis_01",
+  "system": "DirectLLM",
+  "task_class": "analysis",
+  "dataset": "financial",
+  "success": true,
+  "artifact": "Report: DirectLLM did not execute data. The SQL computes 1996 and 1997 transaction totals, counts, and averages, then decomposes the total change into count_effect and average_amount_effect. Interpret the result as count-driven when ABS(count_effect) is larger than ABS(avg_amount_effect), otherwise average-size-driven.",
+  "sql": "WITH yearly AS (SELECT EXTRACT(YEAR FROM CAST(date AS DATE)) AS year, COUNT(*) AS txn_count, SUM(amount) AS total_amount, AVG(amount) AS avg_amount FROM trans WHERE EXTRACT(YEAR FROM CAST(date AS DATE)) IN (1996, 1997) GROUP BY 1), p AS (SELECT MAX(CASE WHEN year = 1996 THEN txn_count END) AS count_1996, MAX(CASE WHEN year = 1996 THEN total_amount END) AS total_1996, MAX(CASE WHEN year = 1996 THEN avg_amount END) AS avg_1996, MAX(CASE WHEN year = 1997 THEN txn_count END) AS count_1997, MAX(CASE WHEN year = 1997 THEN total_amount END) AS total_1997, MAX(CASE WHEN year = 1997 THEN avg_amount END) AS avg_1997 FROM yearly) SELECT *, total_1997 - total_1996 AS total_change, (count_1997 - count_1996) * avg_1996 AS count_effect, count_1997 * (avg_1997 - avg_1996) AS avg_amount_effect FROM p;",
+  "chart_spec": null,
+  "tool_calls": [],
+  "error": null,
+  "raw_response": {},
+  "dry_run": false,
+  "executor": "codex_subagent",
+  "token_notes": "sub-agent usage not programmatically available"
+}
